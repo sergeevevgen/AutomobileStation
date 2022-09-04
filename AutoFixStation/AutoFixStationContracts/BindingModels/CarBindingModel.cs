@@ -16,12 +16,12 @@ namespace STOContracts.BindingModels
         /// <summary>
         /// Бренд авто (VW, Ford)
         /// </summary>
-        public string CarBrand { get; set; }
+        public string Brand { get; set; }
 
         /// <summary>
         /// Модель авто (Polo, Fusion)
         /// </summary>
-        public string CarModel { get; set; }
+        public string Model { get; set; }
 
         /// <summary>
         /// VIN-номер авто (длина 17 символов)
@@ -39,6 +39,6 @@ namespace STOContracts.BindingModels
         /// <summary>
         /// Записи сервисов
         /// </summary>
-        public Dictionary<int, ((DateTime, DateTime), string)>? CarRecords { get; set; }
+        public Dictionary<int, ((DateTime, DateTime), string)>? Records { get; set; }
     }
 }

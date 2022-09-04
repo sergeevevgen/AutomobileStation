@@ -10,7 +10,7 @@ namespace STOContracts.BindingModels
     public class SparePartBindingModel
     {
         public int? Id { get; set; }
-        public string SparePartName { get; set; }
+        public string Name { get; set; }
 
         public string FactoryNumber { get; set; }
 

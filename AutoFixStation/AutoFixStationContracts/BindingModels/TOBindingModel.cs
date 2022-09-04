@@ -13,12 +13,8 @@ namespace STOContracts.BindingModels
     public class TOBindingModel
     {
         public int? Id { get; set; }
-        
-        /// <summary>
-        /// Авто
-        /// </summary>
         public int CarId { get; set; }
-        public int EmployeeId { get; set; }
+        public int? EmployeeId { get; set; }
         public decimal Sum { get; set; }
         public TOStatus Status { get; set; }
         public DateTime DateCreate { get; set; }
@@ -28,6 +24,6 @@ namespace STOContracts.BindingModels
         /// <summary>
         /// Работы ТО
         /// </summary>
-        public Dictionary<int, (string, int)> TOWorks { get; set; }
+        public Dictionary<int, (string, (decimal, string))> Works { get; set; }
     }
 }
