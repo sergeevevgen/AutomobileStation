@@ -6,11 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="StorageContracts\" />
-    <Folder Include="ViewModels\" />
-    <Folder Include="StorageContracts\" />
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
-
 </Project>

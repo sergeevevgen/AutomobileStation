@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace STOContracts.BindingModels
+namespace AutoFixStationContracts.BindingModels
 {
     public class EmployeeBindingModel
     {

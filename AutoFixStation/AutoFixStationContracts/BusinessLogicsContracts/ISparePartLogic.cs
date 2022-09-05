@@ -1,4 +1,5 @@
-﻿using STOContracts.BindingModels;
+﻿using AutoFixStationContracts.BindingModels;
+using AutoFixStationContracts.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

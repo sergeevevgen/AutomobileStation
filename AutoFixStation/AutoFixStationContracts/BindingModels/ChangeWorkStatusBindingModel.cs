@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace AutoFixStationContracts.BindingModels
 {
-    public class TimeOfWorkBindingModel
+    public class ChangeWorkStatusBindingModel
     {
-        public int? Id { get; set; }
-        public int Hours { get; set; }
-        public int Mins { get; set; }
+        public int WorkId { get; set; }
     }
 }

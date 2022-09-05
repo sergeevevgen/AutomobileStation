@@ -1,4 +1,5 @@
-﻿using STOContracts.BindingModels;
+﻿using AutoFixStationContracts.BindingModels;
+using AutoFixStationContracts.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,9 @@ namespace AutoFixStationContracts.BusinessLogicsContracts
     public interface ITOLogic
     {
         List<TOViewModel> Read(TOBindingModel model);
-        void CreateOrUpdate(TOBindingModel model);
-        void Delete(TOBindingModel model);
-
+        void CreateTO(CreateTOBindingModel model);
+        void TakeTOInWork(ChangeTOStatusBindingModel model);
+        void FinishTO(ChangeTOStatusBindingModel model);
+        void IssueTO(ChangeTOStatusBindingModel model);
     }
 }

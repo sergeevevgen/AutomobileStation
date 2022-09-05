@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace STOContracts.Enums
+namespace AutoFixStationContracts.Enums
 {
     public enum SparePartStatus
     {

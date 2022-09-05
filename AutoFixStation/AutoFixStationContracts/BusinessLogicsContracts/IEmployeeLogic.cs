@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace AutoFixStationContracts.BusinessLogicsContracts
 {
-    public interface IWorkTypeLogic
+    public interface IEmployeeLogic
     {
-        List<WorkTypeViewModel> Read(WorkTypeBindingModel model);
-        void CreateOrUpdate(WorkTypeBindingModel model);
-        void Delete(WorkTypeBindingModel model);
+        List<EmployeeViewModel> Read(EmployeeBindingModel model);
+        void CreateOrUpdate(EmployeeBindingModel model);
+        void Delete(EmployeeBindingModel model);
     }
 }

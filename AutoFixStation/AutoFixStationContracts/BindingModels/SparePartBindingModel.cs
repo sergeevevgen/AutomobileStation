@@ -1,11 +1,11 @@
-﻿using System;
+﻿using AutoFixStationContracts.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using STOContracts.Enums;
 
-namespace STOContracts.BindingModels
+namespace AutoFixStationContracts.BindingModels
 {
     public class SparePartBindingModel
     {
