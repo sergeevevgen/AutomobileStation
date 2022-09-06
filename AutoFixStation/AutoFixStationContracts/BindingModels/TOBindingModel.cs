@@ -22,7 +22,7 @@ namespace AutoFixStationContracts.BindingModels
         public DateTime? DateOver { get; set; }
 
         /// <summary>
-        /// Работы ТО (номер, (название, (кол-во, стоимость 
+        /// Работы ТО (номер, (название, (кол-во, стоимость))) 
         /// </summary>
         public Dictionary<int, (string, (int, decimal))> Works { get; set; }
     }

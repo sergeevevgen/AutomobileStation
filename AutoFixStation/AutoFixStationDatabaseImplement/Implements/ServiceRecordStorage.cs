@@ -38,7 +38,9 @@ namespace AutoFixStationDatabaseImplement.Implements
             using var context = new AutoFixStationDatabase();
             var element = context.ServiceRecords
                 .Include(rec => rec.Car)
-                .FirstOrDefault(rec => rec.Id == model.Id);
+                .FirstOrDefault(rec => (rec.CarId == model.CarId
+                && rec.DateBegin.Date == model.DateBegin.Date)
+                || rec.Id == model.Id);
             return element != null ? CreateModel(element) : null;
         }
 
@@ -52,7 +54,8 @@ namespace AutoFixStationDatabaseImplement.Implements
             return context.ServiceRecords
                 .Include(rec => rec.Car)
                 .Where(rec => rec.Id.Equals(model.Id) 
-                || (rec.DateBegin.Date >= model.DateBegin.Date && rec.DateEnd.Date <= model.DateEnd.Date))
+                || (rec.DateBegin.Date >= model.DateBegin.Date && rec.DateEnd.Date <= model.DateEnd.Date)
+                || (rec.CarId.Equals(model.CarId)))
                 .ToList()
                 .Select(CreateModel)
                 .ToList();

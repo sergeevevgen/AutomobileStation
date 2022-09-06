@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32319.34
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixStationBusinessLogic", "AutoFixStationBusinessLogic\AutoFixStationBusinessLogic.csproj", "{E68F792F-AD5E-4573-ADE4-013FD258ADD2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixStationBusinessLogic", "AutoFixStationBusinessLogic\AutoFixStationBusinessLogic.csproj", "{E68F792F-AD5E-4573-ADE4-013FD258ADD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixStationContracts", "AutoFixStationContracts\AutoFixStationContracts.csproj", "{7F21086E-671E-4ED5-AC57-03963C379CCD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixStationContracts", "AutoFixStationContracts\AutoFixStationContracts.csproj", "{7F21086E-671E-4ED5-AC57-03963C379CCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixStationDatabaseImplement", "AutoFixStationDatabaseImplement\AutoFixStationDatabaseImplement.csproj", "{333D8954-957B-481C-B205-9437082DFCC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixStationDatabaseImplement", "AutoFixStationDatabaseImplement\AutoFixStationDatabaseImplement.csproj", "{333D8954-957B-481C-B205-9437082DFCC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixStationView", "AutoFixStationView\AutoFixStationView.csproj", "{EDE82060-71CD-4008-A869-23774B02604F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixStationRestAPI", "AutoFixStationRestAPI\AutoFixStationRestAPI.csproj", "{FAB5BB45-AAFB-4470-9D91-566F60C58274}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixStationRestAPI", "AutoFixStationRestAPI\AutoFixStationRestAPI.csproj", "{FAB5BB45-AAFB-4470-9D91-566F60C58274}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixStationWebApp", "AutoFixStationWebApp\AutoFixStationWebApp.csproj", "{6923146E-8DB1-4DC1-8CEE-789A97C5CB31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixStationWebApp", "AutoFixStationWebApp\AutoFixStationWebApp.csproj", "{6923146E-8DB1-4DC1-8CEE-789A97C5CB31}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoFixStationView", "AutoFixStationView\AutoFixStationView.csproj", "{493429B3-0139-44E8-8079-1E70A08592A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +33,6 @@ Global
 		{333D8954-957B-481C-B205-9437082DFCC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{333D8954-957B-481C-B205-9437082DFCC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{333D8954-957B-481C-B205-9437082DFCC2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EDE82060-71CD-4008-A869-23774B02604F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EDE82060-71CD-4008-A869-23774B02604F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EDE82060-71CD-4008-A869-23774B02604F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EDE82060-71CD-4008-A869-23774B02604F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FAB5BB45-AAFB-4470-9D91-566F60C58274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FAB5BB45-AAFB-4470-9D91-566F60C58274}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAB5BB45-AAFB-4470-9D91-566F60C58274}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{6923146E-8DB1-4DC1-8CEE-789A97C5CB31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6923146E-8DB1-4DC1-8CEE-789A97C5CB31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6923146E-8DB1-4DC1-8CEE-789A97C5CB31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{493429B3-0139-44E8-8079-1E70A08592A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{493429B3-0139-44E8-8079-1E70A08592A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{493429B3-0139-44E8-8079-1E70A08592A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{493429B3-0139-44E8-8079-1E70A08592A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
