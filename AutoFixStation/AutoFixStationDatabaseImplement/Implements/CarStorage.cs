@@ -131,8 +131,8 @@ namespace AutoFixStationDatabaseImplement.Implements
                 OwnerPhoneNumber = car.OwnerPhoneNumber,
                 VIN = car.VIN,
                 Records = car.ServiceRecords
-                    .ToDictionary(rec => rec.Id,
-                    rec => 
+                    .ToDictionary(
+                    rec => rec.Id, rec => 
                     ((rec.DateBegin, rec.DateEnd), rec.Description))
             };
         }

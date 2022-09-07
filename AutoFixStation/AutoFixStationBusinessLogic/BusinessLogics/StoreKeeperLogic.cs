@@ -18,6 +18,7 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
         {
             _storeKeeperStorage = storeKeeperStorage;
         }
+
         public void CreateOrUpdate(StoreKeeperBindingModel model)
         {
             var element = _storeKeeperStorage.GetElement(new StoreKeeperBindingModel

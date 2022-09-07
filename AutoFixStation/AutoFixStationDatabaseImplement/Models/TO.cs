@@ -33,6 +33,6 @@ namespace AutoFixStationDatabaseImplement.Models
         public virtual Employee Employee { get; set; }
 
         [ForeignKey("TOId")]
-        public virtual List<TO_Work> TO_Works { get; set; }
+        public virtual List<Work> Works { get; set; }
     }
 }

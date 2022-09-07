@@ -12,12 +12,10 @@ namespace AutoFixStationContracts.ViewModels
         public int Id { get; set; }
         public int StoreKeeperId { get; set; }
         public int WorkTypeId { get; set; }
+        public int TOId { get; set; }
 
         [DisplayName("Название")]
         public string WorkName { get; set; }
-
-        //[DisplayName("Количество")]
-        //public int Count { get; set; }
 
         [DisplayName("Стоимость работы")]
         public decimal Price { get; set; }
@@ -27,5 +25,11 @@ namespace AutoFixStationContracts.ViewModels
 
        [DisplayName("Статус")] 
         public string WorkStatus { get; set; }
+
+        [DisplayName("Дата начала")]
+        public DateTime? WorkBegin { get; set; }
+
+        [DisplayName("Кол-во")]
+        public int Count { get; set; }
     }
 }

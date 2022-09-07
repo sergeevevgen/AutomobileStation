@@ -13,32 +13,78 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
     public class ServiceRecordLogic : IServiceRecordLogic
     {
         private readonly IServiceRecordStorage _storage;
+        private readonly IEmployeeStorage _employeeStorage;
+        private readonly IWorkTypeStorage _workTypeStorage;
 
-        public ServiceRecordLogic(IServiceRecordStorage storage)
+        public ServiceRecordLogic(IServiceRecordStorage storage,
+            IEmployeeStorage employeeStorage,
+            IWorkTypeStorage workTypeStorage)
         {
             _storage = storage;
+            _employeeStorage = employeeStorage;
+            _workTypeStorage = workTypeStorage;
         }
 
-        public void CreateOrUpdate(ServiceRecordBindingModel model)
+        public void CreateOrUpdate(ServiceRecordBindingModel record,
+            TOBindingModel tO)
         {
             var element = _storage.GetElement(new ServiceRecordBindingModel
             {
-                CarId = model.CarId,
-                DateBegin = model.DateBegin
+                CarId = record.CarId,
+                DateBegin = record.DateBegin
             });
 
-            if (element != null && element.Id != model.Id)
+            if (element != null && element.Id != record.Id)
             {
                 throw new Exception("Уже есть такая запись");
             }
+            record.DateBegin = tO.DateCreate;
+            record.DateEnd = tO.DateOver.Value;
 
-            if (model.Id.HasValue)
+            string empName = _employeeStorage
+                .GetElement(new EmployeeBindingModel { Id = tO.EmployeeId }).FIO;
+            string worksStr = "Мастер, проделавший работы: \n" 
+                + empName + "\nПроведенные работы:\n";
+
+            int i = 1;
+            foreach(var work in tO.Works)
             {
-                _storage.Update(model);
+                worksStr += i + ") " + work.Value.Item1 + ". В количестве " + work.Value.Item1 + "\n";
+                i++;
+            }
+
+            var neededParts = new Dictionary<string, decimal>();
+            foreach(var workType in _workTypeStorage.GetFullList())
+            {
+                foreach(var work in tO.Works)
+                {
+                    if (work.Value.Item1.Equals(workType.WorkName))
+                    {
+                        foreach (var parts in workType.WorkSpareParts.Values)
+                        {
+                            neededParts[parts.Item1] += parts.Item2;
+                        }
+                    }
+                }
+            }
+
+            string sparePartsStr = "Использованные детали и компоненты: \n";
+            i = 1;
+            foreach(var part in neededParts)
+            {
+                sparePartsStr += i + ") " + part.Key + " В количестве " + part.Value;
+                i++;
+            }
+
+            record.Description = worksStr + sparePartsStr;
+
+            if (record.Id.HasValue)
+            {
+                _storage.Update(record);
             }
             else
             {
-                _storage.Insert(model);
+                _storage.Insert(record);
             }
         }
 

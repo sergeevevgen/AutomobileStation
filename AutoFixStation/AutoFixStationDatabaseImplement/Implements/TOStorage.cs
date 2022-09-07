@@ -37,8 +37,6 @@ namespace AutoFixStationDatabaseImplement.Implements
             }
             using var context = new AutoFixStationDatabase();
             var to = context.TOs
-                .Include(rec => rec.TO_Works)
-                .ThenInclude(rec => rec.Work)
                 .Include(rec => rec.Car)
                 .Include(rec => rec.Employee)
                 .FirstOrDefault(rec => rec.Id == model.Id);
@@ -53,8 +51,6 @@ namespace AutoFixStationDatabaseImplement.Implements
             }
             using var context = new AutoFixStationDatabase();
             return context.TOs
-                .Include(rec => rec.TO_Works)
-                .ThenInclude(rec => rec.Work)
                 .Include(rec => rec.Car)
                 .Include(rec => rec.Employee)
                 .Where(rec => (rec.Id.Equals(model.Id)) 
@@ -72,8 +68,6 @@ namespace AutoFixStationDatabaseImplement.Implements
         {
             using var context = new AutoFixStationDatabase();
             return context.TOs
-                .Include(rec => rec.TO_Works)
-                .ThenInclude(rec => rec.Work)
                 .Include(rec => rec.Car)
                 .Include(rec => rec.Employee)
                 .ToList()
@@ -99,7 +93,7 @@ namespace AutoFixStationDatabaseImplement.Implements
                 };
                 context.TOs.Add(to);
                 context.SaveChanges();
-                CreateModel(model, to, context);
+                CreateModel(model, to);
                 transaction.Commit();
             }
             catch
@@ -121,7 +115,7 @@ namespace AutoFixStationDatabaseImplement.Implements
                 {
                     throw new Exception("Элемент не найден");
                 }
-                CreateModel(model, element, context);
+                CreateModel(model, element);
                 context.SaveChanges();
                 transaction.Commit();
             }
@@ -132,8 +126,7 @@ namespace AutoFixStationDatabaseImplement.Implements
             }
         }
 
-        private static TO CreateModel(TOBindingModel model, TO tO,
-            AutoFixStationDatabase context)
+        private static TO CreateModel(TOBindingModel model, TO tO)
         {
             tO.CarId = model.CarId;
             tO.EmployeeId = model.EmployeeId;
@@ -142,39 +135,6 @@ namespace AutoFixStationDatabaseImplement.Implements
             tO.DateCreate = model.DateCreate;
             tO.DateImplement = model.DateImplement;
             tO.DateOver = model.DateOver;
-            if (model.Id.HasValue)
-            {
-                var to_works = context.TO_Works
-                    .Where(rec => rec.TOId == model.Id.Value)
-                    .ToList();
-                // удалили те, которых нет в модели
-                context.TO_Works
-                    .RemoveRange(to_works
-                    .Where(rec => !model.Works
-                    .ContainsKey(rec.WorkId))
-                    .ToList());
-                context.SaveChanges();
-                // обновили количество у существующих записей
-                foreach (var updateWork in to_works)
-                {
-                    updateWork.Count =
-                    model.Works[updateWork.WorkId].Item2.Item1;
-                    model.Works.Remove(updateWork.WorkId);
-                }
-                context.SaveChanges();
-            }
-
-            // добавили новые значения в таблицу 
-            foreach (var element in model.Works)
-            {
-                context.TO_Works.Add(new TO_Work
-                {
-                    TOId = tO.Id,
-                    WorkId = element.Key,
-                    Count = element.Value.Item2.Item1
-                });
-                context.SaveChanges();
-            }
             return tO;
         }
 
@@ -190,9 +150,9 @@ namespace AutoFixStationDatabaseImplement.Implements
                 DateCreate = tO.DateCreate,
                 DateImplement = tO.DateImplement,
                 DateOver = tO.DateOver,
-                Works = tO.TO_Works
-                    .ToDictionary(recPC => recPC.WorkId,
-                    recPC => (recPC.Work.WorkName, (recPC.Count, recPC.Work.NetPrice)))
+                Works = tO.Works
+                    .ToDictionary(recPC => recPC.Id,
+                    recPC => (recPC.WorkName, (recPC.Count, recPC.NetPrice)))
             };
         }
     }

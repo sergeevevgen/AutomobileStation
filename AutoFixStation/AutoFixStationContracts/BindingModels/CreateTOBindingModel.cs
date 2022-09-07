@@ -11,6 +11,6 @@ namespace AutoFixStationContracts.BindingModels
         public int CarId { get; set; }
         public int EmployeeId { get; set; }
         public decimal Sum { get; set; }
-        public Dictionary<int, string> Works { get; set; }
+        public Dictionary<int, (string, (int, decimal))> Works { get; set; }
     }
 }

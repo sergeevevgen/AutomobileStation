@@ -26,7 +26,6 @@ namespace AutoFixStationDatabaseImplement
         public virtual DbSet<StoreKeeper> StoreKeepers { set; get; }
         public virtual DbSet<TimeOfWork> TimeOfWorks { set; get; }
         public virtual DbSet<TO> TOs { set; get; }
-        public virtual DbSet<TO_Work> TO_Works { set; get; }
         public virtual DbSet<Work> Works { set; get; }
         public virtual DbSet<WorkType> WorkTypes { set; get; }
         public virtual DbSet<WorkType_SparePart> WorkType_SpareParts { set; get; }

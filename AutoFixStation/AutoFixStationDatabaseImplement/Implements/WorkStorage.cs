@@ -55,8 +55,9 @@ namespace AutoFixStationDatabaseImplement.Implements
                 .Include(rec => rec.StoreKeeper)
                 .Where(rec => rec.WorkName.Contains(model.WorkName)
                 || (model.WorkStatus == rec.WorkStatus) 
-                || (model.StoreKeeperId == model.StoreKeeperId)
-                || (model.WorkTypeId == model.WorkTypeId))
+                || (rec.StoreKeeperId == model.StoreKeeperId)
+                || (rec.WorkTypeId == model.WorkTypeId)
+                || (rec.TOId == model.TOId))
                 .ToList()
                 .Select(CreateModel)
                 .ToList();
@@ -117,10 +118,13 @@ namespace AutoFixStationDatabaseImplement.Implements
         {
             work.WorkTypeId = model.WorkTypeId;
             work.StoreKeeperId = model.StoreKeeperId;
+            work.TOId = model.TOId;
             work.WorkName = model.WorkName;
             work.WorkStatus = model.WorkStatus;
             work.Price = model.Price;
             work.NetPrice = model.NetPrice;
+            work.WorkBegin = model.WorkBegin;
+            work.Count = model.Count;
             return work;
         }
 
@@ -131,10 +135,13 @@ namespace AutoFixStationDatabaseImplement.Implements
                 Id = work.Id,
                 WorkTypeId = work.WorkTypeId,
                 StoreKeeperId = work.StoreKeeperId,
+                TOId = work.TOId,
                 WorkName = work.WorkName,
                 WorkStatus = work.WorkStatus.ToString(),
                 Price = work.Price,
-                NetPrice = work.NetPrice                
+                NetPrice = work.NetPrice,
+                WorkBegin = work.WorkBegin,
+                Count = work.Count,
             };
         }
     }

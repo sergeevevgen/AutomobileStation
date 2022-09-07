@@ -14,7 +14,7 @@ namespace AutoFixStationDatabaseImplement.Models
         public int Id { get; set; }
         public int StoreKeeperId { get; set; }
         public int WorkTypeId { get; set; }
-
+        public int TOId { get; set; }
         [Required]
         public string WorkName { get; set; }
 
@@ -29,12 +29,16 @@ namespace AutoFixStationDatabaseImplement.Models
 
         [Required]
         public WorkStatus WorkStatus { get; set; }
+        
+        public DateTime? WorkBegin { get; set; }
+
+        [Required]
+        public int Count { get; set; }
 
         public virtual StoreKeeper StoreKeeper { get; set; }
 
         public virtual WorkType WorkType { get; set; }
 
-        [ForeignKey("WorkId")]
-        public virtual List<TO_Work> TO_Works { get; set; }
+        public virtual TO TO { get; set; }
     }
 }
