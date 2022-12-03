@@ -17,7 +17,6 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
         private readonly IWorkTypeStorage _workTypeStorage;
         private readonly ITimeOfWorkStorage _timeOfWorkStorage;
         private readonly ITOStorage _tOStorage;
-
         public WorkLogic(IWorkStorage workStorage,
             IWorkTypeStorage workTypeStorage,
             ITimeOfWorkStorage timeOfWorkStorage,
@@ -37,7 +36,7 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
                 WorkTypeId = model.WorkTypeId,
                 TOId = model.TOId,
                 WorkName = model.Name,
-                Price = model.Price,
+                Price = model.Price * model.Count,
                 NetPrice = model.NetPrice,
                 WorkStatus = WorkStatus.Принят,
                 Count = model.Count

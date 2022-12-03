@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace AutoFixStationContracts.ViewModels
 {
@@ -27,6 +28,7 @@ namespace AutoFixStationContracts.ViewModels
         public string WorkStatus { get; set; }
 
         [DisplayName("Дата начала")]
+        [DataType(DataType.Date)]
         public DateTime? WorkBegin { get; set; }
 
         [DisplayName("Кол-во")]

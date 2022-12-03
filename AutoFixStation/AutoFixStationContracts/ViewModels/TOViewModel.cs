@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace AutoFixStationContracts.ViewModels
 {
@@ -20,11 +21,14 @@ namespace AutoFixStationContracts.ViewModels
         public string Status { get; set; }
 
         [DisplayName("Дата создания")]
+        [DataType(DataType.Date)]
         public DateTime DateCreate { get; set; }
 
+        [DataType(DataType.Date)]
         [DisplayName("Дата начала")]
         public DateTime? DateImplement { get; set; }
 
+        [DataType(DataType.Date)]
         [DisplayName("Дата окончания")]
         public DateTime? DateOver { get; set; }
 

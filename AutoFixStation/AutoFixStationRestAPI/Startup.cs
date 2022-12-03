@@ -60,7 +60,7 @@ namespace AutoFixStationRestAPI
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c =>
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "AutoFixStationRestAPI v1"));
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "AutoFixStationRestApi v1"));
             }
             app.UseHttpsRedirection();
             app.UseRouting();

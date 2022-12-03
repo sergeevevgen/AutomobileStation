@@ -1,9 +1,86 @@
-﻿@{
+﻿@using AutoFixStationContracts.ViewModels
+@model List<TOViewModel>
+@{
     ViewData["Title"] = "Home Page";
 }
+<div class="text-center">
+    <h1 class="display-4">ТО</h1>
+</div>
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <p>Hello, world! The time on the server is @DateTime.Now</p
+    @{
+        if (Model == null)
+        {
+            <h3 class="display-4">Авторизируйтесь</h3>
+            return;
+        }
+    <p>
+        <a asp-action="Create">Создать ТО</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Номер
+                </th>
+                <th>
+                    Номер автомобиля
+                </th>
+                <th>
+                    Статус
+                </th>
+                <th>
+                    Дата создания
+                </th>
+                <th>
+                    Дата начала
+                </th>
+                <th>
+                    Дата окончания
+                </th>
+                <th>
+                    Сумма
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => 
+                            item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem =>
+                            item.CarId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem =>
+                            item.Status)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => 
+                            item.DateCreate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => 
+                            item.DateImplement)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => 
+                            item.DateOver)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => 
+                            item.Sum)
+                    </td>
+                    <td>
+                        <a asp-action="TOInfo" asp-route-toId="@item.Id">Посмотреть</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
 </div>

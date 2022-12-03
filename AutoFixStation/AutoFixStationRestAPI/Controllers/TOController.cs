@@ -5,25 +5,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AutoFixStationRestAPI.Controllers
 {
+    [Route("api/[controller]/[action]")]
+    [ApiController]
     public class TOController : ControllerBase
     {
         private readonly ITOLogic _tOLogic;
-        private readonly IWorkLogic _workLogic;
         private readonly IWorkTypeLogic _workTypeLogic;
-        private readonly ISparePartLogic _sparePartLogic;
-        private readonly ITimeOfWorkLogic _timeOfWorkLogic;
 
-        public TOController(ITOLogic tOLogic, 
-            IWorkLogic workLogic,
-            IWorkTypeLogic workTypeLogic,
-            ISparePartLogic sparePartLogic,
-            ITimeOfWorkLogic timeOfWorkLogic)
+        public TOController(ITOLogic tOLogic,
+            IWorkTypeLogic workTypeLogic)
         {
             _tOLogic = tOLogic;
-            _workLogic = workLogic;
             _workTypeLogic = workTypeLogic;
-            _sparePartLogic = sparePartLogic;
-            _timeOfWorkLogic = timeOfWorkLogic;
         }
 
         /// <summary>
@@ -32,7 +25,7 @@ namespace AutoFixStationRestAPI.Controllers
         /// <param name="employeeId"></param>
         /// <returns></returns>
         [HttpGet]
-        public List<TOViewModel> GetTOListByEmployee(int employeeId)
+        public List<TOViewModel> GetTOList(int employeeId)
             => _tOLogic
             .Read(new TOBindingModel { EmployeeId = employeeId });
 

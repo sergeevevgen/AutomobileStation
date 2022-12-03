@@ -53,8 +53,7 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
                 throw new Exception("ТО не в статусе \"Выполняется\"");
             }
             bool flag = true;
-            foreach (var stat in _workStorage
-                .GetFilteredList(new WorkBindingModel
+            foreach (var stat in _workStorage.GetFilteredList(new WorkBindingModel
                 {
                     TOId = tO.Id
                 }))

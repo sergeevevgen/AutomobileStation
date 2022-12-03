@@ -37,6 +37,7 @@ namespace AutoFixStationDatabaseImplement.Implements
             }
             using var context = new AutoFixStationDatabase();
             var to = context.TOs
+                .Include(rec => rec.Works)
                 .Include(rec => rec.Car)
                 .Include(rec => rec.Employee)
                 .FirstOrDefault(rec => rec.Id == model.Id);
@@ -51,12 +52,13 @@ namespace AutoFixStationDatabaseImplement.Implements
             }
             using var context = new AutoFixStationDatabase();
             return context.TOs
+                .Include(rec => rec.Works)
                 .Include(rec => rec.Car)
                 .Include(rec => rec.Employee)
-                .Where(rec => (rec.Id.Equals(model.Id)) 
-                || (rec.CarId.Equals(model.CarId)) 
-                || (rec.Status.Equals(model.Status)) 
-                || (rec.EmployeeId.Equals(model.EmployeeId))
+                .Where(rec => rec.Id.Equals(model.Id) 
+                || rec.CarId.Equals(model.CarId) 
+                || rec.Status.Equals(model.Status) 
+                || rec.EmployeeId.Equals(model.EmployeeId)
                 || (rec.DateCreate.Date >= model.DateCreate
                 && rec.DateOver <= model.DateOver))
                 .ToList()
@@ -81,19 +83,18 @@ namespace AutoFixStationDatabaseImplement.Implements
             using var transaction = context.Database.BeginTransaction();
             try
             {
-                TO to = new TO()
-                {
-                    CarId = model.CarId,
-                    EmployeeId = model.EmployeeId,
-                    Sum = model.Sum,
-                    Status = model.Status,
-                    DateCreate = model.DateCreate,
-                    DateOver = model.DateOver,
-                    DateImplement = model.DateImplement
-                };
-                context.TOs.Add(to);
+                //TO to = new TO()
+                //{
+                //    CarId = model.CarId,
+                //    EmployeeId = model.EmployeeId,
+                //    Sum = model.Sum,
+                //    Status = model.Status,
+                //    DateCreate = model.DateCreate,
+                //    DateOver = model.DateOver,
+                //    DateImplement = model.DateImplement
+                //};
+                context.TOs.Add(CreateModel(model, new TO()));
                 context.SaveChanges();
-                CreateModel(model, to);
                 transaction.Commit();
             }
             catch
