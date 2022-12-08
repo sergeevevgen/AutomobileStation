@@ -1,0 +1,69 @@
+﻿@using AutoFixStationContracts.ViewModels
+@model List<CarViewModel>
+
+@{
+    ViewData["Title"] = "Cars";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Автомобили</h1>
+</div>
+
+<div class="text-center">
+    @{
+        if (Model == null)
+        {
+            <h3 class="display-4">Авторизируйтесь</h3>
+            return;
+        }
+        <p>
+            <a asp-action="AddClient">Добавить клиента</a>
+        </p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Номер
+                    </th>
+                    <th>
+                        Марка 
+                    </th>
+                    <th>
+                        Модель
+                    </th>
+                    <th>
+                        VIN
+                    </th>
+                    <th>
+                        Номер телефона владельца
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Brand)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Model)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VIN)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OwnerPhoneNumber)
+                        </td>
+                        <td>
+                            <a asp-action="EditCar" asp-route-carId="@item.Id">Изменить</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

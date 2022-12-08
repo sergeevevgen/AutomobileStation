@@ -1,0 +1,93 @@
+﻿@using AutoFixStationContracts.ViewModels
+@model List<WorkViewModel>
+@{
+    ViewData["Title"] = "Works";
+}
+<div class="text-center">
+    <h1 class="display-4">Услуги</h1>
+</div>
+
+<div class="text-center">
+    @{
+        if (Model == null)
+        {
+            <h3 class="display-4">Авторизируйтесь</h3>
+            return;
+        }
+    <p>
+        <a asp-action="CreateWork">Создать услугу</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Номер
+                </th>
+                <th>
+                    Кладовщик
+                </th>
+                <th>
+                    Номер ТО
+                </th>
+                <th>
+                    Название
+                </th>
+                <th>
+                    Стоимость 1 ед.
+                </th>
+                <th>
+                    Стоимость с учётом запчастей
+                </th>
+                <th>
+                    Статус
+                </th>
+                <th>
+                    Дата начала
+                </th>
+                <th>
+                    Количество
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem =>
+                        item.StoreKeeperFIO)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem =>
+                        item.TOId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WorkName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NetPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WorkStatus)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.WorkBegin)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Count)
+                    </td>
+                    <td>
+                        <a asp-action="WorkInfo" asp-route-workId="@item.Id">Посмотреть</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
+</div>

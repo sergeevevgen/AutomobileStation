@@ -1,0 +1,25 @@
+﻿@using AutoFixStationContracts.ViewModels
+@model TimeOfWorkViewModel
+@{
+    ViewData["Title"] = "EditTimeOfWork";
+}
+<div class="text-center">
+    <h2 class="display-4">Изменение времени выполнения</h2>
+</div>
+<form method="post">
+    <div class="row">
+        <div class="col-8"><input type="text" name="timeofworkId" id="timeofworkId" hidden="true" value="@Model.Id"/></div>
+    </div>
+    <div class="row">
+        <div class="col-4">Количество часов:</div>
+        <div class="col-8"><input type="text" name="hours" id="hours" value="@Model.Hours"/></div>
+    </div>
+    <div class="row">
+        <div class="col-4">Количество минут:</div>
+        <div class="col-8"><input type="text" name="mins" id="mins" value="@Model.Mins"/></div>
+    </div>
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4"><input type="submit" value="Добавить" class="btn btnprimary" /></div>
+    </div>
+</form>

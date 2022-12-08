@@ -11,7 +11,6 @@ namespace AutoFixStationContracts.BindingModels
         public int StoreKeeperId { get; set; }
         public int WorkTypeId { get; set; }
         public int TOId { get; set; }
-        public string Name { get; set; }
         public int Count { get; set; }
         public decimal Price { get; set; }
         public decimal NetPrice { get; set; }

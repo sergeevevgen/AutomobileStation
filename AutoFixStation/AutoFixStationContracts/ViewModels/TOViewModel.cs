@@ -12,10 +12,12 @@ namespace AutoFixStationContracts.ViewModels
     {
         public int Id { get; set; }
         public int CarId { get; set; }
+        public string CarName { get; set; }
         public int EmployeeId { get; set; }
+        public string EmployeeName { get; set; }
 
         [DisplayName("Стоимость")]
-        public decimal Sum { get; set; }
+        public decimal? Sum { get; set; }
 
         [DisplayName("Статус")]
         public string Status { get; set; }
@@ -35,6 +37,6 @@ namespace AutoFixStationContracts.ViewModels
         /// <summary>
         /// Работы ТО (номер, (название, (кол-во, стоимость 
         /// </summary>
-        public Dictionary<int, (string, (int, decimal))> Works { get; set; }
+        public Dictionary<int, (string, (int, decimal))>? Works { get; set; }
     }
 }

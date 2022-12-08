@@ -11,6 +11,7 @@ namespace AutoFixStationContracts.ViewModels
     {
         public int Id { get; set; }
         public int TimeOfWorkId { get; set; }
+        public decimal ExecutionTime { get; set; }
 
         [DisplayName("Название работы")]
         public string WorkName { get; set; }
@@ -25,6 +26,5 @@ namespace AutoFixStationContracts.ViewModels
         /// Необходимые детали и расходники (int - id, string - название, decimal, потому что может быть не целое (например, 0.8 л масла))
         /// </summary>
         public Dictionary<int, (string, decimal)> WorkSpareParts { get; set; }
-
     }
 }

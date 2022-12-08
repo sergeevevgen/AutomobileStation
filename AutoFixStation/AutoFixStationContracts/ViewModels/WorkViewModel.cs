@@ -12,6 +12,8 @@ namespace AutoFixStationContracts.ViewModels
     {
         public int Id { get; set; }
         public int StoreKeeperId { get; set; }
+        [DisplayName("Кладовщик")]
+        public string StoreKeeperFIO { get; set; }
         public int WorkTypeId { get; set; }
         public int TOId { get; set; }
 

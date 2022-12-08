@@ -135,6 +135,7 @@ namespace AutoFixStationDatabaseImplement.Implements
                 Id = work.Id,
                 WorkTypeId = work.WorkTypeId,
                 StoreKeeperId = work.StoreKeeperId,
+                StoreKeeperFIO = work.StoreKeeper.FIO,
                 TOId = work.TOId,
                 WorkName = work.WorkName,
                 WorkStatus = work.WorkStatus.ToString(),

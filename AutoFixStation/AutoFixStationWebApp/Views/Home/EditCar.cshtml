@@ -1,5 +1,78 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using AutoFixStationContracts.ViewModels
+@model CarViewModel
 @{
+    ViewData["Title"] = "EditCar";
 }
+<div class="text-center">
+    <h2 class="display-4">Изменение авто</h2>
+</div>
+<form method="post">
+    <div class="row">
+        <div class="col-8"><input type="text" name="carId" id="carId" hidden="true" value="@Model.Id"/></div>
+    </div>
+    <div class="row">
+        <div class="col-4">Марка:</div>
+        <div class="col-8"><input type="text" name="brand" id="brand" value="@Model.Brand"/></div>
+    </div>
+    <div class="row">
+        <div class="col-4">Модель:</div>
+        <div class="col-8"><input type="text" name="model" id="model" value="@Model.Model"/></div>
+    </div>
+    <div class="row">
+        <div class="col-4">VIN:</div>
+        <div class="col-8"><input type="text" name="VIN" id="VIN" value="@Model.VIN"/></div>
+    </div>
+    <div class="row">
+        <div class="col-4">Номер телефона владельца:</div>
+        <div class="col-8"><input type="tel" name="number" id="number" value="@Model.OwnerPhoneNumber"/></div>
+    </div>
+    <div class="text-center">
+        <h3 class="display-4">Записи сервисов</h3>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Номер
+                </th>
+                <th>
+                    Дата начала
+                </th>
+                <th>
+                    Дата конца
+                </th>
+                <th>
+                    Описание
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Records)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Key)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem =>
+                        item.Value.Item1.Item1)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem =>
+                        item.Value.Item1.Item1)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Value.Item2)
+                    </td>
+                    @*<td>
+                        <a asp-action="EditRecord" asp-route-recordId="@item.Key">Изменить</a>
+                    </td>*@
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4"><input type="submit" value="Изменить" class="btn btnprimary" /></div>
+    </div>
+</form>

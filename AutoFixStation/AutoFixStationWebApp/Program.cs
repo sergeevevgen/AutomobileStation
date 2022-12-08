@@ -1,6 +1,6 @@
 using AutoFixStationContracts.ViewModels;
 
-namespace AutoFixStationWebApp
+namespace AutoFixStationEmployeeWebApp
 {
     public class Program
     {

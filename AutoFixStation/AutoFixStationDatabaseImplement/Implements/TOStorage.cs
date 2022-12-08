@@ -83,16 +83,6 @@ namespace AutoFixStationDatabaseImplement.Implements
             using var transaction = context.Database.BeginTransaction();
             try
             {
-                //TO to = new TO()
-                //{
-                //    CarId = model.CarId,
-                //    EmployeeId = model.EmployeeId,
-                //    Sum = model.Sum,
-                //    Status = model.Status,
-                //    DateCreate = model.DateCreate,
-                //    DateOver = model.DateOver,
-                //    DateImplement = model.DateImplement
-                //};
                 context.TOs.Add(CreateModel(model, new TO()));
                 context.SaveChanges();
                 transaction.Commit();
@@ -145,7 +135,9 @@ namespace AutoFixStationDatabaseImplement.Implements
             {
                 Id = tO.Id,
                 CarId = tO.CarId,
+                CarName = $"{tO.Car.Brand} {tO.Car.Model}",
                 EmployeeId = tO.EmployeeId,
+                EmployeeName = tO.Employee.FIO,
                 Sum = tO.Sum,
                 Status = tO.Status.ToString(),
                 DateCreate = tO.DateCreate,

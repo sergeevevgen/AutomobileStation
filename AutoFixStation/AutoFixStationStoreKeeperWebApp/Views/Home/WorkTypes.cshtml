@@ -1,0 +1,79 @@
+﻿@using AutoFixStationContracts.ViewModels
+@model List<WorkTypeViewModel>
+@{
+    ViewData["Title"] = "WorkTypes";
+}
+<div class="text-center">
+    <h1 class="display-4">Типы услуг</h1>
+</div>
+
+<div class="text-center">
+    @{
+        if (Model == null)
+        {
+            <h3 class="display-4">Авторизируйтесь</h3>
+            return;
+        }
+    <p>
+        <a asp-action="CreateWorkType">Создать тип услуги</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Номер
+                </th>
+                <th>
+                    Номер время выполнения
+                </th>
+                <th>
+                    Время выполнения
+                </th>
+                <th>
+                    Название
+                </th>
+                <th>
+                    Стоимость работы
+                </th>
+                <th>
+                    Стоимость с учётом деталей
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => 
+                            item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem =>
+                            item.TimeOfWorkId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem =>
+                            item.ExecutionTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => 
+                            item.WorkName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => 
+                            item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => 
+                            item.NetPrice)
+                    </td>
+                    <td>
+                        <a asp-action="EditWorkType" asp-route-worktypeId="@item.Id">Изменить</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
+</div>

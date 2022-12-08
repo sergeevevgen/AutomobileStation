@@ -31,6 +31,6 @@ namespace AutoFixStationContracts.BindingModels
         /// <summary>
         /// Работы ТО (номер, (название, (кол-во, стоимость))) 
         /// </summary>
-        public Dictionary<int, (string, (int, decimal))> Works { get; set; }
+        public Dictionary<int, (string, (int, decimal))>? Works { get; set; }
     }
 }

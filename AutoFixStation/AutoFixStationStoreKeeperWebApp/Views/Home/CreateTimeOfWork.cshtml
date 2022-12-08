@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "CreateTimeOfWork";
+}
+<div class="text-center">
+    <h2 class="display-4">Создание времени выполнения</h2>
+</div>
+<form method="post">
+    <div class="row">
+        <div class="col-4">Количество часов:</div>
+        <div class="col-8"><input type="text" name="hours" id="hours"/></div>
+    </div>
+    <div class="row">
+        <div class="col-4">Количество минут:</div>
+        <div class="col-8"><input type="text" name="mins" id="mins"/></div>
+    </div>
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4"><input type="submit" value="Добавить" class="btn btnprimary" /></div>
+    </div>
+</form>

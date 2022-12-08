@@ -1,0 +1,42 @@
+﻿@using AutoFixStationContracts.ViewModels
+@using AutoFixStationContracts.Enums
+@model SparePartViewModel
+@{
+    ViewData["Title"] = "EditSparePart";
+}
+<div class="text-center">
+    <h2 class="display-4">Изменение запчасти</h2>
+</div>
+<form method="post">
+    <div class="row">
+        <div class="col-8"><input type="text" name="sparepartId" id="sparepartId" hidden="true" value="@Model.Id"/></div>
+    </div>
+    <div class="row">
+        <div class="col-4">Название:</div>
+        <div class="col-8"><input type="text" name="sparepartname" id="sparepartname" value="@Model.Name"/></div>
+    </div>
+    <div class="row">
+        <div class="col-4">Заводской номер:</div>
+        <div class="col-8"><input type="text" name="factorynumber" id="factorynumber" value="@Model.FactoryNumber"/></div>
+    </div>
+    <div class="row">
+        <div class="col-4">Стоимость ед.:</div>
+        <div class="col-8"><input type="text" name="price" id="price" value="@Model.Price"/></div>
+    </div>
+    <div class="row">
+        <div class="col-4">Тип детали:</div>
+        <div class="col-8">
+            <select id="type" name="type" class="form-control" asp-items="@(new SelectList(@ViewBag.Types))"></select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">Ед. измерения:</div>
+        <div class="col-8">
+            <select id="um" name="um" class="form-control" asp-items="@(new SelectList(@ViewBag.UMs))"></select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4"><input type="submit" value="Добавить" class="btn btnprimary" /></div>
+    </div>
+</form>

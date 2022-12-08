@@ -1,23 +1,14 @@
 ﻿@{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "CreateTO";
 }
 <div class="text-center">
     <h2 class="display-4">Создание ТО</h2>
 </div>
 <form method="post">
     <div class="row">
-        <div class="col-4">Блюдо:</div>
+        <div class="col-4">Автомобиль:</div>
         <div class="col-8">
-            <select id="dish" name="dish" class="form-control" asp-items="@(new SelectList(@ViewBag.Dishes,"Id", "DishName"))"></select>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-4">Количество:</div>
-        <div class="col-8"><input type="text" name="count" id="count" /></div>
-    </div>
-    <div class="row">
-        <div class="col-4">Сумма:</div>
-        <div class="col-8"><input type="text" id="sum" name="sum" readonly="true"/>
+            <select id="carId" name="carId" class="form-control" asp-items="@(new SelectList(@ViewBag.Cars,"Id", "VIN"))"></select>
         </div>
     </div>
     <div class="row">
@@ -25,27 +16,3 @@
         <div class="col-4"><input type="submit" value="Создать" class="btn btnprimary" /></div>
     </div>
 </form>
-
-<script>
-    $('#dish').on('change', function () {
-        check();
-    });
-    $('#count').on('change', function () {
-    check();
-    });
-
-    function check() {
-        var count = $('#count').val();
-        var dish = $('#dish').val();
-        if (count && dish) {
-            $.ajax({
-                method: "POST",
-                url: "/Home/Calc",
-                data: { count: count, dish: dish },
-                success: function (result) {
-                            $("#sum").val(result);
-                         }
-            });
-        };
-    }
-</script>

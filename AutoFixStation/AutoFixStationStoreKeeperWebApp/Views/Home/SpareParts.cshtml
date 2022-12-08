@@ -1,0 +1,79 @@
+﻿@using AutoFixStationContracts.ViewModels
+@model List<SparePartViewModel>
+@{
+    ViewData["Title"] = "SpareParts";
+}
+<div class="text-center">
+    <h1 class="display-4">Запчасти</h1>
+</div>
+
+<div class="text-center">
+    @{
+        if (Model == null)
+        {
+            <h3 class="display-4">Авторизируйтесь</h3>
+            return;
+        }
+    <p>
+        <a asp-action="CreateSparePart">Добавить запчасть</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Номер
+                </th>
+                <th>
+                    Название
+                </th>
+                <th>
+                    Заводской номер
+                </th>
+                <th>
+                    Стоимость ед.
+                </th>
+                <th>
+                    Тип детали
+                </th>
+                <th>
+                    Ед. измерения
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => 
+                            item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem =>
+                            item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem =>
+                            item.FactoryNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => 
+                            item.Price)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => 
+                            item.Type)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => 
+                            item.UMeasurement)
+                    </td>
+                    <td>
+                        <a asp-action="EditSparePart" asp-route-sparepartId="@item.Id">Изменить</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    }
+</div>

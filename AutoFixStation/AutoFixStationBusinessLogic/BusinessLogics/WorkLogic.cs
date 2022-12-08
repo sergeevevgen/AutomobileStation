@@ -30,13 +30,14 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
 
         public void CreateWork(CreateWorkBindingModel model)
         {
+            var typeName = _workTypeStorage.GetElement(new WorkTypeBindingModel { Id = model.WorkTypeId });
             _workStorage.Insert(new WorkBindingModel
             {
                 StoreKeeperId = model.StoreKeeperId,
                 WorkTypeId = model.WorkTypeId,
                 TOId = model.TOId,
-                WorkName = model.Name,
-                Price = model.Price * model.Count,
+                WorkName = typeName.WorkName,
+                Price = model.Price,
                 NetPrice = model.NetPrice,
                 WorkStatus = WorkStatus.Принят,
                 Count = model.Count

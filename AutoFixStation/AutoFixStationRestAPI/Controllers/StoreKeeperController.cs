@@ -26,6 +26,10 @@ namespace AutoFixStationRestAPI.Controllers
             return (list != null && list.Count > 0) ? list[0] : null;
         }
 
+        [HttpGet]
+        public List<StoreKeeperViewModel> GetStoreKeeperList() =>
+            _logic.Read(null);
+
         [HttpPost]
         public void Register(StoreKeeperBindingModel model) =>
             _logic.CreateOrUpdate(model);

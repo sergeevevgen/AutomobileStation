@@ -1,4 +1,4 @@
-﻿namespace AutoFixStationWebApp
+﻿namespace AutoFixStationEmployeeWebApp
 {
     public class Startup
     {

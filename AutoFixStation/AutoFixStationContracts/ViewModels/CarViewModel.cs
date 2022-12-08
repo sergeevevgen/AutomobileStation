@@ -26,6 +26,6 @@ namespace AutoFixStationContracts.ViewModels
         /// <summary>
         /// Записи сервисов (номер, ((Дата начала, Дата конца), описание)
         /// </summary>
-        public Dictionary<int, ((DateTime, DateTime), string)> Records { get; set; }
+        public Dictionary<int, ((DateTime, DateTime), string)>? Records { get; set; }
     }
 }
