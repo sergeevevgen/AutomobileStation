@@ -92,10 +92,10 @@
     function check() {
         var price = $('#price').val();
         var worktypeId = $('#worktypeId').val();
-        if (price && type) {
+        if (price && worktypeId) {
             $.ajax({
                 method: "POST",
-                url: "/Home/CalcPrice",
+                url: "/Home/CalcPriceV2",
                 data: { price: price, worktypeId: worktypeId },
                 success: function (result) {
                             $("#netprice").val(result);

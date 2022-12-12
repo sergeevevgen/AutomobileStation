@@ -54,7 +54,7 @@
         var count = $('#count').val();
         var partId = $('#sparepartId').val();
         var price = $('#price').val();
-        if (count && part && price) {
+        if (count && partId && price) {
             $.ajax({
                 method: "POST",
                 url: "/Home/CalcPrice",

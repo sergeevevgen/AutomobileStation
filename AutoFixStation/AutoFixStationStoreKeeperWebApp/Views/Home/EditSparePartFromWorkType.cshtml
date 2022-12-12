@@ -40,7 +40,7 @@
         var count = $('#count').val();
         var partId = $('#sparepartId').val();
         var worktypeId = $('#worktypeId').val()
-        if (count && part) {
+        if (count && partId && worktypeId) {
             $.ajax({
                 method: "POST",
                 url: "/Home/CalcForExist",

@@ -269,7 +269,7 @@ namespace AutoFixStationStoreKeeperWebApp.Controllers
         [HttpPost]
         public void CreateWorkType(int timeofworkId, int sparepartId, decimal count, string worktypename, decimal price, decimal netprice)
         {
-            if (count != 0 && !string.IsNullOrEmpty(worktypename))
+            if (count != 0 && !string.IsNullOrEmpty(worktypename) && price > 0 && netprice > 0)
             {
                 var sparePart = APIStoreKeeper.GetRequest<SparePartViewModel>($"api/sparepart/getsparepart?sparepartId={sparepartId}");
 
@@ -291,7 +291,7 @@ namespace AutoFixStationStoreKeeperWebApp.Controllers
         [HttpGet]
         public IActionResult EditWorkType(int worktypeId)
         {
-            ViewBag.TimeOfWorks = APIStoreKeeper.GetRequest<List<TimeOfWorkViewModel>>("api/work/gettimeofworklist");
+            ViewBag.TimeOfWorks = APIStoreKeeper.GetRequest<List<TimeOfWorkWebViewModel>>("api/work/gettimeofworklist");
             return View(APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}"));
         }
 
@@ -299,10 +299,10 @@ namespace AutoFixStationStoreKeeperWebApp.Controllers
         [HttpPost]
         public void EditWorkType(int worktypeId, int timeofworkId, string worktypename, decimal price, decimal netprice)
         {
-            if (!string.IsNullOrEmpty(worktypename))
+            if (!string.IsNullOrEmpty(worktypename) && price > 0 && netprice > 0)
             {
                 var worktype = APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}");
-                APIStoreKeeper.PostRequest("api/work/creatorupdateworktype", new WorkTypeBindingModel
+                APIStoreKeeper.PostRequest("api/work/createorupdateworktype", new WorkTypeBindingModel
                 {
                     Id = worktypeId,
                     TimeOfWorkId = timeofworkId,
@@ -329,7 +329,7 @@ namespace AutoFixStationStoreKeeperWebApp.Controllers
         [HttpGet]
         public void AddSparePartToWorkType(int worktypeId, int sparepartId, decimal count, decimal price, decimal netprice)
         {
-            if (count != 0)
+            if (count != 0 && price > 0 && netprice > 0)
             {
                 var sparepart = APIStoreKeeper.GetRequest<SparePartViewModel>($"api/sparepart/getsparepart?sparepartId={sparepartId}");
                 var worktype = APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}");
@@ -362,28 +362,30 @@ namespace AutoFixStationStoreKeeperWebApp.Controllers
         }
 
         //Типы услуг (изменение запчастей)
-        [HttpGet]
+        [HttpPost]
         public void EditSparePartFromWorkType(int worktypeId, int sparepartId, decimal count, decimal price, decimal netprice)
         {
-            var worktype = APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}");
-            if (count <= 0)
+            if (count > 0 && price > 0 && netprice > 0)
             {
-                worktype.WorkSpareParts.Remove(sparepartId);
+
+
+                var worktype = APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}");
+                worktype.WorkSpareParts[sparepartId] = (worktype.WorkSpareParts[sparepartId].Item1, count, worktype.WorkSpareParts[sparepartId].Item3);
+                APIStoreKeeper.PostRequest("api/work/createorupdateworktype", new WorkTypeBindingModel
+                {
+                    Id = worktypeId,
+                    TimeOfWorkId = worktype.TimeOfWorkId,
+                    WorkName = worktype.WorkName,
+                    Price = price,
+                    NetPrice = netprice,
+                    WorkSpareParts = worktype.WorkSpareParts
+                });
+                Response.Redirect("WorkTypes");
             }
             else
             {
-                worktype.WorkSpareParts[sparepartId] = (worktype.WorkSpareParts[sparepartId].Item1, count, worktype.WorkSpareParts[sparepartId].Item3);
+                throw new Exception("Введите данные");
             }
-            APIStoreKeeper.PostRequest("api/work/createorupdateworktype", new WorkTypeBindingModel
-            {
-                Id = worktypeId,
-                TimeOfWorkId = worktype.TimeOfWorkId,
-                WorkName = worktype.WorkName,
-                Price = price,
-                NetPrice = netprice,
-                WorkSpareParts = worktype.WorkSpareParts
-            });
-            Response.Redirect("WorkTypes");
         }
 
         //Типы услуг (удаление запчастей)
@@ -426,7 +428,7 @@ namespace AutoFixStationStoreKeeperWebApp.Controllers
         }
 
         [HttpPost]
-        public decimal CalcPrice(decimal price, int worktypeId)
+        public decimal CalcPriceV2(decimal price, int worktypeId)
         {
             var worktype = APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}");
             var netprice = worktype.NetPrice - worktype.Price + price;
