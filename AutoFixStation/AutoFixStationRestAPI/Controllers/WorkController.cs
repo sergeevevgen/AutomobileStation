@@ -1,6 +1,7 @@
 ﻿using AutoFixStationContracts.BindingModels;
 using AutoFixStationContracts.BusinessLogicsContracts;
 using AutoFixStationContracts.ViewModels;
+using AutoFixStationContracts.WebViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AutoFixStationRestAPI.Controllers
@@ -44,6 +45,11 @@ namespace AutoFixStationRestAPI.Controllers
             => _workTypeLogic
             .Read(new WorkTypeBindingModel { Id = workTypeId })?[0];
 
+        //Создание типа услуги
+        [HttpPost]
+        public void CreateOrUpdateWorkType(WorkTypeBindingModel model) =>
+            _workTypeLogic.CreateOrUpdate(model);
+
         /// <summary>
         /// Получение всех текущих работ кладовщика по его номеру (Id)
         /// </summary>
@@ -75,7 +81,6 @@ namespace AutoFixStationRestAPI.Controllers
             return listworks;
         }
             
-
         /// <summary>
         /// Создание работы
         /// </summary>
@@ -112,8 +117,16 @@ namespace AutoFixStationRestAPI.Controllers
 
         //Получение листа времени выполнений
         [HttpGet]
-        public List<TimeOfWorkViewModel> GetTimeOfWorkList() => 
-            _timeOfWorkLogic.Read(null)?.ToList();
+        public List<TimeOfWorkWebViewModel> GetTimeOfWorkList()
+        {
+            var list = _timeOfWorkLogic.Read(null)?.ToList();
+            return list.Select(x => new TimeOfWorkWebViewModel
+            {
+                Id = x.Id,
+                Time = "Часов: " + x.Hours + ". Минут: " + x.Mins
+            }).ToList();
+        }
+            
 
         //Получение времени выполнения по номеру
         [HttpGet]

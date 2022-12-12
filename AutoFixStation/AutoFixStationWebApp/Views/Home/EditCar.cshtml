@@ -26,6 +26,13 @@
         <div class="col-4">Номер телефона владельца:</div>
         <div class="col-8"><input type="tel" name="number" id="number" value="@Model.OwnerPhoneNumber"/></div>
     </div>
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4"><input type="submit" value="Изменить" class="btn btnprimary" /></div>
+    </div>
+</form>
+@if (@Model.Records.Count > 0)
+{
     <div class="text-center">
         <h3 class="display-4">Записи сервисов</h3>
     </div>
@@ -66,13 +73,9 @@
                     </td>
                     @*<td>
                         <a asp-action="EditRecord" asp-route-recordId="@item.Key">Изменить</a>
-                    </td>*@
+                      </td>*@
                 </tr>
             }
         </tbody>
     </table>
-    <div class="row">
-        <div class="col-8"></div>
-        <div class="col-4"><input type="submit" value="Изменить" class="btn btnprimary" /></div>
-    </div>
-</form>
+}

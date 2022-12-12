@@ -25,6 +25,6 @@ namespace AutoFixStationContracts.ViewModels
         /// <summary>
         /// Необходимые детали и расходники (int - id, string - название, decimal, потому что может быть не целое (например, 0.8 л масла))
         /// </summary>
-        public Dictionary<int, (string, decimal)> WorkSpareParts { get; set; }
+        public Dictionary<int, (string, decimal, decimal)> WorkSpareParts { get; set; }
     }
 }

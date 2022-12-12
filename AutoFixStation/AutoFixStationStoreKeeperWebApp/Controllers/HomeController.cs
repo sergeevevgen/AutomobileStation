@@ -1,6 +1,7 @@
 ﻿using AutoFixStationContracts.BindingModels;
 using AutoFixStationContracts.Enums;
 using AutoFixStationContracts.ViewModels;
+using AutoFixStationContracts.WebViewModels;
 using AutoFixStationStoreKeeperWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -246,6 +247,190 @@ namespace AutoFixStationStoreKeeperWebApp.Controllers
             }
             else
                 throw new Exception("Введите данные");
+        }
+
+        //Типы услуг (вывод)
+        [HttpGet]
+        public IActionResult WorkTypes()
+        {
+            return View(APIStoreKeeper.GetRequest<List<WorkTypeViewModel>>("api/work/getworktypelist"));
+        }
+
+        //Типы услуг (создание)
+        [HttpGet]
+        public IActionResult CreateWorkType()
+        {
+            ViewBag.TimeOfWorks = APIStoreKeeper.GetRequest<List<TimeOfWorkWebViewModel>>("api/work/gettimeofworklist");
+            ViewBag.SpareParts = APIStoreKeeper.GetRequest<List<SparePartViewModel>>("api/sparepart/getsparepartlist");
+            return View();
+        }
+
+        //Типы услуг (создание)
+        [HttpPost]
+        public void CreateWorkType(int timeofworkId, int sparepartId, decimal count, string worktypename, decimal price, decimal netprice)
+        {
+            if (count != 0 && !string.IsNullOrEmpty(worktypename))
+            {
+                var sparePart = APIStoreKeeper.GetRequest<SparePartViewModel>($"api/sparepart/getsparepart?sparepartId={sparepartId}");
+
+                APIStoreKeeper.PostRequest("api/work/createorupdateworktype", new WorkTypeBindingModel
+                {
+                    TimeOfWorkId = timeofworkId,
+                    WorkName = worktypename,
+                    Price = price,
+                    NetPrice = netprice,
+                    WorkSpareParts = new Dictionary<int, (string, decimal, decimal)> { { sparePart.Id, (sparePart.Name, count, sparePart.Price) } }
+                });
+                Response.Redirect("WorkTypes");
+            }
+            else
+                throw new Exception("Введите данные");
+        }
+
+        //Типы услуг (изменение))
+        [HttpGet]
+        public IActionResult EditWorkType(int worktypeId)
+        {
+            ViewBag.TimeOfWorks = APIStoreKeeper.GetRequest<List<TimeOfWorkViewModel>>("api/work/gettimeofworklist");
+            return View(APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}"));
+        }
+
+        //Типы услуг (изменение)
+        [HttpPost]
+        public void EditWorkType(int worktypeId, int timeofworkId, string worktypename, decimal price, decimal netprice)
+        {
+            if (!string.IsNullOrEmpty(worktypename))
+            {
+                var worktype = APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}");
+                APIStoreKeeper.PostRequest("api/work/creatorupdateworktype", new WorkTypeBindingModel
+                {
+                    Id = worktypeId,
+                    TimeOfWorkId = timeofworkId,
+                    WorkName = worktypename,
+                    Price= price,
+                    NetPrice= netprice,
+                    WorkSpareParts = worktype.WorkSpareParts
+                });
+                Response.Redirect("WorkTypes");
+            }
+            else
+                throw new Exception("Введите данные");
+        }
+
+        //Типы услуг (добавление запчастей)
+        [HttpGet]
+        public IActionResult AddSparePartToWorkType(int worktypeId)
+        {
+            ViewBag.SpareParts = APIStoreKeeper.GetRequest<List<SparePartViewModel>>("api/sparepart/getsparepartlist");
+            return View(APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}"));
+        }
+
+        //Типы услуг (добавление запчастей)
+        [HttpGet]
+        public void AddSparePartToWorkType(int worktypeId, int sparepartId, decimal count, decimal price, decimal netprice)
+        {
+            if (count != 0)
+            {
+                var sparepart = APIStoreKeeper.GetRequest<SparePartViewModel>($"api/sparepart/getsparepart?sparepartId={sparepartId}");
+                var worktype = APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}");
+                worktype.WorkSpareParts.Add(sparepartId, (sparepart.Name, count, sparepart.Price));
+                APIStoreKeeper.PostRequest("api/work/createorupdateworktype", new WorkTypeBindingModel
+                {
+                    Id = worktypeId,
+                    TimeOfWorkId = worktype.TimeOfWorkId,
+                    WorkName = worktype.WorkName,
+                    Price = price,
+                    NetPrice = netprice,
+                    WorkSpareParts = worktype.WorkSpareParts
+                });
+                Response.Redirect("WorkTypes");
+            }
+            else
+                throw new Exception("Введите данные");
+        }
+
+        //Типы услуг (изменение запчастей)
+        [HttpGet]
+        public IActionResult EditSparePartFromWorkType(int worktypeId, int sparepartId)
+        {
+            var sparepart = APIStoreKeeper.GetRequest<SparePartViewModel>($"api/sparepart/getsparepart?sparepartId={sparepartId}");
+            var worktype = APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}");
+            ViewBag.SparePartId = sparepartId;
+            ViewBag.SparePartName = sparepart.Name;
+            ViewBag.SparePartCount = worktype.WorkSpareParts[sparepartId].Item2;
+            return View(worktype);
+        }
+
+        //Типы услуг (изменение запчастей)
+        [HttpGet]
+        public void EditSparePartFromWorkType(int worktypeId, int sparepartId, decimal count, decimal price, decimal netprice)
+        {
+            var worktype = APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}");
+            if (count <= 0)
+            {
+                worktype.WorkSpareParts.Remove(sparepartId);
+            }
+            else
+            {
+                worktype.WorkSpareParts[sparepartId] = (worktype.WorkSpareParts[sparepartId].Item1, count, worktype.WorkSpareParts[sparepartId].Item3);
+            }
+            APIStoreKeeper.PostRequest("api/work/createorupdateworktype", new WorkTypeBindingModel
+            {
+                Id = worktypeId,
+                TimeOfWorkId = worktype.TimeOfWorkId,
+                WorkName = worktype.WorkName,
+                Price = price,
+                NetPrice = netprice,
+                WorkSpareParts = worktype.WorkSpareParts
+            });
+            Response.Redirect("WorkTypes");
+        }
+
+        //Типы услуг (удаление запчастей)
+        [HttpPost]
+        public void DeleteSparePartFromWorkType(int worktypeId, int sparepartId)
+        {
+            var worktype = APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}");
+            worktype.WorkSpareParts.Remove(sparepartId);
+
+            APIStoreKeeper.PostRequest("api/work/createorupdateworktype", new WorkTypeBindingModel
+            {
+                Id = worktypeId,
+                TimeOfWorkId = worktype.TimeOfWorkId,
+                WorkName = worktype.WorkName,
+                Price = worktype.Price,
+                NetPrice = CalcForExist(0, sparepartId, worktypeId),
+                WorkSpareParts = worktype.WorkSpareParts
+            });
+            Response.Redirect("WorkTypes");
+        }
+
+        [HttpPost]
+        public decimal CalcForExist(decimal count, int partId, int worktypeId)
+        {
+            var worktype = APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}");
+            var sparepart = APIStoreKeeper.GetRequest<SparePartViewModel>($"api/sparepart/getsparepart?sparepartId={partId}");
+
+            var netPrice = worktype.NetPrice;
+            netPrice += count * sparepart.Price;
+            return netPrice;
+        }
+
+        [HttpPost]
+        public decimal CalcPrice(decimal count, int partId, decimal price)
+        {
+            var sparepart = APIStoreKeeper.GetRequest<SparePartViewModel>($"api/sparepart/getsparepart?sparepartId={partId}");
+
+            var netprice = price + count * sparepart.Price;
+            return netprice;
+        }
+
+        [HttpPost]
+        public decimal CalcPrice(decimal price, int worktypeId)
+        {
+            var worktype = APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}");
+            var netprice = worktype.NetPrice - worktype.Price + price;
+            return netprice;
         }
     }
 }

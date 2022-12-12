@@ -1,5 +1,106 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using AutoFixStationContracts.ViewModels
+@model WorkTypeViewModel
 @{
+    ViewData["Title"] = "EditWorkType";
 }
+<div class="text-center">
+    <h2 class="display-4">Изменение типа услуги</h2>
+</div>
+<form method="post">
+    <div class="row">
+        <div class="col-8"><input type="text" name="worktypeId" id="worktypeId" hidden="true" value="@Model.Id"/></div>
+    </div>
+    <div class="row">
+        <div class="col-4">Время работы</div>
+        <div class="col-8">
+            <select id="timeofworkId" name="timeofworkId" class="form-control" asp-items="@(new SelectList(@ViewBag.TimeOfWorks,"Id", "Time"))"></select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">Название:</div>
+        <div class="col-8"><input type="text" name="worktypename" id="worktypename" value="@Model.WorkName"/></div>
+    </div>
+    <div class="row">
+        <div class="col-4">Цена без учёта запчастей.:</div>
+        <div class="col-8"><input type="text" name="price" id="price" value="@Model.Price"/></div>
+    </div>
+    <div class="row">
+        <div class="col-4">Цена с учётом запчастей:</div>
+        <div class="col-8"><input type="text" name="netprice" id="netprice" readonly="true" value="@Model.NetPrice"/></div>
+    </div>
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4"><input type="submit" value="Добавить" class="btn btnprimary"/></div>
+    </div>
+</form>
+<div class="text-center">
+    <h3 class="display-4">Запчасти</h3>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Номер
+            </th>
+            <th>
+                Название
+            </th>
+            <th>
+                Количество
+            </th>
+            <th>
+                Стоимость 1 ед.
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.WorkSpareParts)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => 
+                        item.Key)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem =>
+                        item.Value.Item1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem =>
+                        item.Value.Item2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem =>
+                        item.Value.Item3)
+                </td>
+                <td>
+                    <a asp-action="EditSparePartFromWorkType" asp-route-worktypeId="@Model.Id" asp-route-sparepartId="@item.Key">Изменить количество</a>
+                </td>
+                <td>
+                    <a asp-action="DeleteSparePartFromWorkType" asp-route-worktypeId="@Model.Id" asp-route-sparepartId="@item.Key">Удалить</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    $('#price').on('change', function () {
+        check();
+    });
+
+    function check() {
+        var price = $('#price').val();
+        var worktypeId = $('#worktypeId').val();
+        if (price && type) {
+            $.ajax({
+                method: "POST",
+                url: "/Home/CalcPrice",
+                data: { price: price, worktypeId: worktypeId },
+                success: function (result) {
+                            $("#netprice").val(result);
+                         }
+            });
+        };
+    }
+</script>

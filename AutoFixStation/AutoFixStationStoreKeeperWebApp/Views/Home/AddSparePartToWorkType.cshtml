@@ -1,15 +1,14 @@
-﻿@{
-    ViewData["Title"] = "CreateWorkType";
+﻿@using AutoFixStationContracts.ViewModels
+@model WorkTypeViewModel
+@{
+    ViewData["Title"] = "AddSparePartToWorkType";
 }
 <div class="text-center">
-    <h2 class="display-4">Создание типа услуги</h2>
+    <h2 class="display-4">Добавление требующихся запчастей</h2>
 </div>
 <form method="post">
     <div class="row">
-        <div class="col-4">Время работы</div>
-        <div class="col-8">
-            <select id="timeofworkId" name="timeofworkId" class="form-control" asp-items="@(new SelectList(@ViewBag.TimeOfWorks,"Id", "Time"))"></select>
-        </div>
+        <div class="col-8"><input type="text" name="worktypeId" id="worktypeId" hidden="true" value="@Model.Id"/></div>
     </div>
     <div class="row">
         <div class="col-4">Запчасти</div>
@@ -22,16 +21,12 @@
         <div class="col-8"><input type="text" name="count" id="count"/></div>
     </div>
     <div class="row">
-        <div class="col-4">Название:</div>
-        <div class="col-8"><input type="text" name="worktypename" id="worktypename"/></div>
-    </div>
-    <div class="row">
         <div class="col-4">Цена за ед.:</div>
-        <div class="col-8"><input type="text" name="price" id="price"/></div>
+        <div class="col-8"><input type="text" name="price" id="price" value="@Model.Price" readonly="true"/></div>
     </div>
     <div class="row">
         <div class="col-4">Цена с учётом запчастей:</div>
-        <div class="col-8"><input type="text" name="netprice" id="netprice" readonly="true"/></div>
+        <div class="col-8"><input type="text" name="netprice" id="netprice" readonly="true" value="@Model.NetPrice"/></div>
     </div>
     <div class="row">
         <div class="col-8"></div>
@@ -46,19 +41,16 @@
     $('#count').on('change', function () {
         check();
     });
-    $('#price').on('change', function () {
-        check();
-    });
 
     function check() {
         var count = $('#count').val();
         var partId = $('#sparepartId').val();
-        var price = $('#price').val();
-        if (count && part && price) {
+        var worktypeId = $('#worktypeId').val();
+        if (count && part) {
             $.ajax({
                 method: "POST",
-                url: "/Home/CalcPrice",
-                data: { count: count, partId: partId, price: price },
+                url: "/Home/CalcForExist",
+                data: { count: count, partId: partId, worktypeId: worktypeId },
                 success: function (result) {
                             $("#netprice").val(result);
                          }

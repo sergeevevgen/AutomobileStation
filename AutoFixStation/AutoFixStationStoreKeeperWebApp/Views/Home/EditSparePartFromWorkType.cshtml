@@ -1,0 +1,54 @@
+﻿@using AutoFixStationContracts.ViewModels
+@model WorkTypeViewModel
+@{
+    ViewData["Title"] = "EditSparePartFromWorkType";
+}
+<div class="text-center">
+    <h2 class="display-4">Изменение количества запчастей</h2>
+</div>
+<form method="post">
+    <div class="row">
+        <div class="col-8"><input type="text" name="worktypeId" id="worktypeId" hidden="true" value="@Model.Id"/></div>
+    </div>
+    <div class="row">
+        <div class="col-8"><input type="text" name="sparepartId" id="sparepartId" hidden="true" value="@ViewBag.SparePartId"/></div>
+    </div>
+    <div class="row">
+        <div class="col-4">Название запчасти:</div>
+        <div class="col-8"><input type="text" name="sparepartname" id="sparepartname"  value="@ViewBag.SparePartName" readonly="true"/></div>
+    </div>
+    <div class="row">
+        <div class="col-4">Количество:</div>
+        <div class="col-8"><input type="text" name="count" id="count" value="@ViewBag.SparePartCount"/></div>
+    </div>
+    <div class="row">
+        <div class="col-4">Цена с учётом запчастей:</div>
+        <div class="col-8"><input type="text" name="netprice" id="netprice" readonly="true" value="@Model.NetPrice"/></div>
+    </div>
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4"><input type="submit" value="Добавить" class="btn btnprimary"/></div>
+    </div>
+</form>
+
+<script>
+    $('#count').on('change', function () {
+        check();
+    });
+
+    function check() {
+        var count = $('#count').val();
+        var partId = $('#sparepartId').val();
+        var worktypeId = $('#worktypeId').val()
+        if (count && part) {
+            $.ajax({
+                method: "POST",
+                url: "/Home/CalcForExist",
+                data: { count: count, partId: partId, worktypeId: worktypeId },
+                success: function (result) {
+                            $("#netprice").val(result);
+                         }
+            });
+        };
+    }
+</script>
