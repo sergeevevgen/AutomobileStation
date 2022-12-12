@@ -1,0 +1,20 @@
+﻿<Window x:Class="StoreKeeperView.SignUpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StoreKeeperView"
+         mc:Ignorable="d"
+        Title="Регистрация" Height="335" Width="420" ResizeMode="NoResize">
+    <Grid>
+        <StackPanel Margin="55,37,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="300" Width="300" ScrollViewer.HorizontalScrollBarVisibility="Auto" UseLayoutRounding="False" RenderTransformOrigin="0.5,0.5">
+            <Label Content="Логин"  Margin="0,0,0,0" Height="35"/>
+            <TextBox x:Name="TextBoxLogin"/>
+            <Label Content="Пароль" />
+            <TextBox x:Name="TextBoxPassword"/>
+            <Label Content="ФИО"/>
+            <TextBox x:Name="TextBoxFullName"/>
+            <Button Content="Зарегистрироваться" Margin="0,20,0,0" Click="SignUp_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

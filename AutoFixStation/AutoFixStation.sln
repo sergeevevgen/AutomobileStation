@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixStationView", "AutoF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixStationStoreKeeperWebApp", "AutoFixStationStoreKeeperWebApp\AutoFixStationStoreKeeperWebApp.csproj", "{74478CB9-F276-4FB5-8821-72BBA4464BE0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreKeeperView", "StoreKeeperView\StoreKeeperView.csproj", "{CABFD937-B0F6-4F90-8191-757C18408EE0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{74478CB9-F276-4FB5-8821-72BBA4464BE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74478CB9-F276-4FB5-8821-72BBA4464BE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74478CB9-F276-4FB5-8821-72BBA4464BE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CABFD937-B0F6-4F90-8191-757C18408EE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CABFD937-B0F6-4F90-8191-757C18408EE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CABFD937-B0F6-4F90-8191-757C18408EE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CABFD937-B0F6-4F90-8191-757C18408EE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
