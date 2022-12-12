@@ -50,6 +50,11 @@ namespace AutoFixStationRestAPI.Controllers
         public void CreateOrUpdateWorkType(WorkTypeBindingModel model) =>
             _workTypeLogic.CreateOrUpdate(model);
 
+        //Удаление типа услуги
+        [HttpPost]
+        public void DeleteWorkType(WorkTypeBindingModel model) =>
+            _workTypeLogic.Delete(model);
+
         /// <summary>
         /// Получение всех текущих работ кладовщика по его номеру (Id)
         /// </summary>

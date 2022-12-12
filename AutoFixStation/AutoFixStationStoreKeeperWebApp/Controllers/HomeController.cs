@@ -326,14 +326,19 @@ namespace AutoFixStationStoreKeeperWebApp.Controllers
         }
 
         //Типы услуг (добавление запчастей)
-        [HttpGet]
+        [HttpPost]
         public void AddSparePartToWorkType(int worktypeId, int sparepartId, decimal count, decimal price, decimal netprice)
         {
             if (count != 0 && price > 0 && netprice > 0)
             {
                 var sparepart = APIStoreKeeper.GetRequest<SparePartViewModel>($"api/sparepart/getsparepart?sparepartId={sparepartId}");
                 var worktype = APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}");
-                worktype.WorkSpareParts.Add(sparepartId, (sparepart.Name, count, sparepart.Price));
+                if (worktype.WorkSpareParts.ContainsKey(sparepartId))
+                {
+                    worktype.WorkSpareParts[sparepartId] = (worktype.WorkSpareParts[sparepartId].Item1, worktype.WorkSpareParts[sparepartId].Item2 + count, worktype.WorkSpareParts[sparepartId].Item3);
+                }
+                else 
+                    worktype.WorkSpareParts.Add(sparepartId, (sparepart.Name, count, sparepart.Price));
                 APIStoreKeeper.PostRequest("api/work/createorupdateworktype", new WorkTypeBindingModel
                 {
                     Id = worktypeId,
@@ -363,9 +368,9 @@ namespace AutoFixStationStoreKeeperWebApp.Controllers
 
         //Типы услуг (изменение запчастей)
         [HttpPost]
-        public void EditSparePartFromWorkType(int worktypeId, int sparepartId, decimal count, decimal price, decimal netprice)
+        public void EditSparePartFromWorkType(int worktypeId, int sparepartId, decimal count, decimal netprice)
         {
-            if (count > 0 && price > 0 && netprice > 0)
+            if (count > 0 && netprice > 0)
             {
 
 
@@ -376,7 +381,7 @@ namespace AutoFixStationStoreKeeperWebApp.Controllers
                     Id = worktypeId,
                     TimeOfWorkId = worktype.TimeOfWorkId,
                     WorkName = worktype.WorkName,
-                    Price = price,
+                    Price = worktype.Price,
                     NetPrice = netprice,
                     WorkSpareParts = worktype.WorkSpareParts
                 });
@@ -407,6 +412,7 @@ namespace AutoFixStationStoreKeeperWebApp.Controllers
             Response.Redirect("WorkTypes");
         }
 
+        //Подсчет суммы
         [HttpPost]
         public decimal CalcForExist(decimal count, int partId, int worktypeId)
         {
@@ -418,6 +424,7 @@ namespace AutoFixStationStoreKeeperWebApp.Controllers
             return netPrice;
         }
 
+        //Подсчет суммы 
         [HttpPost]
         public decimal CalcPrice(decimal count, int partId, decimal price)
         {
@@ -427,12 +434,35 @@ namespace AutoFixStationStoreKeeperWebApp.Controllers
             return netprice;
         }
 
+        //Подсчет суммы 
         [HttpPost]
         public decimal CalcPriceV2(decimal price, int worktypeId)
         {
             var worktype = APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}");
             var netprice = worktype.NetPrice - worktype.Price + price;
             return netprice;
+        }
+
+        [HttpGet]
+        public IActionResult DeleteWorkType(int worktypeId)
+        {
+            return View(APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}"));
+        }
+
+        [HttpPost]
+        public void DeleteWorkType(int worktypeId, string worktypename)
+        {
+            var worktype = APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}");
+            APIStoreKeeper.PostRequest($"api/work/deleteworktype", new WorkTypeBindingModel
+            {
+                Id = worktypeId,
+                WorkName = worktype.WorkName,
+                Price = worktype.Price,
+                NetPrice = worktype.NetPrice,
+                TimeOfWorkId = worktype.TimeOfWorkId,
+                WorkSpareParts = worktype.WorkSpareParts
+            });
+            Response.Redirect("WorkTypes");
         }
     }
 }

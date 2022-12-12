@@ -1,20 +1,14 @@
 ﻿@using AutoFixStationContracts.ViewModels
 @model WorkTypeViewModel
 @{
-    ViewData["Title"] = "EditWorkType";
+    ViewData["Title"] = "DeleteWorkType";
 }
 <div class="text-center">
-    <h2 class="display-4">Изменение типа услуги</h2>
+    <h2 class="display-4">Удалить тип услуги</h2>
 </div>
 <form method="post">
     <div class="row">
         <div class="col-8"><input type="text" name="worktypeId" id="worktypeId" hidden="true" value="@Model.Id"/></div>
-    </div>
-    <div class="row">
-        <div class="col-4">Время работы</div>
-        <div class="col-8">
-            <select id="timeofworkId" name="timeofworkId" class="form-control" asp-items="@(new SelectList(@ViewBag.TimeOfWorks,"Id", "Time"))"></select>
-        </div>
     </div>
     <div class="row">
         <div class="col-4">Название:</div>
@@ -30,7 +24,7 @@
     </div>
     <div class="row">
         <div class="col-8"></div>
-        <div class="col-4"><input type="submit" value="Добавить" class="btn btnprimary"/></div>
+        <div class="col-4"><input type="submit" value="Удалить" class="btn btnprimary"/></div>
     </div>
 </form>
 <div class="text-center">
@@ -73,34 +67,7 @@
                     @Html.DisplayFor(modelItem =>
                         item.Value.Item3)
                 </td>
-                <td>
-                    <a asp-action="EditSparePartFromWorkType" asp-route-worktypeId="@Model.Id" asp-route-sparepartId="@item.Key">Изменить количество</a>
-                </td>
-                <td>
-                    <a asp-action="DeleteSparePartFromWorkType" asp-route-worktypeId="@Model.Id" asp-route-sparepartId="@item.Key">Удалить</a>
-                </td>
             </tr>
         }
     </tbody>
 </table>
-
-<script>
-    $('#price').on('change', function () {
-        check();
-    });
-
-    function check() {
-        var price = $('#price').val();
-        var worktypeId = $('#worktypeId').val();
-        if (price && worktypeId) {
-            $.ajax({
-                method: "POST",
-                url: "/Home/CalcPriceV2",
-                data: { price: price, worktypeId: worktypeId },
-                success: function (result) {
-                            $("#netprice").val(result);
-                         }
-            });
-        };
-    }
-</script>

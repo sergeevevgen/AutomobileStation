@@ -66,6 +66,12 @@
                     <td>
                         <a asp-action="EditWorkType" asp-route-worktypeId="@item.Id">Изменить</a>
                     </td>
+                    <td>
+                        <a asp-action="DeleteWorkType" asp-route-worktypeId="@item.Id">Удалить</a>
+                    </td>
+                    <td>
+                        <a asp-action="AddSparePartToWorkType" asp-route-worktypeId="@item.Id">Добавить запчасти</a>
+                    </td>
                 </tr>
             }
         </tbody>
