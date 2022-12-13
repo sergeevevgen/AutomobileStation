@@ -1,0 +1,87 @@
+﻿@using AutoFixStationContracts.ViewModels
+@model TOViewModel
+@{
+    ViewData["Title"] = "ActionWithTO";
+}
+<div class="text-center">
+    <h1 class="display-4">Услуга</h1>
+</div>
+
+<div class="text-center">
+    @{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Номер ТО
+                </th>
+                <th>
+                    Автомобиль
+                </th>
+                <th>
+                    Стоимость
+                </th>
+                <th>
+                    Статус
+                </th>
+                <th>
+                    Дата создания
+                </th>
+                <th>
+                    Дата начала выполнения
+                </th>
+                <th>
+                    Дата окончания
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem =>
+                        Model.CarName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem =>
+                        Model.Sum)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => 
+                        Model.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => 
+                        Model.DateCreate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => 
+                        Model.DateImplement)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => 
+                        Model.DateOver)
+                </td>
+            </tr>
+         </tbody>
+    </table>
+    }
+</div>
+@if (!@Model.Status.Equals("Выдан"))
+{
+<form method="post">
+    <div class="row">
+        <div class="col-8"><input type="text" name="toId" id="toId" hidden="true" value="@Model.Id"/></div>
+    </div>
+    <div class="row">
+        <div class="col-4">Изменить статус на:</div>
+        <div class="col-8"><input type="text" name="action" id="action" value="@ViewBag.Action" readonly/></div>
+    </div>
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4"><input type="submit" value="Изменить" class="btn btnprimary" /></div>
+    </div>
+</form>
+}

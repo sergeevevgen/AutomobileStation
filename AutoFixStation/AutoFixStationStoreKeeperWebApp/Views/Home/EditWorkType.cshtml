@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-4">Время работы</div>
         <div class="col-8">
-            <select id="timeofworkId" name="timeofworkId" class="form-control" asp-items="@(new SelectList(@ViewBag.TimeOfWorks,"Id", "Time"))"></select>
+            <select id="timeofworkId" name="timeofworkId" class="form-control" asp-items="@(new SelectList(@ViewBag.TimeOfWorks,"Id", "Time", @Model.ExecutionTime))"></select>
         </div>
     </div>
     <div class="row">

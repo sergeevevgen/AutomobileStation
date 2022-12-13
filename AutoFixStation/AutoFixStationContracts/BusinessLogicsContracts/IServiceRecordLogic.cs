@@ -11,7 +11,8 @@ namespace AutoFixStationContracts.BusinessLogicsContracts
     public interface IServiceRecordLogic
     {
         List<ServiceRecordViewModel> Read(ServiceRecordBindingModel model);
-        void CreateOrUpdate(ServiceRecordBindingModel record, TOBindingModel tO);
+        void Create(ServiceRecordBindingModel record, TOBindingModel tO);
+        void Update(ServiceRecordBindingModel record);
         void Delete(ServiceRecordBindingModel model);
     }
 }

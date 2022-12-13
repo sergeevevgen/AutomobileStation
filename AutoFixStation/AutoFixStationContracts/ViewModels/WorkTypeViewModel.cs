@@ -11,7 +11,7 @@ namespace AutoFixStationContracts.ViewModels
     {
         public int Id { get; set; }
         public int TimeOfWorkId { get; set; }
-        public decimal ExecutionTime { get; set; }
+        public string ExecutionTime { get; set; }
 
         [DisplayName("Название работы")]
         public string WorkName { get; set; }

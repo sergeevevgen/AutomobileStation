@@ -15,12 +15,15 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
     {
         private readonly ITOStorage _tOStorage;
         private readonly IWorkStorage _workStorage;
+        private readonly IServiceRecordLogic _serviceRecordLogic;
 
         public TOLogic(ITOStorage tOStorage,
-            IWorkStorage workStorage)
+            IWorkStorage workStorage,
+            IServiceRecordLogic serviceRecordLogic)
         {
             _tOStorage = tOStorage;
             _workStorage = workStorage;
+            _serviceRecordLogic = serviceRecordLogic;
         }
 
         public void CreateTO(CreateTOBindingModel model)
@@ -78,7 +81,7 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
                 Status = TOStatus.Готов,
                 DateCreate = tO.DateCreate,
                 DateImplement = tO.DateImplement,
-                DateOver = tO.DateOver,
+                DateOver = DateTime.Now,
                 Works = tO.Works
             });
         }
@@ -99,7 +102,21 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
             {
                 throw new Exception("ТО не в статусе \"Готов\"");
             }
-
+            _serviceRecordLogic.Create(new ServiceRecordBindingModel
+            {
+                CarId = tO.CarId
+            }, new TOBindingModel
+            {
+                Id = tO.Id,
+                CarId = tO.CarId,
+                DateCreate = tO.DateCreate,
+                DateImplement=tO.DateImplement,
+                DateOver = tO.DateOver,
+                EmployeeId = tO.EmployeeId,
+                Status = (TOStatus) Enum.Parse(typeof(TOStatus), tO.Status),
+                Sum = tO.Sum.Value,
+                Works = tO.Works
+            });
             _tOStorage.Update(new TOBindingModel
             {
                 Id = tO.Id,
@@ -157,7 +174,7 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
                 Sum = tO.Sum.HasValue ? tO.Sum.Value : 0,
                 Status = TOStatus.Выполняется,
                 DateCreate = tO.DateCreate,
-                DateImplement = tO.DateImplement,
+                DateImplement = DateTime.Now,
                 Works = tO.Works
             });
         }

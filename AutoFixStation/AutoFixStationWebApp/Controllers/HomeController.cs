@@ -22,9 +22,7 @@ namespace AutoFixStationEmployeeWebApp.Controllers
             {
                 return Redirect("~/Home/Enter");
             }
-
-            return
-            View(APIEmployee.GetRequest<List<TOViewModel>>($"api/to/gettolist?employeeId={Program.Employee.Id}"));
+            return View(APIEmployee.GetRequest<List<TOViewModel>>($"api/to/gettolist?employeeId={Program.Employee.Id}"));
         }
 
         //Проверка на авторизацию
@@ -268,7 +266,7 @@ namespace AutoFixStationEmployeeWebApp.Controllers
 
         //Создание услуги
         [HttpPost]
-        public void CreateWork(int toId, int workTypeId, int storeKeeper, int count, decimal price, decimal netprice)
+        public void CreateWork(int toId, int workTypeId, int storeKeeperId, int count, decimal price, decimal netprice)
         {
             if (count == 0 || price == 0 || netprice == 0)
             {
@@ -279,7 +277,7 @@ namespace AutoFixStationEmployeeWebApp.Controllers
                 {
                     TOId = toId,
                     WorkTypeId = workTypeId,
-                    StoreKeeperId = storeKeeper,
+                    StoreKeeperId = storeKeeperId,
                     Count = count,
                     Price = price,
                     NetPrice = netprice
@@ -291,7 +289,86 @@ namespace AutoFixStationEmployeeWebApp.Controllers
         [HttpGet]
         public IActionResult Works()
         {
+            if (Program.Employee == null)
+            {
+                return Redirect("~/Home/Enter");
+            }
             return View(APIEmployee.GetRequest<List<WorkViewModel>>($"api/work/getworklistbyemployee?employeeId={Program.Employee.Id}"));
+        }
+
+        //Изменение статуса ТО
+        [HttpGet]
+        public IActionResult ActionWithTO(int toId)
+        {
+            var tO = APIEmployee.GetRequest<TOViewModel>($"api/to/getto?toId={toId}");
+            if (tO.Status.Equals("Принят"))
+            {
+                ViewBag.Action = "Выполняется";
+            }
+            else if (tO.Status.Equals("Выполняется"))
+            {
+                ViewBag.Action = "Готов";
+            }
+            else if (tO.Status.Equals("Готов"))
+            {
+                ViewBag.Action = "Выдан";
+            }
+
+            return View(tO);
+        }
+
+        //Действие с услугой
+        [HttpPost]
+        public void ActionWithTO(int toId, string action)
+        {
+            if (action.Equals("Выполняется"))
+            {
+                APIEmployee.PostRequest($"api/to/taketoinwork", new ChangeTOStatusBindingModel
+                {
+                    TOId = toId
+                });
+            }
+            else if (action.Equals("Готов"))
+            {
+                APIEmployee.PostRequest($"api/to/finishto", new ChangeTOStatusBindingModel
+                {
+                    TOId = toId
+                });
+            }
+            else if (action.Equals("Выдан"))
+            {
+                APIEmployee.PostRequest($"api/to/issueto", new ChangeTOStatusBindingModel
+                {
+                    TOId = toId
+                });
+            }
+            Response.Redirect("Index");
+        }
+
+        //Изменение записи
+        [HttpGet]
+        public IActionResult EditRecord(int recordId)
+        {
+            return View(APIEmployee.GetRequest<ServiceRecordViewModel>($"api/to/getservicerecord?servicerecordId={recordId}"));
+        }
+
+        //Изменение записи
+        [HttpPost]
+        public void EditRecord(int recordId, string description)
+        {
+            if (!string.IsNullOrEmpty(description))
+            {
+                var record = APIEmployee.GetRequest<ServiceRecordViewModel>($"api/to/getservicerecord?servicerecordId={recordId}");
+                APIEmployee.PostRequest("api/to/updateservicerecord", new ServiceRecordBindingModel
+                {
+                    Id = recordId,
+                    Description = description,
+                    CarId = record.CarId,
+                    DateBegin = record.DateBegin,
+                    DateEnd = record.DateEnd
+                });
+                Response.Redirect("Cars");
+            }
         }
     }
 }

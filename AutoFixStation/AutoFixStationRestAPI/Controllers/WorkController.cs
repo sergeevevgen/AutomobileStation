@@ -98,7 +98,7 @@ namespace AutoFixStationRestAPI.Controllers
         /// Изменение статуса работы на "Выполняется"
         /// </summary>
         /// <param name="model"></param>
-        [HttpPatch]
+        [HttpPost]
         public void TakeWorkInWork(ChangeWorkStatusBindingModel model)
             => _workLogic.TakeWorkInWork(model);
 
@@ -106,7 +106,7 @@ namespace AutoFixStationRestAPI.Controllers
         /// Изменение статуса работы на "Готово"
         /// </summary>
         /// <param name="model"></param>
-        [HttpPatch]
+        [HttpPost]
         public void FinishWork(ChangeWorkStatusBindingModel model)
             => _workLogic.FinishWork(model);
 

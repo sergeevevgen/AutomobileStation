@@ -30,6 +30,18 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
 
         public void CreateWork(CreateWorkBindingModel model)
         {
+            var tO = _tOStorage.GetElement(new TOBindingModel { Id = model.TOId });
+            _tOStorage.Update(new TOBindingModel 
+            { 
+                Id = tO.Id,
+                CarId = tO.CarId,
+                DateCreate = tO.DateCreate,
+                DateImplement = tO.DateImplement,
+                DateOver = tO.DateOver,
+                EmployeeId = tO.EmployeeId,
+                Status = (TOStatus)Enum.Parse(typeof(TOStatus), tO.Status),
+                Sum = (decimal)(tO.Sum + model.NetPrice)
+            });
             var typeName = _workTypeStorage.GetElement(new WorkTypeBindingModel { Id = model.WorkTypeId });
             _workStorage.Insert(new WorkBindingModel
             {

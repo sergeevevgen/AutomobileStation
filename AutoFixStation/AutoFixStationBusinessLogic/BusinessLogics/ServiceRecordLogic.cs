@@ -15,7 +15,6 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
         private readonly IServiceRecordStorage _storage;
         private readonly IEmployeeStorage _employeeStorage;
         private readonly IWorkTypeStorage _workTypeStorage;
-
         public ServiceRecordLogic(IServiceRecordStorage storage,
             IEmployeeStorage employeeStorage,
             IWorkTypeStorage workTypeStorage)
@@ -25,13 +24,12 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
             _workTypeStorage = workTypeStorage;
         }
 
-        public void CreateOrUpdate(ServiceRecordBindingModel record,
+        public void Create(ServiceRecordBindingModel record,
             TOBindingModel tO)
         {
             var element = _storage.GetElement(new ServiceRecordBindingModel
             {
-                CarId = record.CarId,
-                DateBegin = record.DateBegin
+                CarId = record.CarId
             });
 
             if (element != null && element.Id != record.Id)
@@ -49,21 +47,21 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
             int i = 1;
             foreach(var work in tO.Works)
             {
-                worksStr += i + ") " + work.Value.Item1 + ". В количестве " + work.Value.Item1 + "\n";
+                worksStr += i + ") " + work.Value.Item1 + ". В количестве " + work.Value.Item2.Item1 + "\n";
                 i++;
             }
 
-            var neededParts = new Dictionary<string, decimal>();
-            foreach(var workType in _workTypeStorage.GetFullList())
+            var neededParts = new Dictionary<string, (decimal, decimal)>();
+            foreach (var work in tO.Works)
             {
-                foreach(var work in tO.Works)
+                var worktype = _workTypeStorage.GetElement(new WorkTypeBindingModel { WorkName = work.Value.Item1 });
+                foreach (var parts in worktype.WorkSpareParts)
                 {
-                    if (work.Value.Item1.Equals(workType.WorkName))
+                    if (!neededParts.ContainsKey(parts.Value.Item1))
+                        neededParts.Add(parts.Value.Item1, (parts.Value.Item2, parts.Value.Item3));
+                    else
                     {
-                        foreach (var parts in workType.WorkSpareParts.Values)
-                        {
-                            neededParts[parts.Item1] += parts.Item2;
-                        }
+                        neededParts[parts.Value.Item1] = (neededParts[parts.Value.Item1].Item1 + parts.Value.Item2, parts.Value.Item3);
                     }
                 }
             }
@@ -72,7 +70,7 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
             i = 1;
             foreach(var part in neededParts)
             {
-                sparePartsStr += i + ") " + part.Key + " В количестве " + part.Value;
+                sparePartsStr += i + ") " + part.Key + ". В количестве " + part.Value.Item1 + ". Стоимость за ед. " + (int)part.Value.Item2 + "\n";
                 i++;
             }
 
@@ -118,6 +116,21 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
             }
 
             return _storage.GetFilteredList(model);
+        }
+
+        public void Update(ServiceRecordBindingModel model)
+        {
+            var element = _storage.GetElement(new ServiceRecordBindingModel
+            {
+                CarId = model.CarId
+            });
+
+            if (element != null && element.Id != model.Id)
+            {
+                throw new Exception("Уже есть такая запись");
+            }
+
+            _storage.Update(model);
         }
     }
 }

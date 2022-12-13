@@ -130,8 +130,12 @@ namespace AutoFixStationStoreKeeperWebApp.Controllers
         //Время работы
         [HttpGet]
         public IActionResult TimeOfWorks()
-        {   
-            return View(APIStoreKeeper.GetRequest<List<TimeOfWorkViewModel>>("api/work/gettimeofworklist"));
+        {
+            if (Program.StoreKeeper == null)
+            {
+                return Redirect("~/Home/Enter");
+            }
+            return View(APIStoreKeeper.GetRequest<List<TimeOfWorkWebViewModel>>("api/work/gettimeofworklist"));
         }
 
         //Время работы (создание)
@@ -177,6 +181,10 @@ namespace AutoFixStationStoreKeeperWebApp.Controllers
         [HttpGet]
         public IActionResult SpareParts()
         {
+            if (Program.StoreKeeper == null)
+            {
+                return Redirect("~/Home/Enter");
+            }
             return View(APIStoreKeeper.GetRequest<List<SparePartViewModel>>("api/sparepart/getsparepartlist"));
         }
 
@@ -253,6 +261,10 @@ namespace AutoFixStationStoreKeeperWebApp.Controllers
         [HttpGet]
         public IActionResult WorkTypes()
         {
+            if (Program.StoreKeeper == null)
+            {
+                return Redirect("~/Home/Enter");
+            }
             return View(APIStoreKeeper.GetRequest<List<WorkTypeViewModel>>("api/work/getworktypelist"));
         }
 
@@ -372,8 +384,6 @@ namespace AutoFixStationStoreKeeperWebApp.Controllers
         {
             if (count > 0 && netprice > 0)
             {
-
-
                 var worktype = APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}");
                 worktype.WorkSpareParts[sparepartId] = (worktype.WorkSpareParts[sparepartId].Item1, count, worktype.WorkSpareParts[sparepartId].Item3);
                 APIStoreKeeper.PostRequest("api/work/createorupdateworktype", new WorkTypeBindingModel
@@ -418,10 +428,27 @@ namespace AutoFixStationStoreKeeperWebApp.Controllers
         {
             var worktype = APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}");
             var sparepart = APIStoreKeeper.GetRequest<SparePartViewModel>($"api/sparepart/getsparepart?sparepartId={partId}");
-
-            var netPrice = worktype.NetPrice;
-            netPrice += count * sparepart.Price;
-            return netPrice;
+            decimal netprice = 0;
+            if (worktype.WorkSpareParts.ContainsKey(partId))
+            {
+                worktype.WorkSpareParts[partId] = (worktype.WorkSpareParts[partId].Item1, count, worktype.WorkSpareParts[partId].Item3);
+                
+                foreach (var item in worktype.WorkSpareParts)
+                {
+                    netprice += item.Value.Item2 * item.Value.Item3;
+                }
+                netprice += worktype.Price;
+            }
+            else
+            {
+                foreach (var item in worktype.WorkSpareParts)
+                {
+                    netprice += item.Value.Item2 * item.Value.Item3;
+                }
+                netprice += worktype.Price;
+                netprice += count * sparepart.Price;
+            }
+            return netprice;
         }
 
         //Подсчет суммы 
@@ -439,30 +466,75 @@ namespace AutoFixStationStoreKeeperWebApp.Controllers
         public decimal CalcPriceV2(decimal price, int worktypeId)
         {
             var worktype = APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}");
-            var netprice = worktype.NetPrice - worktype.Price + price;
+            decimal netprice = 0;
+            foreach(var item in worktype.WorkSpareParts)
+            {
+                netprice += item.Value.Item2 * item.Value.Item3;
+            }
+            netprice += price;
             return netprice;
         }
 
+        //Удаление типа работы
         [HttpGet]
         public IActionResult DeleteWorkType(int worktypeId)
         {
             return View(APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}"));
         }
 
+        //Удаление типа работы
         [HttpPost]
-        public void DeleteWorkType(int worktypeId, string worktypename)
+        public void DeleteWorkType(int worktypeId, string worktypename, decimal price, decimal netprice)
         {
             var worktype = APIStoreKeeper.GetRequest<WorkTypeViewModel>($"api/work/getworktype?worktypeId={worktypeId}");
             APIStoreKeeper.PostRequest($"api/work/deleteworktype", new WorkTypeBindingModel
             {
                 Id = worktypeId,
-                WorkName = worktype.WorkName,
-                Price = worktype.Price,
-                NetPrice = worktype.NetPrice,
+                WorkName = worktypename,
+                Price = price,
+                NetPrice = netprice,
                 TimeOfWorkId = worktype.TimeOfWorkId,
                 WorkSpareParts = worktype.WorkSpareParts
             });
             Response.Redirect("WorkTypes");
+        }
+
+        //Действие с услугой
+        [HttpGet]
+        public IActionResult ActionWithWork(int workId)
+        {
+            var work = APIStoreKeeper.GetRequest<WorkViewModel>($"api/work/getwork?workId={workId}");
+            if (work.WorkStatus.Equals("Принят"))
+            {
+                ViewBag.Action = "Выполняется";
+            }
+            else if (work.WorkStatus.Equals("Выполняется"))
+            {
+                ViewBag.Action = "Готов";
+            }
+            
+            return View(work);
+        }
+
+        //Действие с услугой
+        [HttpPost]
+        public void ActionWithWork(int workId, string action)
+        {
+            if (action.Equals("Выполняется"))
+            {
+                APIStoreKeeper.PostRequest($"api/work/takeworkinwork", new ChangeWorkStatusBindingModel 
+                { 
+                    WorkId = workId,
+                });
+            }
+            else if (action.Equals("Готов"))
+            {
+                APIStoreKeeper.PostRequest($"api/work/finishwork", new ChangeWorkStatusBindingModel
+                {
+                    WorkId = workId,
+                });
+            }
+            Response.Redirect("Index");
         }
     }
 }

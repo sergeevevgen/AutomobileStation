@@ -175,7 +175,7 @@ namespace AutoFixStationDatabaseImplement.Implements
                 WorkName = workType.WorkName,
                 Price = workType.Price,
                 NetPrice = workType.NetPrice,
-                ExecutionTime = workType.TimeOfWork.Hours + workType.TimeOfWork.Mins / 60,
+                ExecutionTime = "Часов: " + workType.TimeOfWork.Hours + ". Минут: "+ workType.TimeOfWork.Mins,
                 WorkSpareParts = workType.Work_SpareParts
                     .ToDictionary(recPC => recPC.SparePartId,
                     recPC => (recPC.SparePart.Name, recPC.Count, recPC.SparePart.Price))

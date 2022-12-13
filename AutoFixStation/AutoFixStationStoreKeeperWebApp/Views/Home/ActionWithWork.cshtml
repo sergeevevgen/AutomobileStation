@@ -1,0 +1,87 @@
+﻿@using AutoFixStationContracts.ViewModels
+@model WorkViewModel
+@{
+    ViewData["Title"] = "ActionWithWork";
+}
+<div class="text-center">
+    <h1 class="display-4">Услуга</h1>
+</div>
+
+<div class="text-center">
+    @{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Номер услуги
+                </th>
+                <th>
+                    Название
+                </th>
+                <th>
+                    Стоимость работы
+                </th>
+                <th>
+                    Стоимость с учётом запчастей
+                </th>
+                <th>
+                    Статус
+                </th>
+                <th>
+                    Дата начала
+                </th>
+                <th>
+                    Количество
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem =>
+                        Model.WorkName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem =>
+                        Model.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => 
+                        Model.NetPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => 
+                        Model.WorkStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => 
+                        Model.WorkBegin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => 
+                        Model.Count)
+                </td>
+            </tr>
+         </tbody>
+    </table>
+    }
+</div>
+@if (!@Model.WorkStatus.Equals("Готов"))
+{
+<form method="post">
+    <div class="row">
+        <div class="col-8"><input type="text" name="workId" id="workId" hidden="true" value="@Model.Id"/></div>
+    </div>
+    <div class="row">
+        <div class="col-4">Изменить статус на:</div>
+        <div class="col-8"><input type="text" name="action" id="action" value="@ViewBag.Action" readonly/></div>
+    </div>
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4"><input type="submit" value="Изменить" class="btn btnprimary" /></div>
+    </div>
+</form>
+}

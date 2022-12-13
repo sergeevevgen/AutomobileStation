@@ -11,12 +11,14 @@ namespace AutoFixStationRestAPI.Controllers
     {
         private readonly ITOLogic _tOLogic;
         private readonly IWorkTypeLogic _workTypeLogic;
-
+        private readonly IServiceRecordLogic _serviceRecordLogic;
         public TOController(ITOLogic tOLogic,
-            IWorkTypeLogic workTypeLogic)
+            IWorkTypeLogic workTypeLogic,
+            IServiceRecordLogic serviceRecordLogic)
         {
             _tOLogic = tOLogic;
             _workTypeLogic = workTypeLogic;
+            _serviceRecordLogic = serviceRecordLogic;
         }
 
         /// <summary>
@@ -59,7 +61,7 @@ namespace AutoFixStationRestAPI.Controllers
         /// Изменение статуса ТО на "Выполняется"
         /// </summary>
         /// <param name="model"></param>
-        [HttpPatch]
+        [HttpPost]
         public void TakeTOInWork(ChangeTOStatusBindingModel model)
             => _tOLogic.TakeTOInWork(model);
 
@@ -67,7 +69,7 @@ namespace AutoFixStationRestAPI.Controllers
         /// Изменение статуса ТО на "Готово"
         /// </summary>
         /// <param name="model"></param>
-        [HttpPatch]
+        [HttpPost]
         public void FinishTO(ChangeTOStatusBindingModel model)
             => _tOLogic.FinishTO(model);
 
@@ -75,8 +77,25 @@ namespace AutoFixStationRestAPI.Controllers
         /// Изменение статуса ТО на "Выдано"
         /// </summary>
         /// <param name="model"></param>
-        [HttpPatch]
+        [HttpPost]
         public void IssueTO(ChangeTOStatusBindingModel model)
             => _tOLogic.IssueTO(model);
+
+        [HttpGet]
+        //Получение записи
+        public ServiceRecordViewModel GetServiceRecord(int servicerecordId)
+        {
+            return _serviceRecordLogic.Read(new ServiceRecordBindingModel
+            {
+                Id = servicerecordId
+            })?[0];
+        }
+
+        [HttpPost]
+        //Изменение записи
+        public void UpdateServiceRecord(ServiceRecordBindingModel model)
+        {
+            _serviceRecordLogic.Update(model);
+        }
     }
 }

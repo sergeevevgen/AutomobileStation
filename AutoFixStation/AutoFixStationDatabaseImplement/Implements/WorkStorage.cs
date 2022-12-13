@@ -54,7 +54,6 @@ namespace AutoFixStationDatabaseImplement.Implements
                 .Include(rec => rec.WorkType)
                 .Include(rec => rec.StoreKeeper)
                 .Where(rec => rec.WorkName.Contains(model.WorkName)
-                || (model.WorkStatus == rec.WorkStatus) 
                 || (rec.StoreKeeperId == model.StoreKeeperId)
                 || (rec.WorkTypeId == model.WorkTypeId)
                 || (rec.TOId == model.TOId))

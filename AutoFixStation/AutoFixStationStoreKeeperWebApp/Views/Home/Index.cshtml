@@ -9,11 +9,6 @@
 
 <div class="text-center">
     @{
-        if (Model == null)
-        {
-            <h3 class="display-4">Авторизируйтесь</h3>
-            return;
-        }
     <p>
         <a asp-action="CreateWork">Создать услугу</a>
     </p>
@@ -83,8 +78,7 @@
                             item.Count)
                     </td>
                     <td>
-                        <a asp-action="TakeInWork" asp-route-workId="@item.Id">Пустить в работу</a>
-                        <a asp-action="FinishWork" asp-route-workId="@item.Id">Завершить выполнение</a>
+                        <a asp-action="ActionWithWork" asp-route-workId="@item.Id">Изменить состояние услуги</a>
                     </td>
                 </tr>
             }
