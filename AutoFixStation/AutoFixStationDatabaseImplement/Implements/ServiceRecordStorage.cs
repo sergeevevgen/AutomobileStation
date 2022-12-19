@@ -126,6 +126,7 @@ namespace AutoFixStationDatabaseImplement.Implements
             {
                 Id = serviceRecord.Id,
                 CarId = serviceRecord.CarId,
+                CarBrandAndName = serviceRecord.Car.Brand + " " + serviceRecord.Car.Model,
                 DateBegin = serviceRecord.DateBegin,
                 DateEnd = serviceRecord.DateEnd,
                 Description = serviceRecord.Description

@@ -15,6 +15,7 @@ namespace AutoFixStationContracts.ViewModels
         public string CarName { get; set; }
         public int EmployeeId { get; set; }
         public string EmployeeName { get; set; }
+        public string TOAndCarName { get; set; }
 
         [DisplayName("Стоимость")]
         public decimal? Sum { get; set; }

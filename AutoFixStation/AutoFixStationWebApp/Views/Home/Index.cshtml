@@ -41,6 +41,12 @@
                 <th>
                     Сумма
                 </th>
+                <th>
+                    
+                </th>
+                <th>
+                    
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -78,10 +84,13 @@
                     <td>
                         <a asp-action="TOInfo" asp-route-toId="@item.Id">Посмотреть</a>
                     </td>
-                    <td>
-                        <a asp-action="ActionWithTO" asp-route-toId="@item.Id">Измемнить статус</a>
-                    </td>
-                </tr>
+                        @if (!@item.Status.Equals("Выдан"))
+                        {
+                            <td>
+                                <a asp-action="ActionWithTO" asp-route-toId="@item.Id">Изменить статус</a>
+                            </td>
+                        }
+                    </tr>
             }
         </tbody>
     </table>

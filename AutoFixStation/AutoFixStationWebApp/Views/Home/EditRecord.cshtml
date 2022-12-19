@@ -4,16 +4,16 @@
     ViewData["Title"] = "EditRecord";
 }
 <div class="text-center">
-    <h2 class="display-4">Изменение записи сервиса</h2>
+    <h3 class="display-4">Изменение записи сервиса у авто "@Model.CarBrandAndName"</h3>
 </div>
 <div class="row">
-        <div class="col-4">Дата начала:</div>
-        <div class="col-8"><input type="text" name="dateb" id="dateb" value="@Model.DateBegin" readonly/></div>
-    </div>
-    <div class="row">
-        <div class="col-4">Дата окончания:</div>
-        <div class="col-8"><input type="text" name="datee" id="datee" value="@Model.DateEnd" readonly/></div>
-    </div>
+    <div class="col-4">Дата начала:</div>
+    <div class="col-8"><input type="text" name="dateb" id="dateb" value="@Model.DateBegin" readonly/></div>
+</div>
+<div class="row">
+    <div class="col-4">Дата окончания:</div>
+    <div class="col-8"><input type="text" name="datee" id="datee" value="@Model.DateEnd" readonly/></div>
+</div>
 <form method="post">
     <div class="row">
         <div class="col-8"><input type="text" name="recordId" id="recordId" hidden="true" value="@Model.Id"/></div>

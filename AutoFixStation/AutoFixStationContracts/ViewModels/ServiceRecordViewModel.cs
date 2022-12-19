@@ -12,6 +12,7 @@ namespace AutoFixStationContracts.ViewModels
     {
         public int Id { get; set; }
         public int CarId { get; set; }
+        public string CarBrandAndName { get; set; }
 
         [DisplayName("Дата начала")]
         [DataType(DataType.Date)]

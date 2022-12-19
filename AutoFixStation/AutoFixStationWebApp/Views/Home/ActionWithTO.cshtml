@@ -69,8 +69,6 @@
     </table>
     }
 </div>
-@if (!@Model.Status.Equals("Выдан"))
-{
 <form method="post">
     <div class="row">
         <div class="col-8"><input type="text" name="toId" id="toId" hidden="true" value="@Model.Id"/></div>
@@ -84,4 +82,3 @@
         <div class="col-4"><input type="submit" value="Изменить" class="btn btnprimary" /></div>
     </div>
 </form>
-}

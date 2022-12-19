@@ -4,7 +4,7 @@
     ViewData["Title"] = "Home Page";
 }
 <div class="text-center">
-    <h1 class="display-4">Услуги</h1>
+    <h3 class="display-4">Услуги</h3>
 </div>
 
 <div class="text-center">
@@ -38,6 +38,9 @@
                 </th>
                 <th>
                     Количество
+                </th>
+                <th>
+                    
                 </th>
             </tr>
         </thead>
@@ -77,10 +80,13 @@
                         @Html.DisplayFor(modelItem => 
                             item.Count)
                     </td>
-                    <td>
-                        <a asp-action="ActionWithWork" asp-route-workId="@item.Id">Изменить состояние услуги</a>
-                    </td>
-                </tr>
+                        @if (!@item.WorkStatus.Equals("Готов"))
+                        {
+                            <td>
+                                <a asp-action="ActionWithWork" asp-route-workId="@item.Id">Изменить состояние услуги</a>
+                            </td>
+                        }
+                    </tr>
             }
         </tbody>
     </table>

@@ -136,6 +136,7 @@ namespace AutoFixStationDatabaseImplement.Implements
                 Id = tO.Id,
                 CarId = tO.CarId,
                 CarName = $"{tO.Car.Brand} {tO.Car.Model}",
+                TOAndCarName = $"{tO.Id} {tO.Car.Brand} {tO.Car.Model}",
                 EmployeeId = tO.EmployeeId,
                 EmployeeName = tO.Employee.FIO,
                 Sum = tO.Sum,
