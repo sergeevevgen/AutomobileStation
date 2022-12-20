@@ -67,6 +67,8 @@ namespace AutoFixStationDatabaseImplement.Implements
         {
             using var context = new AutoFixStationDatabase();
             return context.Cars
+                .Include(rec => rec.TOs)
+                .Include(rec => rec.ServiceRecords)
                 .ToList()
                 .Select(CreateModel)
                 .ToList();
@@ -132,7 +134,7 @@ namespace AutoFixStationDatabaseImplement.Implements
                 VIN = car.VIN,
                 Records = car.ServiceRecords?
                     .ToDictionary(
-                    rec => rec.Id, rec => 
+                    rec => rec.Id, rec =>
                     ((rec.DateBegin, rec.DateEnd), rec.Description))
             };
         }

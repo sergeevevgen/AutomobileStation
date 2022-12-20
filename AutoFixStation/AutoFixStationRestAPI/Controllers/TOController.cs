@@ -32,14 +32,6 @@ namespace AutoFixStationRestAPI.Controllers
             .Read(new TOBindingModel { EmployeeId = employeeId });
 
         /// <summary>
-        /// Получение списка типов работ для выбора нужных при создании ТО 
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public List<WorkTypeViewModel> GetWorkTypeList()
-            => _workTypeLogic.Read(null);
-
-        /// <summary>
         /// Получение определенного ТО по его номеру 
         /// (передается с помощью выбора из компонента)
         /// </summary>
