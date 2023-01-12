@@ -1,7 +1,7 @@
 ﻿@using AutoFixStationContracts.ViewModels
 @model WorkViewModel
 @{
-    ViewData["Title"] = "ActionWithWork";
+    ViewData["Title"] = "Взаимодействие с услугой \"" + Model.WorkName + "\"";
 }
 <div class="text-center">
     <h3 class="display-4">Услуга</h3>
@@ -71,17 +71,17 @@
 </div>
 @if (!@Model.WorkStatus.Equals("Готов"))
 {
-<form method="post">
-    <div class="row">
-        <div class="col-8"><input type="text" name="workId" id="workId" hidden="true" value="@Model.Id"/></div>
-    </div>
-    <div class="row">
-        <div class="col-4">Изменить статус на:</div>
-        <div class="col-8"><input type="text" name="action" id="action" value="@ViewBag.Action" readonly/></div>
-    </div>
-    <div class="row">
-        <div class="col-8"></div>
-        <div class="col-4"><input type="submit" value="Изменить" class="btn btnprimary" /></div>
-    </div>
-</form>
+    <form method="post">
+        <div class="row">
+            <div class="col-8"><input type="text" name="workId" id="workId" hidden="true" value="@Model.Id"/></div>
+        </div>
+        <div class="row">
+            <div class="col-4">Изменить статус на:</div>
+            <div class="col-8"><input type="text" name="action" id="action" value="@ViewBag.Action" readonly/></div>
+        </div>
+        <div class="row">
+            <div class="col-8"></div>
+            <div class="col-4"><input type="submit" value="Изменить" class="btn btnprimary" /></div>
+        </div>
+    </form>
 }

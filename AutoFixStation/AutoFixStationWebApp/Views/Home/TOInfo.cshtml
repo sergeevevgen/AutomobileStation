@@ -1,7 +1,7 @@
 ﻿@using AutoFixStationContracts.ViewModels
 @model TOViewModel
 @{
-    ViewData["Title"] = "TOInfo";
+    ViewData["Title"] = "Информация о ТО #" + Model.Id;
 }
 <div class="text-center">
     <h3 class="display-4">ТО</h3>
@@ -63,46 +63,55 @@
             </tr>
          </tbody>
     </table>
-    <div class="text-center">
-        <h3 class="display-4">Услуги</h3>
-    </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Номер
-                </th>
-                <th>
-                    Название
-                </th>
-                <th>
-                    Количество
-                </th>
-                <th>
-                    Стоимость
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach(var item in Model.Works)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Key)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem =>
+        <div class="text-center">
+            <h3 class="display-4">Услуги</h3>
+        </div>
+        @if (Model.Works.Count > 0)
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Номер
+                        </th>
+                        <th>
+                            Название
+                        </th>
+                        <th>
+                            Количество
+                        </th>
+                        <th>
+                            Стоимость
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Works)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Key)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem =>
                             item.Value.Item1)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Value.Item2.Item1)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Value.Item2.Item2)
-                    </td>
-                </tr>
-            }
-         </tbody>
-    </table>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Value.Item2.Item1)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Value.Item2.Item2)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="text-center">
+                Отсутствуют
+            </div>
+        }
     }
 </div>

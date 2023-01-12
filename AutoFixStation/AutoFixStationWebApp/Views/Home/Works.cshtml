@@ -1,7 +1,7 @@
 ﻿@using AutoFixStationContracts.ViewModels
 @model List<WorkViewModel>
 @{
-    ViewData["Title"] = "Works";
+    ViewData["Title"] = "Услуги";
 }
 <div class="text-center">
     <h3 class="display-4">Услуги</h3>
@@ -9,11 +9,6 @@
 
 <div class="text-center">
     @{
-        if (Model == null)
-        {
-            <h3 class="display-4">Авторизируйтесь</h3>
-            return;
-        }
     <p>
         <a asp-action="CreateWork">Создать услугу</a>
     </p>

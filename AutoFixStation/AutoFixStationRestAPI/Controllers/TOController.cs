@@ -10,14 +10,11 @@ namespace AutoFixStationRestAPI.Controllers
     public class TOController : ControllerBase
     {
         private readonly ITOLogic _tOLogic;
-        private readonly IWorkTypeLogic _workTypeLogic;
         private readonly IServiceRecordLogic _serviceRecordLogic;
         public TOController(ITOLogic tOLogic,
-            IWorkTypeLogic workTypeLogic,
             IServiceRecordLogic serviceRecordLogic)
         {
             _tOLogic = tOLogic;
-            _workTypeLogic = workTypeLogic;
             _serviceRecordLogic = serviceRecordLogic;
         }
 
