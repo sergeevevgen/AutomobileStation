@@ -1,5 +1,6 @@
 ﻿using AutoFixStationBusinessLogic.OfficePackage.HelperEnums;
 using AutoFixStationBusinessLogic.OfficePackage.HelperModels;
+using AutoFixStationContracts.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace AutoFixStationBusinessLogic.OfficePackage
         /// Создание отчeта
         /// </summary>
         /// <param name="info"></param>
-        public void CreateReport(ExcelInfo info)
+        public void CreateReportTOSpareParts(ExcelInfo info)
         {
             CreateExcel(info);
             InsertCellInWorksheet(new ExcelCellParameters
@@ -27,107 +28,111 @@ namespace AutoFixStationBusinessLogic.OfficePackage
             MergeCells(new ExcelMergeParameters
             {
                 CellFromName = "A1",
-                CellToName = "C1"
+                CellToName = "D1"
             });
             uint rowIndex = 2;
-            foreach (var di in info.DishIngredients)
+            foreach(var element in info.TOSpareParts)
             {
                 InsertCellInWorksheet(new ExcelCellParameters
                 {
                     ColumnName = "A",
                     RowIndex = rowIndex,
-                    Text = di.DishName,
+                    Text = $"ТО #{element.TOId} по автомобилю \"{element.CarName}\"",
                     StyleInfo = ExcelStyleInfoType.Text
                 });
-                rowIndex++;
-                foreach (var ingredient in di.Ingredients)
+                MergeCells(new ExcelMergeParameters
                 {
-                    InsertCellInWorksheet(new ExcelCellParameters
-                    {
-                        ColumnName = "B",
-                        RowIndex = rowIndex,
-                        Text = ingredient.Item1,
-                        StyleInfo = ExcelStyleInfoType.TextWithBorder
-                    });
-                    InsertCellInWorksheet(new ExcelCellParameters
-                    {
-                        ColumnName = "C",
-                        RowIndex = rowIndex,
-                        Text = ingredient.Item2.ToString(),
-                        StyleInfo = ExcelStyleInfoType.TextWithBorder
-                    });
-                    rowIndex++;
-                }
-                InsertCellInWorksheet(new ExcelCellParameters
-                {
-                    ColumnName = "C",
-                    RowIndex = rowIndex,
-                    Text = di.TotalCount.ToString(),
-                    StyleInfo = ExcelStyleInfoType.Text
+                    CellFromName = $"A{rowIndex}",
+                    CellToName = $"C{rowIndex}"
                 });
-                rowIndex++;
+                InsertTOInfo(element.SpareParts, ++rowIndex);
             }
+            
             SaveExcel(info);
         }
 
-        /// <summary>
-        /// Создание отчeта
-        /// </summary>
-        /// <param name="info"></param>
-        public void CreateReportWareHouses(ExcelInfo info)
+        private void InsertTOInfo(Dictionary<int, (string, decimal, decimal)> spareParts, uint rowIndex)
         {
-            CreateExcel(info);
+            //Заголовок
+            InsertCellInWorksheet(new ExcelCellParameters
+            {
+                ColumnName = "B",
+                RowIndex = rowIndex,
+                Text = "Список запчастей",
+                StyleInfo = ExcelStyleInfoType.TextWithBorder
+            });
+
+            MergeCells(new ExcelMergeParameters
+            {
+                CellFromName = $"B{rowIndex}",
+                CellToName = $"D{rowIndex}"
+            });
+            rowIndex++;
+
+            //Вставка мини-заголовков
             InsertCellInWorksheet(new ExcelCellParameters
             {
                 ColumnName = "A",
-                RowIndex = 1,
-                Text = info.Title,
-                StyleInfo = ExcelStyleInfoType.Title
+                RowIndex = rowIndex,
+                Text = "Наименование",
+                StyleInfo = ExcelStyleInfoType.TextWithBorder
             });
-            MergeCells(new ExcelMergeParameters
+            InsertCellInWorksheet(new ExcelCellParameters
             {
-                CellFromName = "A1",
-                CellToName = "C1"
+                ColumnName = "B",
+                RowIndex = rowIndex,
+                Text = "Количество",
+                StyleInfo = ExcelStyleInfoType.TextWithBorder
             });
-            uint rowIndex = 2;
-            foreach (var wi in info.WareHouseIngredients)
+            InsertCellInWorksheet(new ExcelCellParameters
+            {
+                ColumnName = "C",
+                RowIndex = rowIndex,
+                Text = "Цена за шт.",
+                StyleInfo = ExcelStyleInfoType.TextWithBorder
+            });
+            InsertCellInWorksheet(new ExcelCellParameters
+            {
+                ColumnName = "D",
+                RowIndex = rowIndex,
+                Text = "Стоимость",
+                StyleInfo = ExcelStyleInfoType.TextWithBorder
+            });
+
+            //Вставка запчастей
+            rowIndex++;
+            foreach (var sp in spareParts)
             {
                 InsertCellInWorksheet(new ExcelCellParameters
                 {
                     ColumnName = "A",
                     RowIndex = rowIndex,
-                    Text = wi.WareHouseName,
-                    StyleInfo = ExcelStyleInfoType.Text
+                    Text = sp.Value.Item1,
+                    StyleInfo = ExcelStyleInfoType.TextWithBorder
                 });
-                rowIndex++;
-                foreach (var ingredient in wi.Ingredients)
+                InsertCellInWorksheet(new ExcelCellParameters
                 {
-                    InsertCellInWorksheet(new ExcelCellParameters
-                    {
-                        ColumnName = "B",
-                        RowIndex = rowIndex,
-                        Text = ingredient.Item1,
-                        StyleInfo = ExcelStyleInfoType.TextWithBorder
-                    });
-                    InsertCellInWorksheet(new ExcelCellParameters
-                    {
-                        ColumnName = "C",
-                        RowIndex = rowIndex,
-                        Text = ingredient.Item2.ToString(),
-                        StyleInfo = ExcelStyleInfoType.TextWithBorder
-                    });
-                    rowIndex++;
-                }
+                    ColumnName = "B",
+                    RowIndex = rowIndex,
+                    Text = sp.Value.Item2.ToString(),
+                    StyleInfo = ExcelStyleInfoType.TextWithBorder
+                });
                 InsertCellInWorksheet(new ExcelCellParameters
                 {
                     ColumnName = "C",
                     RowIndex = rowIndex,
-                    Text = wi.TotalCount.ToString(),
-                    StyleInfo = ExcelStyleInfoType.Text
+                    Text = sp.Value.Item3.ToString(),
+                    StyleInfo = ExcelStyleInfoType.TextWithBorder
+                });
+                InsertCellInWorksheet(new ExcelCellParameters
+                {
+                    ColumnName = "D",
+                    RowIndex = rowIndex,
+                    Text = (sp.Value.Item2 * sp.Value.Item3).ToString(),
+                    StyleInfo = ExcelStyleInfoType.TextWithBorder
                 });
                 rowIndex++;
             }
-            SaveExcel(info);
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using AutoFixStationBusinessLogic.OfficePackage.HelperEnums;
 using AutoFixStationBusinessLogic.OfficePackage.HelperModels;
+using AutoFixStationContracts.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace AutoFixStationBusinessLogic.OfficePackage
 {
     public abstract class AbstractSaveToPdf
     {
-        public void CreateDoc(PdfInfo info)
+        public void CreateReportTOsByDate(PdfInfo info)
         {
             CreatePdf(info);
             CreateParagraph(new PdfParagraph
@@ -21,85 +22,100 @@ namespace AutoFixStationBusinessLogic.OfficePackage
 
             CreateParagraph(new PdfParagraph
             {
-                Text = $"с{ info.DateFrom.ToShortDateString() } по { info.DateTo.ToShortDateString() }",
+                Text = $"Период с{info.DateFrom.ToShortDateString()} по {info.DateTo.ToShortDateString()}",
                 Style = "Normal"
             });
 
-            CreateTable(new List<string> { "3cm", "6cm", "3cm", "2cm", "3cm" });
-
-            CreateRow(new PdfRowParameters
+            foreach(var to in info.TOs)
             {
-                Texts = new List<string>
+                CreateParagraph(new PdfParagraph
                 {
-                    "Дата заказа", "Блюдо",
-                    "Количество", "Сумма", "Статус"
-                },
-                Style = "NormalTitle",
-                ParagraphAlignment = PdfParagraphAlignmentType.Center
-            });
-
-            foreach (var order in info.Orders)
-            {
-                CreateRow(new PdfRowParameters
-                {
-                    Texts = new List<string>
-                    {
-                        order.DateCreate.ToShortDateString(),
-                        order.DishName,
-                        order.Count.ToString(),
-                        order.Sum.ToString(),
-                        order.Status.ToString()
-                    },
-                    Style = "Normal",
-                    ParagraphAlignment = PdfParagraphAlignmentType.Left
+                    Text = $"ТО #{to.TOId}",
+                    Style = "Normal"
                 });
+                CreateParagraph(new PdfParagraph
+                {
+                    Text = $"Автомобиль: \"{to.CarName}\"",
+                    Style = "Normal"
+                });
+                CreateParagraph(new PdfParagraph
+                {
+                    Text = $"Дата начала ТО: {to.DateBegin}",
+                    Style = "Normal"
+                });
+                CreateParagraph(new PdfParagraph
+                {
+                    Text = $"Дата окончания ТО: {to.DateEnd}",
+                    Style = "Normal"
+                });
+                InsertTOInfo(to.SpareParts, to.ServiceRecords);
             }
+
             SavePdf(info);
         }
-
-        public void CreateDocOrdersByDate(PdfInfo info)
+        
+        private void InsertTOInfo(Dictionary<int, (string, decimal, decimal)> spareParts, List<string> serviceRecords)
         {
-            CreatePdf(info);
             CreateParagraph(new PdfParagraph
             {
-                Text = info.Title,
+                Text = "Запчасти",
                 Style = "NormalTitle"
             });
 
-            CreateParagraph(new PdfParagraph
-            {
-                Text = "Заказы, отсортированные по датам",
-                Style = "Normal"
-            });
-
-            CreateTable(new List<string> { "5cm", "5cm", "5cm" });
+            CreateTable(new List<string> { "5cm", "5cm", "3cm", "3cm" });
 
             CreateRow(new PdfRowParameters
             {
                 Texts = new List<string>
                 {
-                    "Дата", "Количество",
-                    "Сумма"
+                    "Наименование", "Количество",
+                    "Цена за ед.", "Стоимость"
                 },
                 Style = "NormalTitle",
                 ParagraphAlignment = PdfParagraphAlignmentType.Center
             });
 
-            foreach (var order in info.OrdersByDate)
+            foreach (var part in spareParts)
             {
                 CreateRow(new PdfRowParameters
                 {
                     Texts = new List<string>
                     {
-                        order.DateCreate.ToShortDateString(),
-                        order.CountOrders.ToString(),
-                        order.TotalPrice.ToString()
+                        part.Value.Item1,
+                        part.Value.Item2.ToString(),
+                        part.Value.Item3.ToString(),
+                        (part.Value.Item2 * part.Value.Item3).ToString()
                     },
                     Style = "Normal",
                     ParagraphAlignment = PdfParagraphAlignmentType.Left
                 });
             }
-            SavePdf(info);
+
+            CreateParagraph(new PdfParagraph
+            {
+                Text = "Записи сервисов",
+                Style = "NormalTitle"
+            });
+            uint num = 1;
+            foreach(var sr in serviceRecords)
+            {
+                CreateParagraph(new PdfParagraph
+                {
+                    Text = $"Запись #{num}",
+                    Style = "Normal"
+                });
+                CreateParagraph(new PdfParagraph
+                {
+                    Text = sr,
+                    Style = "Normal"
+                });
+                CreateParagraph(new PdfParagraph
+                {
+                    Text = "",
+                    Style = "Normal"
+                });
+                num++;
+            }
         }
 
         /// <summary>

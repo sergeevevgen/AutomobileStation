@@ -38,6 +38,17 @@ namespace AutoFixStationRestAPI.Controllers
         public TOViewModel GetTO(int tOId)
             => _tOLogic.Read(new TOBindingModel { Id = tOId })?[0];
 
+        [HttpGet]
+        public List<TOViewModel> GetTOs(List<int> tosId)
+        {
+            var list = new List<TOViewModel>();
+            foreach (var tO in tosId)
+            {
+                list.Add(_tOLogic.Read(new TOBindingModel { Id = tO })?[0]);
+            }
+            return list;
+        }
+
         /// <summary>
         /// Создание ТО
         /// </summary>

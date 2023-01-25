@@ -1,4 +1,5 @@
 ﻿using AutoFixStationBusinessLogic.OfficePackage;
+using AutoFixStationBusinessLogic.OfficePackage.HelperModels;
 using AutoFixStationContracts.BindingModels;
 using AutoFixStationContracts.BusinessLogicsContracts;
 using AutoFixStationContracts.StorageContracts;
@@ -147,17 +148,34 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
 
         public void SaveTOsByDateToPdfFile(ReportBindingModel model)
         {
-            throw new NotImplementedException();
+            _saveToPdf.CreateReportTOsByDate(new PdfInfo
+            {
+                FileName = model.FileName,
+                Title = $"Сведения по ТО за период с {model.DateFrom} по {model.DateTo}",
+                DateFrom = model.DateFrom.Value,
+                DateTo = model.DateTo.Value,
+                TOs = GetTOs(model)
+            });
         }
 
         public void SaveTOSparePartToExcelFile(ReportBindingModel model)
         {
-            throw new NotImplementedException();
+            _saveToExcel.CreateReportTOSpareParts(new ExcelInfo
+            {
+                FileName = model.FileName,
+                Title = "Запчасти по ТО",
+                TOSpareParts = GetTOSparePart(model)
+            });
         }
 
         public void SaveTOSparePartToWordFile(ReportBindingModel model)
         {
-            throw new NotImplementedException();
+            _saveToWord.CreateReportTOSpareParts(new WordInfo
+            {
+                FileName = model.FileName,
+                Title = "Запчасти по ТО",
+                TOSpareParts = GetTOSparePart(model)
+            });
         }
     }
 }

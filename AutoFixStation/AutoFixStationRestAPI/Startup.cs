@@ -1,4 +1,6 @@
 ﻿using AutoFixStationBusinessLogic.BusinessLogics;
+using AutoFixStationBusinessLogic.OfficePackage;
+using AutoFixStationBusinessLogic.OfficePackage.Implements;
 using AutoFixStationContracts.BusinessLogicsContracts;
 using AutoFixStationContracts.StorageContracts;
 using AutoFixStationDatabaseImplement.Implements;
@@ -40,6 +42,10 @@ namespace AutoFixStationRestAPI
             services.AddTransient<ITOLogic, TOLogic>();
             services.AddTransient<IWorkLogic, WorkLogic>();
             services.AddTransient<IWorkTypeLogic, WorkTypeLogic>();
+            services.AddTransient<IReportLogic, ReportLogic>();
+            services.AddTransient<AbstractSaveToWord, SaveToWord>();
+            services.AddTransient<AbstractSaveToExcel, SaveToExcel>();
+            services.AddTransient<AbstractSaveToPdf, SaveToPdf>();
 
             services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>

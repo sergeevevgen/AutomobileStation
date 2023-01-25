@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoFixStationContracts.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,6 @@ namespace AutoFixStationBusinessLogic.OfficePackage.HelperModels
     {
         public string FileName { get; set; }
         public string Title { get; set; }
-        public List<ReportDishIngredientViewModel> DishIngredients { get; set; }
-        public List<ReportWareHouseIngredientViewModel> WareHouseIngredients { get; set; }
+        public List<ReportTOSparePartViewModel> TOSpareParts { get; set; }
     }
 }

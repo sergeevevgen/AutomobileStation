@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoFixStationContracts.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,6 @@ namespace AutoFixStationBusinessLogic.OfficePackage.HelperModels
         public string Title { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
-        public List<ReportOrdersViewModel> Orders { get; set; }
-        public List<ReportOrdersByDateViewModel> OrdersByDate { get; set; }
+        public List<ReportTOsViewModel> TOs { get; set; }
     }
 }

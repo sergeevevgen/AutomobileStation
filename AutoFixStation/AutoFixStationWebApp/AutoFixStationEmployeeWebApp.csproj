@@ -11,7 +11,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AutoFixStationBusinessLogic\AutoFixStationBusinessLogic.csproj" />
     <ProjectReference Include="..\AutoFixStationContracts\AutoFixStationContracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\reports\" />
   </ItemGroup>
 
 </Project>

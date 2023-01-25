@@ -10,7 +10,7 @@ namespace AutoFixStationBusinessLogic.OfficePackage
 {
     public abstract class AbstractSaveToWord
     {
-        public void CreateDoc(WordInfo info)
+        public void CreateReportTOSpareParts(WordInfo info)
         {
             CreateWord(info);
             CreateParagraph(new WordParagraph
@@ -28,103 +28,69 @@ namespace AutoFixStationBusinessLogic.OfficePackage
                     JustificationType = WordJustificationType.Center
                 }
             });
-            foreach (var dish in info.Dishes)
+            foreach (var element in info.TOSpareParts)
             {
                 CreateParagraph(new WordParagraph
                 {
                     Texts = new List<(string, WordTextProperties)>
                     {
-                        (dish.DishName + ": ", new WordTextProperties
+                        ($"ТО #{element.TOId} по автомобилю \"{element.CarName}\"", new WordTextProperties
                         {
-                            Size = "24",
+                            Size = "18",
                             Bold = true
-                        }),
-                        (dish.Price.ToString(), new WordTextProperties
-                        {
-                            Size = "24",
                         })
                     },
                     TextProperties = new WordTextProperties
                     {
-                        Size = "24",
+                        Size = "18",
                         JustificationType = WordJustificationType.Both
                     }
                 });
+                InsertTOInfo(element.SpareParts);
             }
             SaveWord(info);
         }
 
-        public void CreateDocWareHouses(WordInfo info)
+        private void InsertTOInfo(Dictionary<int, (string, decimal, decimal)> spareParts)
         {
-            CreateWord(info);
             CreateParagraph(new WordParagraph
             {
                 Texts = new List<(string, WordTextProperties)>
-                {
-                    (info.Title, new WordTextProperties
                     {
-                        Bold = true, Size = "24",
-                    })
-                },
+                        ("Список запчастей:\n", new WordTextProperties
+                        {
+                            Size = "16",
+                            Bold = false
+                        })
+                    },
                 TextProperties = new WordTextProperties
                 {
-                    Size = "24",
-                    JustificationType = WordJustificationType.Center
-                }
-            });
-            CreateTable(new WordParagraph
-            {
-                Texts = new List<(string, WordTextProperties)>
-                {
-                    ("Название:", new WordTextProperties
-                    {
-                        Size = "24",
-                        Bold = true
-                    }),
-                    ("ФИО кладовщика:", new WordTextProperties
-                    {
-                        Size = "24",
-                        Bold = true,
-                    }),
-                    ("Дата создания:", new WordTextProperties
-                    {
-                        Size = "24",
-                        Bold = true
-                    })
-                },
-                TextProperties = new WordTextProperties
-                {
-                    Size = "24",
+                    Size = "16",
                     JustificationType = WordJustificationType.Both
                 }
             });
-            foreach (var warehouse in info.WareHouses)
+
+            uint num = 1;
+            foreach(var part in spareParts)
             {
-                CreateRowInTable(new WordParagraph
+                CreateParagraph(new WordParagraph
                 {
                     Texts = new List<(string, WordTextProperties)>
                     {
-                        (warehouse.WareHouseName, new WordTextProperties
+                        ($"{num}) {part.Value.Item1} ({part.Value.Item2}) - Цена: {part.Value.Item3}р. - Стоимость: {part.Value.Item2 * part.Value.Item3}р.", new WordTextProperties
                         {
-                            Size = "24"
-                        }),
-                        (warehouse.StorekeeperFIO, new WordTextProperties
-                        {
-                            Size = "24",
-                        }),
-                        (warehouse.DateCreate.ToShortDateString(), new WordTextProperties
-                        {
-                            Size = "24",
+                            Size = "14",
+                            Bold = false
                         })
                     },
                     TextProperties = new WordTextProperties
                     {
-                        Size = "24",
+                        Size = "14",
                         JustificationType = WordJustificationType.Both
                     }
                 });
+                num++;
             }
-            SaveWord(info);
         }
 
         /// <summary>
