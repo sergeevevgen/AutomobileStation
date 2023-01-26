@@ -1,0 +1,100 @@
+﻿@using AutoFixStationContracts.ViewModels
+@model List<ReportTOsViewModel>
+@{
+    ViewData["Title"] = "PDF-отчёт по ТО";
+}
+
+<div class="text-center">
+    <h5 class="display-4" style="font-size: 30px;">Отчёт по ТО</h5>
+</div>
+
+<form method="post">
+        <p>
+            <label for="date">С </label>
+            <input type="date" id="dateFrom" name="dateFrom"/>
+            <label for="date">По </label>
+            <input type="date" id="dateTo" name="dateTo"/>
+        </p>
+        <p>
+            <input type="submit" asp-route-dateFrom="dateFrom" asp-route-dateTo="dateTo" asp-action="ReportGetTOsPDF" value="Вывести на форму"/>
+            <input type="submit" asp-route-dateFrom="dateFrom" asp-route-dateTo="dateTo" asp-action="SendReportOnMail" value="Отправить на почту" />            
+        </p>
+        @if(@Model != null && @Model.Count() > 0)
+        {
+            <div style="text-align:center">
+            <label style="font-weight:bold">@ViewBag.Period</label>
+            </div>
+            @foreach (var item in @Model)
+            {
+                <div class="row">
+                    <div class="col-4">ТО #@item.TOId</div>
+                </div>
+                <div class="row">
+                    <div class="col-4">Автомобиль: "@item.CarName"</div>
+                </div>
+                <div class="row">
+                    <div class="col-4">Дата начала ТО: #@item.DateBegin</div>
+                </div>
+                <div class="row">
+                    <div class="col-4">Дата окончания ТО: #@item.DateEnd</div>
+                </div>
+                <div class="row">
+                    <div class="col-4">Запчасти</div>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Наименование
+                            </th>
+                            <th>
+                                Количество
+                            </th>
+                            <th>
+                                Цена за ед.
+                            </th>
+                            <th>
+                                Стоимость
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>            
+                        @foreach (var element in @item.SpareParts)
+                        {
+                            <tr>
+                                <td>
+                                    @element.Value.Item1
+                                </td>
+                                <td>
+                                    @element.Value.Item2.ToString()
+                                </td>
+                                <td>
+                                    @element.Value.Item3.ToString()
+                                </td>
+                                <td>
+                                    (@element.Value.Item2 * @element.Value.Item3).ToString()
+                                </td>
+                            </tr>
+                        }         
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-4">Записи сервисов</div>
+                </div>
+                int num = 1;
+                @foreach (var sr in @item.ServiceRecords)
+                {
+                    <div class="row">
+                        <div class="col-4">Запись #@num</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">@sr</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4"> </div>
+                    </div>
+                    @num = @num + 1;
+                }
+            }
+       }      
+</form>

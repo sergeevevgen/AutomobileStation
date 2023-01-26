@@ -24,7 +24,7 @@ namespace AutoFixStationEmployeeWebApp.Controllers
             {
                 return Redirect("~/Home/Enter");
             }
-            return View(APIEmployee.GetRequest<List<TOViewModel>>($"api/to/gettolist?employeeId={Program.Employee.Id}"));
+            return View(APIEmployee.GetRequest<List<TOViewModel>>($"api/to/GetTOListAllDone?employeeId={Program.Employee.Id}"));
         }
 
         [HttpPost]
@@ -69,7 +69,7 @@ namespace AutoFixStationEmployeeWebApp.Controllers
 
         public IActionResult ReportPDF()
         {
-            if (Program.Clerk == null)
+            if (Program.Employee == null)
             {
                 return Redirect("~/Home/Enter");
             }
@@ -77,10 +77,10 @@ namespace AutoFixStationEmployeeWebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult ReportGetClientsPDF(DateTime dateFrom, DateTime dateTo)
+        public IActionResult ReportGetTOsPDF(DateTime dateFrom, DateTime dateTo)
         {
             ViewBag.Period = "C " + dateFrom.ToLongDateString() + " по " + dateTo.ToLongDateString();
-            ViewBag.Report = APIClerk.GetRequest<List<ReportClientsViewModel>>($"api/report/GetClientsReport?dateFrom={dateFrom.ToLongDateString()}&dateTo={dateTo.ToLongDateString()}");
+            ViewBag.Report = APIEmployee.GetRequest<List<ReportTOsViewModel>>($"api/report/GetTOsReport?dateFrom={dateFrom.ToLongDateString()}&dateTo={dateTo.ToLongDateString()}");
             return View("ReportPdf");
         }
 
@@ -92,16 +92,17 @@ namespace AutoFixStationEmployeeWebApp.Controllers
                 DateFrom = dateFrom,
                 DateTo = dateTo
             };
-            model.FileName = @"..\BankClerkApp\wwwroot\ReportClientCurrency\ReportClientsPdf.pdf";
-            APIClerk.PostRequest("api/report/CreateReportClientsToPdfFile", model);
+            model.FileName = @"..\AutoFixStationEmployeeWebApp\wwwroot\reports\ReportTOsPdf.pdf";
+            APIEmployee.PostRequest("api/report/CreateReportTOsToPdfFile", model);
             _mailKitWorker.MailSendAsync(new MailSendInfoBindingModel
             {
-                MailAddress = Program.Clerk.Email,
-                Subject = "Отчет по клиентам. Банк \"Вы банкрот\"",
-                Text = "Отчет по клиентам с " + dateFrom.ToShortDateString() + " по " + dateTo.ToShortDateString() +
-                "\nРуководитель - " + Program.Clerk.ClerkFIO,
+                MailAddress = Program.Employee.Login,
+                Subject = "Отчет по тех. осмотрам. СТО \"Руки-Крюки\"",
+                Text = "Отчет по тех. осмотрам с " + dateFrom.ToShortDateString() + " по " + dateTo.ToShortDateString() +
+                "\nРаботник - " + Program.Employee.FIO,
                 FileName = model.FileName
             });
+            ViewBag.Mail = Program.Employee.Login;
             return View();
         }
     }

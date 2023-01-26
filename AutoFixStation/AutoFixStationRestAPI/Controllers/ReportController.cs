@@ -25,6 +25,6 @@ namespace AutoFixStationRestAPI.Controllers
         public void CreateReportTOsToPdfFile(ReportBindingModel model) => _reportLogic.SaveTOsByDateToPdfFile(model);
 
         [HttpGet]
-        public List<ReportTOsViewModel> GetClientsReport(string dateFrom, string dateTo) => _reportLogic.GetTOs(new ReportBindingModel { DateFrom = Convert.ToDateTime(dateFrom), DateTo = Convert.ToDateTime(dateTo) });
+        public List<ReportTOsViewModel> GetTOsReport(string dateFrom, string dateTo) => _reportLogic.GetTOs(new ReportBindingModel { DateFrom = Convert.ToDateTime(dateFrom), DateTo = Convert.ToDateTime(dateTo) });
     }
 }

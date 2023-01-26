@@ -29,6 +29,20 @@ namespace AutoFixStationRestAPI.Controllers
             .Read(new TOBindingModel { EmployeeId = employeeId });
 
         /// <summary>
+        /// Получение списка ТО для работника по его номеру (Id)
+        /// </summary>
+        /// <param name="employeeId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public List<TOViewModel> GetTOListAllDone(int employeeId)
+        {
+            return _tOLogic
+                .Read(new TOBindingModel { EmployeeId = employeeId })
+                .Where(x => x.Status.Equals("Выдан"))
+                .ToList();
+        }
+
+        /// <summary>
         /// Получение определенного ТО по его номеру 
         /// (передается с помощью выбора из компонента)
         /// </summary>
@@ -38,6 +52,11 @@ namespace AutoFixStationRestAPI.Controllers
         public TOViewModel GetTO(int tOId)
             => _tOLogic.Read(new TOBindingModel { Id = tOId })?[0];
 
+        /// <summary>
+        /// Получение списка ТО по номерам
+        /// </summary>
+        /// <param name="tosId"></param>
+        /// <returns></returns>
         [HttpGet]
         public List<TOViewModel> GetTOs(List<int> tosId)
         {
