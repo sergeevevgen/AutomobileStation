@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixStationDatabaseImple
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixStationRestAPI", "AutoFixStationRestAPI\AutoFixStationRestAPI.csproj", "{FAB5BB45-AAFB-4470-9D91-566F60C58274}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixStationEmployeeWebApp", "AutoFixStationWebApp\AutoFixStationEmployeeWebApp.csproj", "{6923146E-8DB1-4DC1-8CEE-789A97C5CB31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixStationEmployeeWebApp", "AutoFixStationEmployeeWebApp\AutoFixStationEmployeeWebApp.csproj", "{6923146E-8DB1-4DC1-8CEE-789A97C5CB31}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoFixStationView", "AutoFixStationView\AutoFixStationView.csproj", "{493429B3-0139-44E8-8079-1E70A08592A9}"
 EndProject

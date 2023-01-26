@@ -52,7 +52,7 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
             {
                 DateCreate = model.DateFrom.Value,
                 DateOver = model.DateTo
-            });
+            }).Where(x => x.Status.Equals("Выдан"));
 
             foreach (var to in tos)
             {

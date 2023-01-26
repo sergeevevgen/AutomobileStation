@@ -37,11 +37,11 @@ namespace AutoFixStationEmployeeWebApp.Controllers
                     TOs = APIEmployee.GetRequest<List<TOViewModel>>($"api/to/gettos?tosId={tosId}")
                 };
 
-                model.FileName = @"..\AutoFixStationEmployeeWebApp\wwwroot\reports\ReportTOSparePart.docx";
+                model.FileName = @"..\AutoFixStationEmployeeWebApp\wwwroot\reports\ReportTOSparePart.doc";
                 APIEmployee.PostRequest("api/report/CreateReportTOSparePartsToWordFile", model);
-                var fileName = "ReportTOSparePart.docx";
+                var fileName = "ReportTOSparePart.doc";
                 var filePath = _environment.WebRootPath + @"\reports\" + fileName;
-                return PhysicalFile(filePath, "application/docx", fileName);
+                return PhysicalFile(filePath, "application/doc", fileName);
             }
             else
                 throw new Exception("Выберите хотя бы одно ТО");
@@ -57,11 +57,11 @@ namespace AutoFixStationEmployeeWebApp.Controllers
                     TOs = APIEmployee.GetRequest<List<TOViewModel>>($"api/to/gettos?tosId={tosId}")
                 };
 
-                model.FileName = @"..\AutoFixStationEmployeeWebApp\wwwroot\reports\ReportTOSparePart.xlsx";
+                model.FileName = @"..\AutoFixStationEmployeeWebApp\wwwroot\reports\ReportTOSparePart.xls";
                 APIEmployee.PostRequest("api/report/CreateReportTOSparePartsToExcelFile", model);
-                var fileName = "ReportTOSparePart.xlsx";
+                var fileName = "ReportTOSparePart.xls";
                 var filePath = _environment.WebRootPath + @"\reports\" + fileName;
-                return PhysicalFile(filePath, "application/xlsx", fileName);
+                return PhysicalFile(filePath, "application/xls", fileName);
             }
             else
                 throw new Exception("Выберите хотя бы одно ТО");
@@ -96,7 +96,7 @@ namespace AutoFixStationEmployeeWebApp.Controllers
             APIEmployee.PostRequest("api/report/CreateReportTOsToPdfFile", model);
             _mailKitWorker.MailSendAsync(new MailSendInfoBindingModel
             {
-                MailAddress = Program.Employee.Login,
+                MailAddress = /*Program.Employee.Login*/"",
                 Subject = "Отчет по тех. осмотрам. СТО \"Руки-Крюки\"",
                 Text = "Отчет по тех. осмотрам с " + dateFrom.ToShortDateString() + " по " + dateTo.ToShortDateString() +
                 "\nРаботник - " + Program.Employee.FIO,
