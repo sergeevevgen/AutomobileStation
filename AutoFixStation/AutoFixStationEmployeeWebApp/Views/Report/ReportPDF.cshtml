@@ -71,8 +71,11 @@
                                 <td>
                                     @element.Value.Item3.ToString()
                                 </td>
+                                @{
+                                    var k = @element.Value.Item2 * @element.Value.Item3;
+                                }
                                 <td>
-                                    (@element.Value.Item2 * @element.Value.Item3).ToString()
+                                    @k
                                 </td>
                             </tr>
                         }         
@@ -92,6 +95,7 @@
                     <div class="row">
                         <div class="col-4"> </div>
                     </div>
+                    <br />
                 }
             }
        }      

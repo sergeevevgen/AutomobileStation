@@ -22,7 +22,7 @@ namespace AutoFixStationBusinessLogic.OfficePackage
 
             CreateParagraph(new PdfParagraph
             {
-                Text = $"Период с{info.DateFrom.ToShortDateString()} по {info.DateTo.ToShortDateString()}",
+                Text = $"Период с {info.DateFrom.ToShortDateString()} по {info.DateTo.ToShortDateString()}",
                 Style = "Normal"
             });
 

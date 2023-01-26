@@ -34,14 +34,19 @@ namespace AutoFixStationEmployeeWebApp.Controllers
             {
                 var model = new ReportBindingModel
                 {
-                    TOs = APIEmployee.GetRequest<List<TOViewModel>>($"api/to/gettos?tosId={tosId}")
+                    FileName = @"..\AutoFixStationEmployeeWebApp\wwwroot\reports\ReportTOSparePart.docx"
                 };
+                var list = new List<TOViewModel>();
 
-                model.FileName = @"..\AutoFixStationEmployeeWebApp\wwwroot\reports\ReportTOSparePart.doc";
+                foreach (var id in tosId)
+                {
+                    list.Add(APIEmployee.GetRequest<TOViewModel>($"api/to/getto?toId={id}"));
+                }
+                model.TOs = list;
                 APIEmployee.PostRequest("api/report/CreateReportTOSparePartsToWordFile", model);
-                var fileName = "ReportTOSparePart.doc";
+                var fileName = "ReportTOSparePart.docx";
                 var filePath = _environment.WebRootPath + @"\reports\" + fileName;
-                return PhysicalFile(filePath, "application/doc", fileName);
+                return PhysicalFile(filePath, "application/docx", fileName);
             }
             else
                 throw new Exception("Выберите хотя бы одно ТО");
@@ -54,14 +59,20 @@ namespace AutoFixStationEmployeeWebApp.Controllers
             {
                 var model = new ReportBindingModel
                 {
-                    TOs = APIEmployee.GetRequest<List<TOViewModel>>($"api/to/gettos?tosId={tosId}")
+                    FileName = @"..\AutoFixStationEmployeeWebApp\wwwroot\reports\ReportTOSparePart.xlsx"
                 };
+                var list = new List<TOViewModel>();
 
-                model.FileName = @"..\AutoFixStationEmployeeWebApp\wwwroot\reports\ReportTOSparePart.xls";
+                foreach(var id in tosId)
+                {
+                    list.Add(APIEmployee.GetRequest<TOViewModel>($"api/to/getto?toId={id}"));
+                }
+                model.TOs = list;
+
                 APIEmployee.PostRequest("api/report/CreateReportTOSparePartsToExcelFile", model);
-                var fileName = "ReportTOSparePart.xls";
+                var fileName = "ReportTOSparePart.xlsx";
                 var filePath = _environment.WebRootPath + @"\reports\" + fileName;
-                return PhysicalFile(filePath, "application/xls", fileName);
+                return PhysicalFile(filePath, "application/xlsx", fileName);
             }
             else
                 throw new Exception("Выберите хотя бы одно ТО");
@@ -80,8 +91,7 @@ namespace AutoFixStationEmployeeWebApp.Controllers
         public IActionResult ReportGetTOsPDF(DateTime dateFrom, DateTime dateTo)
         {
             ViewBag.Period = "C " + dateFrom.ToLongDateString() + " по " + dateTo.ToLongDateString();
-            ViewBag.Report = APIEmployee.GetRequest<List<ReportTOsViewModel>>($"api/report/GetTOsReport?dateFrom={dateFrom.ToLongDateString()}&dateTo={dateTo.ToLongDateString()}");
-            return View("ReportPdf");
+            return View("ReportPdf", APIEmployee.GetRequest<List<ReportTOsViewModel>>($"api/report/GetTOsReport?dateFrom={dateFrom.ToLongDateString()}&dateTo={dateTo.ToLongDateString()}"));
         }
 
         [HttpPost]
@@ -90,13 +100,14 @@ namespace AutoFixStationEmployeeWebApp.Controllers
             var model = new ReportBindingModel
             {
                 DateFrom = dateFrom,
-                DateTo = dateTo
+                DateTo = dateTo,
+                FileName = @"..\AutoFixStationEmployeeWebApp\wwwroot\reports\ReportTOsPdf.pdf"
             };
-            model.FileName = @"..\AutoFixStationEmployeeWebApp\wwwroot\reports\ReportTOsPdf.pdf";
+
             APIEmployee.PostRequest("api/report/CreateReportTOsToPdfFile", model);
             _mailKitWorker.MailSendAsync(new MailSendInfoBindingModel
             {
-                MailAddress = /*Program.Employee.Login*/"",
+                MailAddress = Program.Employee.Login,
                 Subject = "Отчет по тех. осмотрам. СТО \"Руки-Крюки\"",
                 Text = "Отчет по тех. осмотрам с " + dateFrom.ToShortDateString() + " по " + dateTo.ToShortDateString() +
                 "\nРаботник - " + Program.Employee.FIO,
