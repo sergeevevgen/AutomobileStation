@@ -43,29 +43,30 @@ namespace AutoFixStationBusinessLogic.OfficePackage
                 MergeCells(new ExcelMergeParameters
                 {
                     CellFromName = $"A{rowIndex}",
-                    CellToName = $"C{rowIndex}"
+                    CellToName = $"D{rowIndex}"
                 });
-                InsertTOInfo(element.SpareParts, ++rowIndex);
+                rowIndex = InsertTOInfo(element.SpareParts, rowIndex) + 1;
             }
             
             SaveExcel(info);
         }
 
-        private void InsertTOInfo(Dictionary<int, (string, decimal, decimal)> spareParts, uint rowIndex)
+        private uint InsertTOInfo(Dictionary<int, (string, decimal, decimal)> spareParts, uint rowIndex)
         {
+            rowIndex++;
             //Заголовок
             InsertCellInWorksheet(new ExcelCellParameters
             {
                 ColumnName = "B",
                 RowIndex = rowIndex,
                 Text = "Список запчастей",
-                StyleInfo = ExcelStyleInfoType.TextWithBorder
+                StyleInfo = ExcelStyleInfoType.Text
             });
 
             MergeCells(new ExcelMergeParameters
             {
                 CellFromName = $"B{rowIndex}",
-                CellToName = $"D{rowIndex}"
+                CellToName = $"C{rowIndex}"
             });
             rowIndex++;
 
@@ -133,6 +134,7 @@ namespace AutoFixStationBusinessLogic.OfficePackage
                 });
                 rowIndex++;
             }
+            return rowIndex;
         }
 
         /// <summary>
