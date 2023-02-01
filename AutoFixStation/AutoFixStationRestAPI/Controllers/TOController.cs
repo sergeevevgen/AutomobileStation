@@ -29,6 +29,20 @@ namespace AutoFixStationRestAPI.Controllers
             .Read(new TOBindingModel { EmployeeId = employeeId });
 
         /// <summary>
+        /// Получение списка ТО для работника по его номеру (Id) для добавления услуги
+        /// </summary>
+        /// <param name="employeeId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public List<TOViewModel> GetTOListInStart(int employeeId)
+        {
+            return _tOLogic
+                .Read(new TOBindingModel { EmployeeId = employeeId })
+                .Where(x => x.Status.Equals("Выполняется")).ToList();
+        }
+            
+
+        /// <summary>
         /// Получение списка ТО для работника по его номеру (Id)
         /// </summary>
         /// <param name="employeeId"></param>

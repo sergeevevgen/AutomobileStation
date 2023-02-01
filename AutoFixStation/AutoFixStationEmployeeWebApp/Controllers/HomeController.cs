@@ -22,6 +22,16 @@ namespace AutoFixStationEmployeeWebApp.Controllers
             {
                 return Redirect("~/Home/Enter");
             }
+            return View();
+        }
+
+        //Тех. осмотры
+        public IActionResult TOs()
+        {
+            if (Program.Employee == null)
+            {
+                return Redirect("~/Home/Enter");
+            }
             return View(APIEmployee.GetRequest<List<TOViewModel>>($"api/to/gettolist?employeeId={Program.Employee.Id}"));
         }
 
@@ -68,6 +78,13 @@ namespace AutoFixStationEmployeeWebApp.Controllers
             { 
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
             });
+        }
+
+        [HttpGet]
+        public IActionResult Exit()
+        {
+            Program.Employee = null;
+            return Redirect("~/Home/Enter");
         }
 
         //Вход в веб-сайт
@@ -255,7 +272,7 @@ namespace AutoFixStationEmployeeWebApp.Controllers
             List<WorkTypeViewModel> listtypes = APIEmployee
                 .GetRequest<List<WorkTypeViewModel>>("api/work/getworktypelist");
             List<TOViewModel> listto = APIEmployee
-                .GetRequest<List<TOViewModel>>($"api/to/gettolist?employeeId={Program.Employee.Id}");
+                .GetRequest<List<TOViewModel>>($"api/to/gettolistinstart?employeeId={Program.Employee.Id}");
             List<StoreKeeperViewModel> listkeep = APIEmployee
                 .GetRequest<List<StoreKeeperViewModel>>($"api/storekeeper/getstorekeeperlist");
             ViewBag.TOs = listto;
