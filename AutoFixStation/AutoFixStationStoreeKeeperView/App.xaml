@@ -4,6 +4,14 @@
              xmlns:local="clr-namespace:AutoFixStationStoreeKeeperView"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style x:Key="datagrid" TargetType="DataGrid">
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="CanUserResizeRows" Value="False"/>
+            <Setter Property="CanUserReorderColumns" Value="False"/>
+            <Setter Property="CanUserSortColumns" Value="False"/>
+            <Setter Property="CanUserDeleteRows" Value="False"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+        </Style>
     </Application.Resources>
 </Application>

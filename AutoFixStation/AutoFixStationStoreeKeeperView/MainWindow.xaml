@@ -5,8 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoFixStationStoreeKeeperView"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Сто 'Руки-крюки'" Height="470" Width="750" ResizeMode="NoResize">
     <Grid>
-
+        <Menu Height="25" VerticalAlignment="Top">
+            <MenuItem x:Name="MenuItemLanches" Header="Продолжительность работ" Click="MenuItemTimeOfWork_Click"></MenuItem>
+            <MenuItem x:Name="MenuItemLunchSeminar" Header="Привязка запчастей" Click="MenuItemLunchSeminar_Click"></MenuItem>
+            <MenuItem x:Name="MenuItemSpareParts" Header="Запчасти" Click="MenuItemSpareParts_Click"></MenuItem>
+            <MenuItem x:Name="MenuItemRoomers" Header="Работы" Click="MenuItemRoomers_Click"></MenuItem>
+            <MenuItem x:Name="MenuItemSeminarsList" Header="Тип работ" Click="MenuWorkTypesList_Click"></MenuItem>
+            <MenuItem x:Name="MenuItemReport" Header="Отчёт по запчастям" Click="MenuItemReport_Click"></MenuItem>
+            <MenuItem x:Name="MenuItemExit" Header="Выход" Click="MenuItemExit_Click"/>
+        </Menu>
+        <Image VerticalAlignment="Top" Name="logo" Source="Images/Logo.PNG" Height="411" Margin="0,25,0,0"/>
     </Grid>
 </Window>
