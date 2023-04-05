@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoFixStationDatabaseImplement.Migrations
 {
     [DbContext(typeof(AutoFixStationDatabase))]
-    [Migration("20220907192319_Init2")]
-    partial class Init2
+    [Migration("20230403082945_InitialCreate1")]
+    partial class InitialCreate1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

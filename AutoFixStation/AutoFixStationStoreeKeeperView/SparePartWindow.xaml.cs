@@ -17,6 +17,7 @@ using AutoFixStationContracts.ViewModels;
 using AutoFixStationContracts.Enums;
 using Unity;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace AutoFixStationStoreeKeeperView
 {
@@ -73,6 +74,7 @@ namespace AutoFixStationStoreeKeeperView
                 _logic.CreateOrUpdate(new SparePartBindingModel
                 {
                     Id = id,
+                    Name = TextBoxName.Text,
                     FactoryNumber = TextBoxFactoryNum.Text,
                     Price = Convert.ToDecimal(TextBoxPrice.Text),
                     Type = (SparePartStatus)Enum.Parse(typeof(SparePartStatus), ComboBoxType.SelectedValue.ToString()),
@@ -106,14 +108,9 @@ namespace AutoFixStationStoreeKeeperView
                 TextBoxFactoryNum.Text = lunch.FactoryNumber.ToString();
                 TextBoxPrice.Text = lunch.Price.ToString();
 
-                var list = new List<SparePartStatus> { SparePartStatus.БУ, SparePartStatus.Новая};
 
-                ComboBoxType.ItemsSource = list;
-
-                ComboBoxMeasurement.DataContext = Enum.GetValues(typeof(UnitMeasurement)).Cast<UnitMeasurement>()
-                    .Select(p => new { Key = (int)p, Value = p.ToString() })
-                    .ToList();
             }
         }
+       
     }
 }

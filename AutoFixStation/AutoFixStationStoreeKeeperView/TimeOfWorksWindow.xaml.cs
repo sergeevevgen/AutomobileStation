@@ -75,7 +75,7 @@ namespace AutoFixStationStoreeKeeperView
                 {
                     var form = App.Container.Resolve<TimeOfWorkWindow>();
                     form.Id = ((TimeOfWorkViewModel)DataGridTimeOfWorks.SelectedItems[0]).Id;
-
+                    
                     if (form.ShowDialog() == true)
                     {
                         LoadData();

@@ -16,6 +16,7 @@ using AutoFixStationContracts.BusinessLogicsContracts;
 using AutoFixStationContracts.ViewModels;
 using AutoFixStationContracts.Enums;
 using Unity;
+using System.Collections.ObjectModel;
 
 namespace AutoFixStationStoreeKeeperView
 {
@@ -25,48 +26,51 @@ namespace AutoFixStationStoreeKeeperView
     public partial class WorkTypeWindow : Window
     {
         private readonly IWorkTypeLogic _logic;
+
+        private readonly ITimeOfWorkLogic _ToWlogic;
         public int Id { set { id = value; } }
         private int? id;
-        public WorkTypeWindow(IWorkTypeLogic logic)
+        public WorkTypeWindow(IWorkTypeLogic logic, ITimeOfWorkLogic ToWlogic)
         {
             InitializeComponent();
             _logic = logic;
+            _ToWlogic = ToWlogic;
         }
 
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(TextBoxName.Text))
+            /*if (string.IsNullOrEmpty(TextBoxName.Text))
             {
                 MessageBox.Show("Введите название запчасти", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            if (string.IsNullOrEmpty(TextBoxFactoryNum.Text))
+           // if (string.IsNullOrEmpty(TextBoxFactoryNum.Text))
             {
                 MessageBox.Show("Введите заводской номер запчасти", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            if (string.IsNullOrEmpty(TextBoxPrice.Text))
+            //if (string.IsNullOrEmpty(TextBoxPrice.Text))
             {
                 MessageBox.Show("Введите стоимость запчасти", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            if (string.IsNullOrEmpty(ComboBoxType.Text))
+            //if (string.IsNullOrEmpty(ComboBoxType.Text))
             {
                 MessageBox.Show("Введите тип запчасти", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            if (string.IsNullOrEmpty(ComboBoxMeasurement.Text))
+            //if (string.IsNullOrEmpty(ComboBoxMeasurement.Text))
             {
                 MessageBox.Show("Введите единицы измерения", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
-            }
+            }*/
 
             try
             {
                 _logic.CreateOrUpdate(new WorkTypeBindingModel
                 {
                     Id = id,
-                    //FactoryNumber = TextBoxFactoryNum.Text,
+                    WorkName = TextBoxName.Text,
                     Price = Convert.ToDecimal(TextBoxPrice.Text),
                     //Type = (SparePartStatus)Enum.Parse(typeof(SparePartStatus), ComboBoxType.SelectedValue.ToString()),
                     //UMeasurement = (UnitMeasurement)Enum.Parse(typeof(UnitMeasurement), ComboBoxMeasurement.SelectedValue.ToString())
@@ -94,12 +98,17 @@ namespace AutoFixStationStoreeKeeperView
                 {
                     Id = id
                 })[0];
-
+                var listToW = _ToWlogic.Read(null);
+                foreach (var tow    in listToW)
+                {
+                    ListBoxTimeOfWorks.Items.Add(tow);
+                }
                 //TextBoxName.Text = lunch.Name.ToString();
                 //TextBoxFactoryNum.Text = lunch.FactoryNumber.ToString();
-                TextBoxPrice.Text = lunch.Price.ToString();
-                ComboBoxType.DataContext = Enum.GetValues(typeof(SparePartStatus));
-                ComboBoxMeasurement.DataContext = Enum.GetValues(typeof(UnitMeasurement));
+                //TextBoxPrice.Text = lunch.Price.ToString();
+                //ComboBoxType.DataContext = Enum.GetValues(typeof(SparePartStatus));
+                //ComboBoxMeasurement.DataContext = Enum.GetValues(typeof(UnitMeasurement));
+
             }
         }
     }
