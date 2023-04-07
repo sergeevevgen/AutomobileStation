@@ -229,6 +229,38 @@ namespace AutoFixStationEmployeeWebApp.Controllers
             return View(APIEmployee.GetRequest<CarViewModel>($"api/car/getcar?carId={carId}"));
         }
 
+        //Удаление клиента/автомобиля
+        [HttpGet]
+        public IActionResult DeleteCar(int carId)
+        {
+            return View(APIEmployee.GetRequest<CarViewModel>($"api/car/getcar?carId={carId}"));
+        }
+
+        //Добавление клиента/автомобиля
+        [HttpPost]
+        public void DeleteCar(int carId, int b = 0)
+        {
+            if (carId < 0)
+            {
+                throw new Exception("Введите данные");
+            }
+            else
+            {
+                CarViewModel carViewModel = APIEmployee.GetRequest<CarViewModel>($"api/car/getcar?carId={carId}");
+                APIEmployee.PostRequest("api/car/deletecar",
+                    new CarBindingModel
+                    {
+                        Id = carId,
+                        Brand = carViewModel.Brand,
+                        Model = carViewModel.Model,
+                        VIN = carViewModel.VIN,
+                        OwnerPhoneNumber = carViewModel.OwnerPhoneNumber,
+                        Records = carViewModel.Records
+                    });
+                Response.Redirect("Cars");
+            }                 
+        }
+
         //Добавление клиента/автомобиля
         [HttpPost]
         public void EditCar(int carId, string brand, string model, string VIN, string number)

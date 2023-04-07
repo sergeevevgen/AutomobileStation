@@ -24,5 +24,8 @@ namespace AutoFixStationRestAPI.Controllers
 
         [HttpPost]
         public void CreateOrUpdateCar(CarBindingModel car) => _logic.CreateOrUpdate(car);
+
+        [HttpPost] 
+        public void DeleteCar(CarBindingModel car) => _logic.Delete(car);
     }
 }

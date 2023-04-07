@@ -1,0 +1,17 @@
+﻿@using AutoFixStationContracts.ViewModels
+@model CarViewModel
+@{
+    ViewData["Title"] = "Удаление авто #" + Model.Id;
+}
+<div class="text-center">
+    <h3 class="display-4">Удаление авто</h3>
+</div>
+<form method="post">
+    <div class="row">
+        <div class="col-8"><input type="text" name="carId" id="carId" hidden="true" value="@Model.Id"/></div>
+    </div>
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4"><input type="submit" value="Удалить" class="btn btnprimary" /></div>
+    </div>
+</form>

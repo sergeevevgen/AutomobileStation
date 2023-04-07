@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\reports\ReportTOSparePart.docx" />
+    <Content Remove="wwwroot\reports\ReportTOSparePart.xlsx" />
+    <Content Remove="wwwroot\reports\ReportTOsPdf.pdf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
   </ItemGroup>
 
