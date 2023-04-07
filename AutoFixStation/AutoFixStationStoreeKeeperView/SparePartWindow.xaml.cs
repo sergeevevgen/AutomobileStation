@@ -99,14 +99,14 @@ namespace AutoFixStationStoreeKeeperView
         {
             if (id != null)
             {
-                var lunch = _logic.Read(new SparePartBindingModel
+                var sp = _logic.Read(new SparePartBindingModel
                 {
                     Id = id
                 })[0];
 
-                TextBoxName.Text = lunch.Name.ToString();
-                TextBoxFactoryNum.Text = lunch.FactoryNumber.ToString();
-                TextBoxPrice.Text = lunch.Price.ToString();
+                TextBoxName.Text = sp.Name.ToString();
+                TextBoxFactoryNum.Text = sp.FactoryNumber.ToString();
+                TextBoxPrice.Text = sp.Price.ToString();
 
 
             }

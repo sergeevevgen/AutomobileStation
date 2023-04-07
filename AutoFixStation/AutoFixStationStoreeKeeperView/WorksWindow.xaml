@@ -1,0 +1,22 @@
+﻿<Window x:Class="AutoFixStationStoreeKeeperView.WorksWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoFixStationStoreeKeeperView"
+       Title="Работы" Height="460" Width="815" Loaded="Window_Loaded" ResizeMode="NoResize">
+    <Grid>
+        <DataGrid x:Name="DataGridWorks" HorizontalAlignment="Left" Height="420" Margin="0,0,0,0" VerticalAlignment="Top" Width="700" Style="{StaticResource datagrid}" >
+            <DataGrid.Columns >
+                <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=Id}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Название работы" Binding="{Binding Path=WorkName}" Width="0.5*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Итоговая стоимость" Binding="{Binding Path=NetPrice}" Width="0.5*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Статус работы" Binding="{Binding Path=WorkStatus}" Width="0.5*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата начала работы" Binding="{Binding Path=WorkBegin}" Width="0.5*"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="ButtonStartWork" Content="Начать работу" HorizontalAlignment="Left" Margin="705,40,0,0" VerticalAlignment="Top" Width="105" Click="ButtonStartWork_Click"/>
+        <Button x:Name="ButtonFinishWork" Content="Завершить работу" HorizontalAlignment="Left" Margin="705,65,0,0" VerticalAlignment="Top" Width="105" Click="ButtonFinish_Click" RenderTransformOrigin="0.473,2.396"/>
+        <Button x:Name="ButtonRefresh" Content="Обновить" HorizontalAlignment="Left" Margin="705,90,0,0" VerticalAlignment="Top" Width="105" Click="ButtonRefresh_Click" RenderTransformOrigin="0.473,2.396"/>
+    </Grid>
+</Window>

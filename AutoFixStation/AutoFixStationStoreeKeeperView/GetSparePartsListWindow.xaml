@@ -1,0 +1,18 @@
+﻿<Window x:Class="AutoFixStationStoreeKeeperView.GetSparePartsListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoFixStationStoreeKeeperView"
+        mc:Ignorable="d"
+        Title="Получение списка запчастей" Height="470" Width="460" Loaded="Window_Loaded" ResizeMode="NoResize">
+    <Grid>
+        <Label Content="Выберите тип работы:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="33" Width="195"/>
+        <ListBox x:Name="ListBoxWorkType" DisplayMemberPath="WorkName" SelectionMode="Multiple" HorizontalAlignment="Left" Height="315" Margin="0,48,-1,0" VerticalAlignment="Top" Width="443" Grid.ColumnSpan="2"></ListBox>
+
+        <Button x:Name="ButtonExcel" Content="Excel" HorizontalAlignment="Left" Margin="15,380,0,0" VerticalAlignment="Top" Width="120" Height="30" Click="ButtonExcel_Click"/>
+        <Button x:Name="ButtonWord" Content="Word" HorizontalAlignment="Left" Margin="165,380,0,0" VerticalAlignment="Top" Width="120" Height="30" Click="ButtonWord_Click"/>
+        <Button x:Name="ButtonCancel" Content="Отмена" Margin="313,380,9,0" VerticalAlignment="Top" Width="120" Height="30" Grid.ColumnSpan="2" Click="ButtonCancel_Click"/>
+    </Grid>
+</Window>
+

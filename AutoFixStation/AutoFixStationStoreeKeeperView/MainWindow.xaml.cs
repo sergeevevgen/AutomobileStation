@@ -31,10 +31,10 @@ namespace AutoFixStationStoreeKeeperView
             form.ShowDialog();
         }
 
-        private void MenuItemLunchSeminar_Click(object sender, RoutedEventArgs e)
+        private void MenuItemSPWorkType_Click(object sender, RoutedEventArgs e)
         {
-            //var form = App.Container.Resolve<LinkLunchSeminarWindow>();
-            //form.ShowDialog();
+            var form = App.Container.Resolve<LinkSparePartsToWorkTypeWindow>();
+            form.ShowDialog();
         }
 
         private void MenuItemSpareParts_Click(object sender, RoutedEventArgs e)
@@ -43,10 +43,10 @@ namespace AutoFixStationStoreeKeeperView
             form.ShowDialog();
         }
 
-        private void MenuItemRoomers_Click(object sender, RoutedEventArgs e)
+        private void MenuItemWorks_Click(object sender, RoutedEventArgs e)
         {
-            //var form = App.Container.Resolve<RoomersWindow>();
-            //form.ShowDialog();
+            var form = App.Container.Resolve<WorksWindow>();
+            form.ShowDialog();
         }
 
         private void MenuWorkTypesList_Click(object sender, RoutedEventArgs e)
@@ -57,8 +57,14 @@ namespace AutoFixStationStoreeKeeperView
 
         private void MenuItemReport_Click(object sender, RoutedEventArgs e)
         {
-            //var form = App.Container.Resolve<ReportLunchWindow>();
-            //form.ShowDialog();
+            var form = App.Container.Resolve<ReportSparePartsWindow>();
+            form.ShowDialog();
+        }
+
+        private void MenuItemGetList_Click(object sender, RoutedEventArgs e)
+        {
+            var form = App.Container.Resolve<GetSparePartsListWindow>();
+            form.ShowDialog();
         }
 
         private void MenuItemExit_Click(object sender, RoutedEventArgs e)

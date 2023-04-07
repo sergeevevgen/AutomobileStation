@@ -6,20 +6,36 @@
         xmlns:local="clr-namespace:AutoFixStationStoreeKeeperView"
         mc:Ignorable="d"
          Title="Формирование типа работ" Height="600" Width="510" Loaded="Window_Loaded" ResizeMode="NoResize">
-    <Grid Margin="0,0,0,-6">
+    <Grid Margin="0,0,0,163">
         <Grid.RowDefinitions>
             <RowDefinition Height="0*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <StackPanel VerticalAlignment="Top"  HorizontalAlignment="Center" MinWidth="150px" Height="349" Width="300" ScrollViewer.HorizontalScrollBarVisibility="Auto" UseLayoutRounding="False" Grid.RowSpan="2" >
+        <StackPanel VerticalAlignment="Top"  HorizontalAlignment="Center" MinWidth="150px" Height="362" Width="300" ScrollViewer.HorizontalScrollBarVisibility="Auto" UseLayoutRounding="False" Grid.RowSpan="2" >
             <Label Content="Название:"  Margin="0,0,0,0" Height="35"/>
             <TextBox x:Name="TextBoxName"/>
             <Label Content="Стоимость:" />
             <TextBox x:Name="TextBoxPrice"/>
             <Label Content="Время работы:" />
-            <ListBox x:Name="ListBoxTimeOfWorks" DisplayMemberPath="Hours" SelectedValuePath="Id" SelectionMode="Single" HorizontalAlignment="Left" Height="120" Margin="0,0,0,0" VerticalAlignment="Top" Width="300"/>
+
+            <ComboBox x:Name="ComboBoxToW"  SelectedValuePath="Id" Width="300">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} - {1}">
+                                    <Binding Path="Hours"/>
+                                    <Binding Path="Mins"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Label Content="Запчасти:" />
+            <ListBox x:Name="ListBoxSpareParts" DisplayMemberPath="Name" SelectedValuePath="Id" SelectionMode="Multiple" HorizontalAlignment="Left" Height="149" Margin="0,0,0,0" Width="300"/>
         </StackPanel>
-        <Button x:Name="ButtonSave" Content="Сохранить" HorizontalAlignment="Left" Margin="105,538,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="100" Click="ButtonSave_Click"/>
-        <Button x:Name="ButtonCancel" Content="Отмена" HorizontalAlignment="Left" Margin="305,538,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="100" Click="ButtonCancel_Click"/>
+        <Button x:Name="ButtonSave" Content="Сохранить" HorizontalAlignment="Left" Margin="105,367,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="100" Click="ButtonSave_Click"/>
+        <Button x:Name="ButtonCancel" Content="Отмена" HorizontalAlignment="Left" Margin="305,367,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Width="100" Click="ButtonCancel_Click"/>
     </Grid>
 </Window>

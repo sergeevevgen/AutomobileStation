@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AutoFixStationBusinessLogic.OfficePackage
+namespace AutoFixStationBusinessLogic.OfficePackage.HelperEnums
 {
-    internal class AbstractSaveToWord
+    public enum WordJustificationType
     {
+        Center,
+        Both
     }
 }

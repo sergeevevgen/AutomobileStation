@@ -28,42 +28,46 @@ namespace AutoFixStationStoreeKeeperView
         private readonly IWorkTypeLogic _logic;
 
         private readonly ITimeOfWorkLogic _ToWlogic;
+
+        private readonly ISparePartLogic _splogic;
         public int Id { set { id = value; } }
         private int? id;
-        public WorkTypeWindow(IWorkTypeLogic logic, ITimeOfWorkLogic ToWlogic)
+        public WorkTypeWindow(IWorkTypeLogic logic, ITimeOfWorkLogic ToWlogic, ISparePartLogic splogic)
         {
             InitializeComponent();
             _logic = logic;
             _ToWlogic = ToWlogic;
+            _splogic = splogic;
         }
 
         private void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
-            /*if (string.IsNullOrEmpty(TextBoxName.Text))
+            if (string.IsNullOrEmpty(TextBoxName.Text))
             {
-                MessageBox.Show("Введите название запчасти", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Введите название типа работы", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-           // if (string.IsNullOrEmpty(TextBoxFactoryNum.Text))
+            if (string.IsNullOrEmpty(TextBoxPrice.Text))
             {
-                MessageBox.Show("Введите заводской номер запчасти", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Введите стоимость работы", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            //if (string.IsNullOrEmpty(TextBoxPrice.Text))
+            if (ComboBoxToW.SelectedItem == null)
             {
-                MessageBox.Show("Введите стоимость запчасти", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Выберите время работы", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            //if (string.IsNullOrEmpty(ComboBoxType.Text))
+            
+
+            TimeOfWorkViewModel timeOfWork = (TimeOfWorkViewModel)ComboBoxToW.SelectedItem;
+            decimal netPrice = 0;
+
+            Dictionary<int, (string, decimal, decimal)> sparePartsId = new Dictionary<int, (string, decimal, decimal)>();
+            foreach (SparePartViewModel sparepart in ListBoxSpareParts.SelectedItems)
             {
-                MessageBox.Show("Введите тип запчасти", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
+                sparePartsId.Add(sparepart.Id, (sparepart.Name, sparepart.Price, sparepart.Price));
+                netPrice += sparepart.Price;
             }
-            //if (string.IsNullOrEmpty(ComboBoxMeasurement.Text))
-            {
-                MessageBox.Show("Введите единицы измерения", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }*/
 
             try
             {
@@ -72,8 +76,10 @@ namespace AutoFixStationStoreeKeeperView
                     Id = id,
                     WorkName = TextBoxName.Text,
                     Price = Convert.ToDecimal(TextBoxPrice.Text),
-                    //Type = (SparePartStatus)Enum.Parse(typeof(SparePartStatus), ComboBoxType.SelectedValue.ToString()),
-                    //UMeasurement = (UnitMeasurement)Enum.Parse(typeof(UnitMeasurement), ComboBoxMeasurement.SelectedValue.ToString())
+                    NetPrice = Convert.ToDecimal(TextBoxPrice.Text) + netPrice,
+                    TimeOfWorkId = timeOfWork.Id,
+                    //WorkSpareParts = null
+                    WorkSpareParts = sparePartsId
                 });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
                 DialogResult = true;
@@ -92,24 +98,23 @@ namespace AutoFixStationStoreeKeeperView
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            if (id != null)
+            var listToW = _ToWlogic.Read(null);
+            foreach (var tow in listToW)
             {
-                var lunch = _logic.Read(new WorkTypeBindingModel
-                {
-                    Id = id
-                })[0];
-                var listToW = _ToWlogic.Read(null);
-                foreach (var tow    in listToW)
-                {
-                    ListBoxTimeOfWorks.Items.Add(tow);
-                }
-                //TextBoxName.Text = lunch.Name.ToString();
-                //TextBoxFactoryNum.Text = lunch.FactoryNumber.ToString();
-                //TextBoxPrice.Text = lunch.Price.ToString();
-                //ComboBoxType.DataContext = Enum.GetValues(typeof(SparePartStatus));
-                //ComboBoxMeasurement.DataContext = Enum.GetValues(typeof(UnitMeasurement));
-
+                ComboBoxToW.Items.Add(tow);
             }
+
+            
+
+            var listSpareParts = _splogic.Read(null);
+            foreach (var sp in listSpareParts)
+            {
+                ListBoxSpareParts.Items.Add(sp);
+           
+            }
+            
+
+
         }
     }
 }
