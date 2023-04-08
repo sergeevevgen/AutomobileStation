@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using AutoFixStationContracts.BindingModels;
+﻿using AutoFixStationContracts.BindingModels;
 using AutoFixStationContracts.BusinessLogicsContracts;
 using AutoFixStationContracts.ViewModels;
-using Unity;
 using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 
 namespace AutoFixStationStoreeKeeperView
 {
@@ -37,7 +27,9 @@ namespace AutoFixStationStoreeKeeperView
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+#pragma warning disable CS8625 // Литерал, равный NULL, не может быть преобразован в ссылочный тип, не допускающий значение NULL.
             var listWT = _workTypeLogic.Read(null);
+#pragma warning restore CS8625 // Литерал, равный NULL, не может быть преобразован в ссылочный тип, не допускающий значение NULL.
             foreach (var sp in listWT)
             {
                 ListBoxWorkType.Items.Add(sp);

@@ -10,39 +10,8 @@ namespace AutoFixStationBusinessLogic
 {
     public abstract class AbstractSaveToPdf
     {
-        public void CreateDoc(PdfInfo info)
+        public void CreateReportTOsByDate(PdfInfo info)
         {
-            //CreatePdf(info);
-            /*CreateParagraph(new PdfParagraph { Text = info.Title, Style = "NormalTitle" });
-            CreateParagraph(new PdfParagraph { Text = $"с {info.DateFrom.ToShortDateString()} по {info.DateTo.ToShortDateString()}", Style = "Normal" });
-
-            CreateTable(new List<string> { "3cm", "6cm", "3cm", "2cm", "3cm" });
-
-            CreateRow(new PdfRowParameters
-            {
-                Texts = new List<string> { "Дата создания", "Название работы", "Количество", "Сумма", "Статус" },
-                Style = "NormalTitle",
-                ParagraphAlignment = PdfParagraphAlignmentType.Center
-            });
-
-            foreach (var order in info.Works)
-            {
-                CreateRow(new PdfRowParameters
-                {
-                    Texts = new List<string> { order.DateCreate.ToShortDateString(), order.WorkName, order.Count.ToString(), order.Sum.ToString(), order.Status.ToString() },
-                    Style = "Normal",
-                    ParagraphAlignment = PdfParagraphAlignmentType.Left
-                });
-            }
-            decimal sum = info.Works.Sum(rec => rec.Sum);
-            CreateParagraph(new PdfParagraph
-            {
-                Text = $"Итого: {sum}",
-                Style = "NormalTitle",
-            });
-
-            SavePdf(info);*/
-
             CreatePdf(info);
             CreateParagraph(new PdfParagraph
             {
@@ -52,11 +21,11 @@ namespace AutoFixStationBusinessLogic
 
             CreateParagraph(new PdfParagraph
             {
-                Text = $"Период с {info.DateFrom.ToShortDateString()} по {info.DateTo.ToShortDateString()}",
+                Text = $"С {info.DateFrom.ToShortDateString()} по {info.DateTo.ToShortDateString()}",
                 Style = "Normal"
             });
 
-            foreach (var to in info.Works)
+            foreach (var to in info.TOs)
             {
                 CreateParagraph(new PdfParagraph
                 {
@@ -65,7 +34,7 @@ namespace AutoFixStationBusinessLogic
                 });
                 CreateParagraph(new PdfParagraph
                 {
-                    Text = $"Сумма: \"{to.Sum}\"",
+                    Text = $"Автомобиль: \"{to.CarId}\"",
                     Style = "Normal"
                 });
                 CreateParagraph(new PdfParagraph
@@ -78,15 +47,79 @@ namespace AutoFixStationBusinessLogic
                     Text = $"Дата окончания ТО: {to.DateEnd}",
                     Style = "Normal"
                 });
-                //InsertTOInfo(to.SpareParts, to.ServiceRecords);
+                InsertTOInfo(to.SpareParts/*, to.ServiceRecords*/);
             }
 
             SavePdf(info);
         }
 
-        /// <summary> 
-        /// Создание doc-файла
-        /// </summary> 
+        private void InsertTOInfo(Dictionary<int, (string, decimal, decimal)> spareParts/*, List<string> serviceRecords*/)
+        {
+            CreateParagraph(new PdfParagraph
+            {
+                Text = "Запчасти",
+                Style = "NormalTitle"
+            });
+
+            CreateTable(new List<string> { "5cm", "5cm", "3cm", "3cm" });
+
+            CreateRow(new PdfRowParameters
+            {
+                Texts = new List<string>
+                {
+                    "Наименование", "Количество",
+                    "Цена за ед.", "Стоимость"
+                },
+                Style = "NormalTitle",
+                ParagraphAlignment = PdfParagraphAlignmentType.Center
+            });
+
+            foreach (var part in spareParts)
+            {
+                CreateRow(new PdfRowParameters
+                {
+                    Texts = new List<string>
+                    {
+                        part.Value.Item1,
+                        part.Value.Item2.ToString(),
+                        part.Value.Item3.ToString(),
+                        (part.Value.Item2 * part.Value.Item3).ToString()
+                    },
+                    Style = "Normal",
+                    ParagraphAlignment = PdfParagraphAlignmentType.Left
+                });
+            }
+
+            /*CreateParagraph(new PdfParagraph
+            {
+                Text = "Записи сервисов",
+                Style = "NormalTitle"
+            });
+            uint num = 1;*/
+           /* foreach (var sr in serviceRecords)
+            {
+                CreateParagraph(new PdfParagraph
+                {
+                    Text = $"Запись #{num}",
+                    Style = "Normal"
+                });
+                CreateParagraph(new PdfParagraph
+                {
+                    Text = sr,
+                    Style = "Normal"
+                });
+                CreateParagraph(new PdfParagraph
+                {
+                    Text = "",
+                    Style = "Normal"
+                });
+                num++;
+            }*/
+        }
+
+        /// <summary>
+        /// Cоздание doc-файла
+        /// </summary>
         /// <param name="info"></param>
         protected abstract void CreatePdf(PdfInfo info);
 
@@ -98,7 +131,7 @@ namespace AutoFixStationBusinessLogic
         protected abstract void CreateParagraph(PdfParagraph paragraph);
 
         /// <summary>
-        /// Создание таблицы 
+        /// Создание таблицы
         /// </summary>
         /// <param name="title"></param>
         /// <param name="style"></param>

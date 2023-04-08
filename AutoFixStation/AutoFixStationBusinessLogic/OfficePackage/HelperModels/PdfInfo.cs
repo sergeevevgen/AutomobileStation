@@ -19,6 +19,6 @@ namespace AutoFixStationBusinessLogic.OfficePackage.HelperModels
 
         public DateTime DateTo { get; set; }
 
-        public List<ReportTOViewModel> Works { get; set; }
+        public List<ReportTOViewModel> TOs { get; set; }
     }
 }

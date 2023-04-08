@@ -18,6 +18,6 @@ namespace AutoFixStationContracts.BusinessLogicsContracts
         List<ReportTOViewModel> GetTOs(ReportBindingModel model);
         void SaveWorkTypesToWordFile(ReportSparePartBindingModel model);
         void SaveWorkTypesToExcelFile(ReportSparePartBindingModel model);
-        void SaveWorksToPdfFile(ReportBindingModel model);
+        void SaveTOsByDateToPdfFile(ReportBindingModel model);
     }
 }

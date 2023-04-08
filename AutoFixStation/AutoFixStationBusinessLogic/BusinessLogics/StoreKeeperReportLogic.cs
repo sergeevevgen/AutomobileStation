@@ -19,12 +19,13 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
         private readonly ITOStorage _tOStorage;
         private readonly IWorkStorage _workStorage;
         private readonly ICarStorage _carStorage;
+        private readonly IServiceRecordStorage _serviceRecordStorage;
 
         private readonly AbstractSaveToExcel _saveToExcel;
         private readonly AbstractSaveToWord _saveToWord;
         private readonly AbstractSaveToPdf _saveToPdf;
 
-        public StoreKeeperReportLogic(IWorkTypeStorage pizzaStorage, ISparePartStorage ingredientStorage, IWorkStorage workStorage,
+        public StoreKeeperReportLogic(IWorkTypeStorage pizzaStorage, ISparePartStorage ingredientStorage, IWorkStorage workStorage, IServiceRecordStorage serviceRecordStorage,
                             ICarStorage carStorage, ITOStorage tOStorage, AbstractSaveToExcel saveToExcel, AbstractSaveToWord saveToWord, AbstractSaveToPdf saveToPdf)
         {
             _workTypeStorage = pizzaStorage;
@@ -32,6 +33,8 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
             _workStorage = workStorage;
             _tOStorage = tOStorage;
             _carStorage = carStorage;
+            _serviceRecordStorage = serviceRecordStorage;
+
             _saveToExcel = saveToExcel;
             _saveToWord = saveToWord;
             _saveToPdf = saveToPdf;
@@ -72,23 +75,8 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
             return list;
         }
 
-        /// <summary>
-        /// Получение списка заказов за определенный период
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
         public List<ReportTOViewModel> GetTOs(ReportBindingModel model)
         {
-            /*return _workStorage.GetFilteredList(new WorkBindingModel { WorkBegin = model.DateFrom/*, DateTo = model.DateTo })
-                .Select(x => new ReportWorkSPViewModel
-                {
-                    DateCreate = (DateTime)x.WorkBegin,
-                    WorkName = x.WorkName,
-                    Count = x.Count,
-                    Sum = x.NetPrice,
-                    Status = x.WorkStatus.ToString()
-                })
-                .ToList();*/
             var list = new List<ReportTOViewModel>();
             var tos = _tOStorage.GetFilteredList(new TOBindingModel
             {
@@ -102,19 +90,19 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
                 {
                     DateBegin = to.DateCreate,
                     DateEnd = to.DateOver.Value,
-                    Sum = (decimal)to.Sum,
+                    CarId = to.CarId.ToString(),
                     TOId = to.Id
                 };
 
                 //Получаем записи
-                /*var car = _carStorage.GetElement(new CarBindingModel { Id = to.CarId });
+                var car = _carStorage.GetElement(new CarBindingModel { Id = to.CarId });
                 var list_records = new List<string>();
                 foreach (var sr in car.Records)
                 {
                     list_records.Add(sr.Value.Item2);
                 }
-                record.ServiceRecords = list_records;*/
-
+                record.ServiceRecords = list_records;
+                string sparts = "";
                 //Получаем запчасти
                 var list_parts = new Dictionary<int, (string, decimal, decimal)>();
                 foreach (var workId in to.Works.Keys)
@@ -127,20 +115,24 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
                     {
                         Id = work.WorkTypeId
                     });
-
+                    
                     foreach (var part in worktype.WorkSpareParts)
                     {
                         if (list_parts.ContainsKey(part.Key))
                         {
                             list_parts[part.Key] = (list_parts[part.Key].Item1, list_parts[part.Key].Item2 + part.Value.Item2, list_parts[part.Key].Item3);
+                            sparts += list_parts[part.Key].Item1;
+
                         }
                         else
                         {
                             list_parts.Add(part.Key, part.Value);
+                            sparts += part.Value;
                         }
                     }
                 }
                 record.SpareParts = list_parts;
+                record.sParts = sparts;
                 list.Add(record);
             }
             return list;
@@ -178,15 +170,15 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
         /// Сохранение заказов в файл-Pdf
         /// </summary>
         /// <param name="model"></param>
-        public void SaveWorksToPdfFile(ReportBindingModel model)
+        public void SaveTOsByDateToPdfFile(ReportBindingModel model)
         {
-            _saveToPdf.CreateDoc(new PdfInfo
+            _saveToPdf.CreateReportTOsByDate(new PdfInfo
             {
                 FileName = model.FileName,
-                Title = "Список заказов",
+                Title = $"Сведения по ТО за период с {model.DateFrom} по {model.DateTo}",
                 DateFrom = model.DateFrom.Value,
                 DateTo = model.DateTo.Value,
-                Works = GetTOs(model)
+                TOs = GetTOs(model)
             });
         }
     }

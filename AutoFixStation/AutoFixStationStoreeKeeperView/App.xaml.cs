@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using AutoFixStationBusinessLogic;
 using AutoFixStationBusinessLogic.BusinessLogics;
+using AutoFixStationBusinessLogic.OfficePackage.Implements;
 using AutoFixStationContracts.BusinessLogicsContracts;
 using AutoFixStationContracts.StorageContracts;
 using AutoFixStationContracts.ViewModels;
-using AutoFixStationContracts.BindingModels;
 using AutoFixStationDatabaseImplement.Implements;
-using AutoFixStationBusinessLogic.OfficePackage;
-using AutoFixStationBusinessLogic.OfficePackage.Implements;
-using AutoFixStationBusinessLogic;
+using System.Windows;
 using Unity;
 using Unity.Lifetime;
+
 namespace AutoFixStationStoreeKeeperView
 {
     /// <summary>
@@ -23,7 +16,10 @@ namespace AutoFixStationStoreeKeeperView
     /// </summary>
     public partial class App : Application
     {
+
         private static IUnityContainer container = null;
+
+
         public static StoreKeeperViewModel StoreKeeper { get; set; }
         public static IUnityContainer Container
         {

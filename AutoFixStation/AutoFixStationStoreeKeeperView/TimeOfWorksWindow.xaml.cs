@@ -1,19 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using AutoFixStationContracts.ViewModels;
-using AutoFixStationContracts.BindingModels;
+﻿using AutoFixStationContracts.BindingModels;
 using AutoFixStationContracts.BusinessLogicsContracts;
+using AutoFixStationContracts.ViewModels;
+using System;
+using System.Linq;
+using System.Windows;
 using Unity;
 
 namespace AutoFixStationStoreeKeeperView
@@ -55,7 +45,9 @@ namespace AutoFixStationStoreeKeeperView
         {
             try
             {
+#pragma warning disable CS8625 // Литерал, равный NULL, не может быть преобразован в ссылочный тип, не допускающий значение NULL.
                 var list = _logic.Read(null);
+#pragma warning restore CS8625 // Литерал, равный NULL, не может быть преобразован в ссылочный тип, не допускающий значение NULL.
                 if (list != null)
                 {
                     DataGridTimeOfWorks.ItemsSource = list;
@@ -74,8 +66,12 @@ namespace AutoFixStationStoreeKeeperView
                 if (DataGridTimeOfWorks.SelectedItems.Count == 1)
                 {
                     var form = App.Container.Resolve<TimeOfWorkWindow>();
+#pragma warning disable CS8600 // Преобразование литерала, допускающего значение NULL или возможного значения NULL в тип, не допускающий значение NULL.
+#pragma warning disable CS8602 // Разыменование вероятной пустой ссылки.
                     form.Id = ((TimeOfWorkViewModel)DataGridTimeOfWorks.SelectedItems[0]).Id;
-                    
+#pragma warning restore CS8602 // Разыменование вероятной пустой ссылки.
+#pragma warning restore CS8600 // Преобразование литерала, допускающего значение NULL или возможного значения NULL в тип, не допускающий значение NULL.
+
                     if (form.ShowDialog() == true)
                     {
                         LoadData();
@@ -96,7 +92,11 @@ namespace AutoFixStationStoreeKeeperView
 
                 if (result == MessageBoxResult.Yes)
                 {
+#pragma warning disable CS8600 // Преобразование литерала, допускающего значение NULL или возможного значения NULL в тип, не допускающий значение NULL.
+#pragma warning disable CS8602 // Разыменование вероятной пустой ссылки.
                     int id = ((TimeOfWorkViewModel)DataGridTimeOfWorks.SelectedItems[0]).Id;
+#pragma warning restore CS8602 // Разыменование вероятной пустой ссылки.
+#pragma warning restore CS8600 // Преобразование литерала, допускающего значение NULL или возможного значения NULL в тип, не допускающий значение NULL.
 
                     try
                     {

@@ -1,21 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using AutoFixStationContracts.BindingModels;
+﻿using AutoFixStationContracts.BindingModels;
 using AutoFixStationContracts.BusinessLogicsContracts;
-using AutoFixStationBusinessLogic.BusinessLogics;
-using Unity;
 using Microsoft.Win32;
+using System;
+using System.Windows;
 
 
 namespace AutoFixStationStoreeKeeperView
@@ -82,7 +69,7 @@ namespace AutoFixStationStoreeKeeperView
                 {
                     try
                     {
-                        _reportLogic.SaveWorksToPdfFile(new ReportBindingModel
+                        _reportLogic.SaveTOsByDateToPdfFile(new ReportBindingModel
                         {
                             FileName = dialog.FileName,
                             DateFrom = DatePickerFrom.SelectedDate,
@@ -100,40 +87,40 @@ namespace AutoFixStationStoreeKeeperView
 
         private void ButtonMail_Click(object sender, RoutedEventArgs e)
         {
-           /* if (DatePickerFrom.SelectedDate >= DatePickerTo.SelectedDate)
-            {
-                MessageBox.Show("Дата начала должна быть меньше даты окончания", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-            if (DatePickerFrom.SelectedDate == null || DatePickerTo.SelectedDate == null)
-            {
-                MessageBox.Show("Выберите даты начала и окончания", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-            try
-            {
-                var fileName = "Отчет.pdf";
+            /* if (DatePickerFrom.SelectedDate >= DatePickerTo.SelectedDate)
+             {
+                 MessageBox.Show("Дата начала должна быть меньше даты окончания", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                 return;
+             }
+             if (DatePickerFrom.SelectedDate == null || DatePickerTo.SelectedDate == null)
+             {
+                 MessageBox.Show("Выберите даты начала и окончания", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                 return;
+             }
+             try
+             {
+                 var fileName = "Отчет.pdf";
 
-                _reportLogic.SaveLunchesToPdf(new ReportBindingModel
-                {
-                    FileName = fileName,
-                    DateFrom = DatePickerFrom.SelectedDate,
-                    DateTo = DatePickerTo.SelectedDate
-                }, (int)App.Headwaiter.Id);
+                 _reportLogic.SaveLunchesToPdf(new ReportBindingModel
+                 {
+                     FileName = fileName,
+                     DateFrom = DatePickerFrom.SelectedDate,
+                     DateTo = DatePickerTo.SelectedDate
+                 }, (int)App.Headwaiter.Id);
 
-                _mailLogic.MailSendAsync(new MailSendInfoBindingModel
-                {
-                    MailAddress = App.Headwaiter.Login,
-                    Subject = "Отель 'Принцесса на горошине'",
-                    Text = "Отчет по обедам от " + DatePickerFrom.SelectedDate.Value.ToShortDateString() + " по " + DatePickerTo.SelectedDate.Value.ToShortDateString(),
-                    FileName = fileName
-                });
-                MessageBox.Show("Выполнено", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-            }*/
+                 _mailLogic.MailSendAsync(new MailSendInfoBindingModel
+                 {
+                     MailAddress = App.Headwaiter.Login,
+                     Subject = "Отель 'Принцесса на горошине'",
+                     Text = "Отчет по обедам от " + DatePickerFrom.SelectedDate.Value.ToShortDateString() + " по " + DatePickerTo.SelectedDate.Value.ToShortDateString(),
+                     FileName = fileName
+                 });
+                 MessageBox.Show("Выполнено", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+             }
+             catch (Exception ex)
+             {
+                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+             }*/
         }
     }
 }

@@ -1,0 +1,20 @@
+﻿<Window x:Class="WpfStoreKeeper.AuthorizationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfStoreKeeper"
+        mc:Ignorable="d"
+         Title="Авторизация" Height="300" Width="400" ResizeMode="NoResize">
+    <Grid>
+        <StackPanel HorizontalAlignment="Stretch" Height="250" Margin="20">
+            <Label Content="Логин:" Margin="0, 30, 0, 0"/>
+            <TextBox x:Name="TextBoxLogin" Height="25"/>
+            <Label Content="Пароль:"/>
+            <TextBox x:Name="TextBoxPassword" Height="25"/>
+            <Button Content="Войти" Margin="0, 20, 0, 0" Click="SignIn_Click"/>
+            <Button Content="Зарегистрироваться" Margin="0, 20, 0, 0" Click="ToSignUp_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
+

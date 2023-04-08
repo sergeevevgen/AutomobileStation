@@ -1,0 +1,19 @@
+﻿<Window x:Class="WpfStoreKeeper.LinkSparePartsToWorkTypeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfStoreKeeper"
+        mc:Ignorable="d"
+        Title="Привязка запчастей к типам работ" Height="410" Width="400" Loaded="Window_Loaded" ResizeMode="NoResize">
+    <Grid>
+        <ComboBox x:Name="ComboBoxWorkType" DisplayMemberPath="WorkName" SelectedValuePath="Id" HorizontalAlignment="Left" Margin="20,30,0,0" VerticalAlignment="Top" Width="340" IsReadOnly="True"/>
+        <Label Content="Тип работы:" HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Top"/>
+        <Label Content="Запчасти:" HorizontalAlignment="Left" Margin="20,52,0,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="ListBoxSpareParts" DisplayMemberPath="Name" SelectedValuePath="Id" SelectionMode="Multiple" HorizontalAlignment="Left" Height="235" Margin="20,75,0,0" VerticalAlignment="Top" Width="340"/>
+
+        <Button x:Name="ButtonSave" Content="Сохранить" HorizontalAlignment="Left" Margin="70,330,0,0" VerticalAlignment="Top" Width="75" Click="ButtonSave_Click"/>
+        <Button x:Name="ButtonCancel" Content="Отмена" HorizontalAlignment="Left" Margin="210,330,0,0" VerticalAlignment="Top" Width="75" Click="ButtonCancel_Click"/>
+    </Grid>
+</Window>
+

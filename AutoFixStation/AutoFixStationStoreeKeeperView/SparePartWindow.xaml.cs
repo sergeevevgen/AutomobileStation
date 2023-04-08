@@ -1,23 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using AutoFixStationContracts.BindingModels;
+﻿using AutoFixStationContracts.BindingModels;
 using AutoFixStationContracts.BusinessLogicsContracts;
-using AutoFixStationContracts.ViewModels;
 using AutoFixStationContracts.Enums;
-using Unity;
+using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
+using System.Windows;
 
 namespace AutoFixStationStoreeKeeperView
 {
@@ -32,7 +18,9 @@ namespace AutoFixStationStoreeKeeperView
 
         public ObservableCollection<SparePartStatus> StatusList;
 
+#pragma warning disable CS8618 // поле "StatusList", не допускающий значения NULL, должен содержать значение, отличное от NULL, при выходе из конструктора. Возможно, стоит объявить поле как допускающий значения NULL.
         public SparePartWindow(ISparePartLogic logic)
+#pragma warning restore CS8618 // поле "StatusList", не допускающий значения NULL, должен содержать значение, отличное от NULL, при выходе из конструктора. Возможно, стоит объявить поле как допускающий значения NULL.
         {
             InitializeComponent();
             _logic = logic;
@@ -71,6 +59,8 @@ namespace AutoFixStationStoreeKeeperView
 
             try
             {
+#pragma warning disable CS8604 // Возможно, аргумент-ссылка, допускающий значение NULL, для параметра "value" в "object Enum.Parse(Type enumType, string value)".
+#pragma warning disable CS8604 // Возможно, аргумент-ссылка, допускающий значение NULL, для параметра "value" в "object Enum.Parse(Type enumType, string value)".
                 _logic.CreateOrUpdate(new SparePartBindingModel
                 {
                     Id = id,
@@ -80,6 +70,8 @@ namespace AutoFixStationStoreeKeeperView
                     Type = (SparePartStatus)Enum.Parse(typeof(SparePartStatus), ComboBoxType.SelectedValue.ToString()),
                     UMeasurement = (UnitMeasurement)Enum.Parse(typeof(UnitMeasurement), ComboBoxMeasurement.SelectedValue.ToString())
                 });
+#pragma warning restore CS8604 // Возможно, аргумент-ссылка, допускающий значение NULL, для параметра "value" в "object Enum.Parse(Type enumType, string value)".
+#pragma warning restore CS8604 // Возможно, аргумент-ссылка, допускающий значение NULL, для параметра "value" в "object Enum.Parse(Type enumType, string value)".
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButton.OK, MessageBoxImage.Information);
                 DialogResult = true;
                 Close();
@@ -111,6 +103,6 @@ namespace AutoFixStationStoreeKeeperView
 
             }
         }
-       
+
     }
 }

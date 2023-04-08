@@ -1,0 +1,24 @@
+﻿<Window x:Class="WpfStoreKeeper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfStoreKeeper"
+        mc:Ignorable="d"
+        Title="Сто 'Руки-крюки'" Height="470" Width="900" ResizeMode="NoResize">
+    <Grid>
+        <Menu Height="25" VerticalAlignment="Top">
+            <MenuItem x:Name="MenuItemLanches" Header="Продолжительность работ" Click="MenuItemTimeOfWork_Click"></MenuItem>
+            <MenuItem x:Name="MenuItemLunchSeminar" Header="Привязка запчастей" Click="MenuItemSPWorkType_Click"></MenuItem>
+            <MenuItem x:Name="MenuItemSpareParts" Header="Запчасти" Click="MenuItemSpareParts_Click"></MenuItem>
+            <MenuItem x:Name="MenuItemWorks" Header="Работы" Click="MenuItemWorks_Click"></MenuItem>
+            <MenuItem x:Name="MenuItemSeminarsList" Header="Тип работ" Click="MenuWorkTypesList_Click"></MenuItem>
+            <MenuItem x:Name="MenuItemGetList" Header="Получение списка запчастей" Click="MenuItemGetList_Click"></MenuItem>
+            <MenuItem x:Name="MenuItemReport" Header="Отчет по запчастям" Click="MenuItemReport_Click"></MenuItem>
+            <MenuItem x:Name="MenuItemExit" Header="Выход" Click="MenuItemExit_Click"/>
+        </Menu>
+        <Image Height="400" Margin="0,25,0,0" VerticalAlignment="Top" Source="\Images\Logo.png"/>
+
+    </Grid>
+
+</Window>
