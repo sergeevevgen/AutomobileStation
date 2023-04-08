@@ -33,18 +33,18 @@ namespace AutoFixStationBusinessLogic
             });
 
             uint rowIndex = 2;
-            foreach (var pizza in info.WorkTypeSP)
+            foreach (var worktype in info.WorkTypeSP)
             {
                 InsertCellInWorksheet(new ExcelCellParameters
                 {
                     ColumnName = "A",
                     RowIndex = rowIndex,
-                    Text = pizza.WorkTypeName,
+                    Text = worktype.WorkTypeName,
                     StyleInfo = ExcelStyleInfoType.Text
                 });
                 rowIndex++;
 
-                foreach (var ingredient in pizza.SpareParts)
+                foreach (var ingredient in worktype.SpareParts)
                 {
                     InsertCellInWorksheet(new ExcelCellParameters
                     {
@@ -69,7 +69,7 @@ namespace AutoFixStationBusinessLogic
                 {
                     ColumnName = "C",
                     RowIndex = rowIndex,
-                    Text = pizza.TotalCount.ToString(),
+                    Text = worktype.TotalCount.ToString(),
                     StyleInfo = ExcelStyleInfoType.Text
                 });
                 rowIndex++;
