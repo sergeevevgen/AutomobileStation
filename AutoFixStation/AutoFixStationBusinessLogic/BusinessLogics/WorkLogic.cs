@@ -79,15 +79,26 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
                         Id = work.WorkTypeId
                     }).TimeOfWorkId
             });
+            DateTime dateTime = new DateTime();
+            if (time.Hours > 24)
+            {
+                var day = time.Hours - 24;
+                time.Hours -= day * 24;
+                dateTime = new DateTime(work.WorkBegin.Value.Year, work.WorkBegin.Value.Month, work.WorkBegin.Value.Day, time.Hours, time.Mins, 0);
 
-            DateTime dateTime = new DateTime(work.WorkBegin.Value.Year, work.WorkBegin.Value.Month, work.WorkBegin.Value.Day, time.Hours, time.Mins, 0);
+            }
+            else
+            {
+                dateTime = new DateTime(work.WorkBegin.Value.Year, work.WorkBegin.Value.Month, work.WorkBegin.Value.Day, time.Hours, time.Mins, 0);
+            }
+            
             int time1 = (int) TimeSpan.FromTicks(dateTime.Ticks).TotalMinutes;
             int time2 = (int) TimeSpan.FromTicks(DateTime.Now.Ticks).TotalMinutes;
             
-            if (time2 < time1)
-            {
-                throw new Exception("Услуга ещё не выполнена");
-            }
+            //if (time2 < time1)
+            //{
+            //    throw new Exception("Услуга ещё не выполнена");
+            //}
 
             _workStorage.Update(new WorkBindingModel
             {
