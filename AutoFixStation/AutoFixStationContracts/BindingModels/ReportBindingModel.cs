@@ -13,5 +13,6 @@ namespace AutoFixStationContracts.BindingModels
         public DateTime? DateFrom { get; set; }
         public DateTime? DateTo { get; set; }
         public List<TOViewModel>? TOs { get; set; }
+        public List<WorkTypeViewModel>? WorkTypes { get; set; }
     }
 }

@@ -18,7 +18,6 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
         private readonly AbstractSaveToExcel _saveToExcel;
         private readonly AbstractSaveToPdf _saveToPdf;
         private readonly ISparePartStorage _sparePartStorage;
-        private readonly IServiceRecordStorage _serviceRecordStorage;
         private readonly ITOStorage _tOStorage;
         private readonly IWorkStorage _workStorage;
         private readonly IWorkTypeStorage _workTypeStorage;
@@ -27,8 +26,7 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
         public ReportLogic(AbstractSaveToWord saveToWord, 
             AbstractSaveToExcel saveToExcel, 
             AbstractSaveToPdf saveToPdf, 
-            ISparePartStorage sparePartStorage, 
-            IServiceRecordStorage serviceRecordStorage, 
+            ISparePartStorage sparePartStorage,
             ITOStorage tOStorage,
             IWorkStorage workStorage,
             IWorkTypeStorage workTypeStorage,
@@ -38,7 +36,6 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
             _saveToExcel = saveToExcel;
             _saveToPdf = saveToPdf;
             _sparePartStorage = sparePartStorage;
-            _serviceRecordStorage = serviceRecordStorage;
             _tOStorage = tOStorage;
             _workStorage = workStorage;
             _workTypeStorage = workTypeStorage;
@@ -146,6 +143,35 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
             return list;
         }
 
+        public List<ReportWorkTypeSparePartViewModel> GetWorkTypeSpareParts(ReportBindingModel model)
+        {
+            var sparts = _sparePartStorage.GetFullList();
+
+            var list = new List<ReportWorkTypeSparePartViewModel>();
+
+            foreach (var wt in model.WorkTypes)
+            {
+                var record = new ReportWorkTypeSparePartViewModel
+                {
+                    WorkTypeName = wt.WorkName,
+                    SpareParts = new List<Tuple<string, decimal>>(),
+                    TotalCount = 0
+                };
+                foreach (var sp in sparts)
+                {
+                    if (wt.WorkSpareParts.ContainsKey(sp.Id))
+                    {
+                        record.SpareParts.Add(new Tuple<string, decimal>(sp.Name, wt.WorkSpareParts[sp.Id].Item2));
+                        record.TotalCount++;
+                    }
+                }
+
+                list.Add(record);
+            }
+
+            return list;
+        }
+
         public void SaveTOsByDateToPdfFile(ReportBindingModel model)
         {
             _saveToPdf.CreateReportTOsByDate(new PdfInfo
@@ -175,6 +201,26 @@ namespace AutoFixStationBusinessLogic.BusinessLogics
                 FileName = model.FileName,
                 Title = "Запчасти по ТО",
                 TOSpareParts = GetTOSparePart(model)
+            });
+        }
+
+        public void SaveWorkTypesToWordFile(ReportBindingModel model)
+        {
+            _saveToWord.CreateReportWorkTypesWord(new WordInfo
+            {
+                FileName = model.FileName,
+                Title = "Список запчастей",
+                WorkTypeSpareParts = GetWorkTypeSpareParts(model)
+            });
+        }
+
+        public void SaveWorkTypesToExcelFile(ReportBindingModel model)
+        {
+            _saveToExcel.CreateReportWorkTypesExcel(new ExcelInfo
+            {
+                FileName = model.FileName,
+                Title = "Список запчастей",
+                WorkTypeSpareParts = GetWorkTypeSpareParts(model)
             });
         }
     }

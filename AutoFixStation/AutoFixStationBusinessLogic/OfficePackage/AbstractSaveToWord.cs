@@ -93,6 +93,72 @@ namespace AutoFixStationBusinessLogic.OfficePackage
             }
         }
 
+        public void CreateReportWorkTypesWord(WordInfo info)
+        {
+            CreateWord(info);
+
+            CreateParagraph(new WordParagraph
+            {
+                Texts = new List<(string, WordTextProperties)> { (info.Title, new WordTextProperties { Bold = true, Size = "24", }) },
+                TextProperties = new WordTextProperties
+                {
+                    Size = "24",
+                    JustificationType = WordJustificationType.Center
+                }
+            });
+
+            foreach (var wtsp in info.WorkTypeSpareParts)
+            {
+                CreateParagraph(new WordParagraph
+                {
+                    Texts = new List<(string, WordTextProperties)> {(wtsp.WorkTypeName + "\n", new WordTextProperties{Bold = true, Size = "24", }),
+                        },
+                    TextProperties = new WordTextProperties
+                    {
+                        Size = "24",
+                        JustificationType = WordJustificationType.Both
+                    }
+                });
+                CreateParagraph(new WordParagraph
+                {
+                    Texts = new List<(string, WordTextProperties)> 
+                    {
+                        ("Количество различных запчастей: " + wtsp.TotalCount.ToString(),
+                        new WordTextProperties { Bold = false, Size = "24" }),
+                    },
+                    TextProperties = new WordTextProperties
+                    {
+                        Size = "24",
+                        JustificationType = WordJustificationType.Both
+                    }
+                });
+
+                uint num = 1;
+                foreach (var part in wtsp.SpareParts)
+                {
+                    CreateParagraph(new WordParagraph
+                    {
+
+                        Texts = new List<(string, WordTextProperties)>
+                    {
+                        ($"{num}) {part.Item1} - Количество: {part.Item2} ед.", new WordTextProperties
+                        {
+                            Size = "18",
+                            Bold = false
+                        })
+                    },
+                        TextProperties = new WordTextProperties
+                        {
+                            Size = "18",
+                            JustificationType = WordJustificationType.Both
+                        }
+                    });
+                    num++;
+                }
+            }
+            SaveWord(info);
+        }
+
         /// <summary>
         /// Создание doc-файла
         /// </summary>

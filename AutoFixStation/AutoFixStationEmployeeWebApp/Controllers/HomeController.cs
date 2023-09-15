@@ -391,7 +391,7 @@ namespace AutoFixStationEmployeeWebApp.Controllers
                     TOId = toId
                 });
             }
-            Response.Redirect("Index");
+            Response.Redirect("TOs");
         }
 
         //Изменение записи

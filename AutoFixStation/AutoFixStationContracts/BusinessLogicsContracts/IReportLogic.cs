@@ -42,5 +42,24 @@ namespace AutoFixStationContracts.BusinessLogicsContracts
         /// </summary>
         /// <param name="model"></param>
         void SaveTOsByDateToPdfFile(ReportBindingModel model);
+
+        /// <summary>
+        /// Сохранение Типа работы с запчастями в Word-файл
+        /// </summary>
+        /// <param name="model"></param>
+        void SaveWorkTypesToWordFile(ReportBindingModel model);
+
+        /// <summary>
+        /// Сохранение Типа работы с запчастями в Excel-файл
+        /// </summary>
+        /// <param name="model"></param>
+        void SaveWorkTypesToExcelFile(ReportBindingModel model);
+
+        /// <summary>
+        /// Получение списка Типов работ с запчастями
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        List<ReportWorkTypeSparePartViewModel> GetWorkTypeSpareParts(ReportBindingModel model);
     }
 }

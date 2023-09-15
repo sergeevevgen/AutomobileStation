@@ -1,0 +1,25 @@
+﻿<Window x:Class="WpfStoreKeeper.WorkTypesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfStoreKeeper"
+        mc:Ignorable="d"
+       Title="Тип работы" Height="460" Width="840" Loaded="WorkTypesWindow_Load" ResizeMode="NoResize">
+    <Grid>
+        <DataGrid x:Name="DataGridWorkTypes" HorizontalAlignment="Left" VerticalAlignment="Top" Height="420" Width="700" Style="{StaticResource datagrid}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=Id}"></DataGridTextColumn>
+                <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=TimeOfWorkId}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Название" Binding="{Binding Path=WorkName}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Стоимость" Binding="{Binding Path=Price}" Width="0.5*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Итоговая стоимость" Binding="{Binding Path=NetPrice}" Width="0.5*"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <!--AutoGenerateColumns="False" CanUserAddRows="false" CanUserReorderColumns="False"-->
+        <Button x:Name="ButtonAdd" Content="Создать" HorizontalAlignment="Left" Margin="710,40,0,0" VerticalAlignment="Top" Width="100" Click="ButtonCreate_Click"/>
+        <Button x:Name="ButtonUpdate" Content="Изменить" HorizontalAlignment="Left" Margin="710,100,0,0" VerticalAlignment="Top" Width="100" Click="ButtonUpdate_Click"/>
+        <Button x:Name="ButtonDelete" Content="Удалить" HorizontalAlignment="Left" Margin="710,160,0,0" VerticalAlignment="Top" Width="100" Click="ButtonDelete_Click"/>
+        <Button x:Name="ButtonRefresh" Content="Обновить" HorizontalAlignment="Left" Margin="710,220,0,0" VerticalAlignment="Top" Width="100" Click="ButtonRefresh_Click"/>
+    </Grid>
+</Window>

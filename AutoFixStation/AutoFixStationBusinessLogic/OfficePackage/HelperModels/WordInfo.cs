@@ -12,5 +12,6 @@ namespace AutoFixStationBusinessLogic.OfficePackage.HelperModels
         public string FileName { get; set; }
         public string Title { get; set; }
         public List<ReportTOSparePartViewModel> TOSpareParts { get; set; }
+        public List<ReportWorkTypeSparePartViewModel> WorkTypeSpareParts { get; set; }
     }
 }

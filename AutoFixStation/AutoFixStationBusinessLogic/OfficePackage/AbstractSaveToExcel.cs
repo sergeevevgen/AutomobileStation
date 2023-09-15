@@ -137,6 +137,83 @@ namespace AutoFixStationBusinessLogic.OfficePackage
             return rowIndex;
         }
 
+        public void CreateReportWorkTypesExcel(ExcelInfo info)
+        {
+            CreateExcel(info);
+
+            InsertCellInWorksheet(new ExcelCellParameters
+            {
+                ColumnName = "A",
+                RowIndex = 1,
+                Text = info.Title,
+                StyleInfo = ExcelStyleInfoType.Title
+            });
+
+            MergeCells(new ExcelMergeParameters
+            {
+                CellFromName = "A1",
+                CellToName = "C1"
+            });
+
+            uint rowIndex = 2;
+            foreach (var worktype in info.WorkTypeSpareParts)
+            {
+                InsertCellInWorksheet(new ExcelCellParameters
+                {
+                    ColumnName = "A",
+                    RowIndex = rowIndex,
+                    Text = worktype.WorkTypeName,
+                    StyleInfo = ExcelStyleInfoType.Text
+                });
+                rowIndex++;
+
+                foreach (var ingredient in worktype.SpareParts)
+                {
+                    InsertCellInWorksheet(new ExcelCellParameters
+                    {
+                        ColumnName = "B",
+                        RowIndex = rowIndex,
+                        Text = ingredient.Item1,
+                        StyleInfo = ExcelStyleInfoType.TextWithBorder
+                    });
+
+                    InsertCellInWorksheet(new ExcelCellParameters
+                    {
+                        ColumnName = "C",
+                        RowIndex = rowIndex,
+                        Text = ingredient.Item2.ToString(),
+                        StyleInfo = ExcelStyleInfoType.TextWithBorder
+                    });
+
+                    rowIndex++;
+                }
+                
+                InsertCellInWorksheet(new ExcelCellParameters
+                {
+                    ColumnName = "A",
+                    RowIndex = rowIndex,
+                    Text = "Количество различных запчастей:",
+                    StyleInfo = ExcelStyleInfoType.Text
+                });
+
+                MergeCells(new ExcelMergeParameters
+                {
+                    CellFromName = $"A{rowIndex}",
+                    CellToName = $"B{rowIndex}"
+                });
+
+                InsertCellInWorksheet(new ExcelCellParameters
+                {
+                    ColumnName = "C",
+                    RowIndex = rowIndex,
+                    Text = worktype.TotalCount.ToString(),
+                    StyleInfo = ExcelStyleInfoType.Text
+                });
+                rowIndex++;
+            }
+            SaveExcel(info);
+        }
+
         /// <summary>
         /// Создание excel-файла
         /// </summary>

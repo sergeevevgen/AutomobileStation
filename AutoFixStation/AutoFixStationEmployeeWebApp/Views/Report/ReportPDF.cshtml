@@ -16,7 +16,7 @@
             <input type="date" id="dateTo" name="dateTo"/>
         </p>
         <p>
-            <input type="submit" asp-route-dateFrom="dateFrom" asp-route-dateTo="dateTo" asp-action="ReportGetTOsPDF" value="Вывести на форму"/>
+            <input type="submit" asp-route-dateFrom="dateFrom" asp-route-dateTo="dateTo" asp-action="ReportGetTOsPDF" value="Вывести на страницу"/>
             <input type="submit" asp-route-dateFrom="dateFrom" asp-route-dateTo="dateTo" asp-action="SendReportOnMail" value="Отправить на почту" />            
         </p>
         @if(@Model != null && @Model.Count() > 0)
@@ -72,7 +72,7 @@
                                     @element.Value.Item3.ToString()
                                 </td>
                                 @{
-                                    var k = @element.Value.Item2 * @element.Value.Item3;
+                                    var k = (@element.Value.Item2 * @element.Value.Item3).ToString("0.00");
                                 }
                                 <td>
                                     @k
@@ -86,8 +86,9 @@
                 </div>
                 @for (int i = 0; i < @item.ServiceRecords.Count(); ++i)
                 {
+                    var j = i + 1;
                     <div class="row">
-                        <div class="col-4">Запись #@i</div>
+                        <div class="col-4">Запись #@j</div>
                     </div>
                     <div class="row">
                         <div class="col-4">@item.ServiceRecords[i]</div>
